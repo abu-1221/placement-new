@@ -55,10 +55,14 @@ _Project Completed Successfully._
 For testing purposes, the system has been initialized with the following accounts:
 
 ### Staff Portal
+- **Username:** `YMI`
+- **Password:** `JMC` (Permanent)
 - **Username:** `STF001`
 - **Password:** `password123`
 
 ### Student Portal
+- **Username:** `23ucs006`
+- **Password:** `11111111` (Permanent)
 - **Username:** `2024CSE001`
 - **Password:** `24052006` (Date of Birth)
 

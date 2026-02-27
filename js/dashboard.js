@@ -72,13 +72,15 @@ function initSidebar() {
   // Mobile Toggle
   if (menuToggle && sidebar) {
     menuToggle.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-      if (overlay) overlay.classList.toggle("active");
+      const isActive = sidebar.classList.toggle("active");
+      menuToggle.classList.toggle("active", isActive);
+      if (overlay) overlay.classList.toggle("active", isActive);
     });
 
     if (overlay) {
       overlay.addEventListener("click", () => {
         sidebar.classList.remove("active");
+        menuToggle.classList.remove("active");
         overlay.classList.remove("active");
       });
     }
@@ -129,6 +131,7 @@ function initNavigation() {
 
       // Close mobile sidebar
       document.getElementById("sidebar")?.classList.remove("active");
+      document.getElementById("menuToggle")?.classList.remove("active");
       document.getElementById("sidebarOverlay")?.classList.remove("active");
 
       // Reinitialize charts for analytics section (Student only)
@@ -338,17 +341,88 @@ function initUserInfo() {
   const userStr = sessionStorage.getItem("user") || localStorage.getItem("user");
   const user = JSON.parse(userStr || "{}");
   const userAvatar = document.getElementById("userAvatar");
-  const userName = document.getElementById("userName");
+  const userNameEl = document.getElementById("userName");
 
-  if (user.name) {
-    const initials = user.name
+  if (user) {
+    // Header Info (Username Only as requested)
+    if (userNameEl) userNameEl.textContent = user.username || "User";
+
+    const initials = (user.name || user.username || "U")
       .split(" ")
       .map((n) => n[0])
       .join("")
       .toUpperCase();
-    if (userAvatar) userAvatar.textContent = initials;
-    if (userName) userName.textContent = user.name;
+    if (userAvatar) userAvatar.textContent = initials.substring(0, 2);
+
+    // Profile Section Info
+    const profAvatar = document.getElementById("profileAvatarLarge");
+    const profUsername = document.getElementById("profileUsername");
+    const profRegNo = document.getElementById("profileRegNo");
+    const profStaffRole = document.getElementById("profileStaffRole");
+    const profStaffDeptFull = document.getElementById("profileStaffDeptFull");
+    const profDept = document.getElementById("profileDept");
+    const profEmail = document.getElementById("profileEmail");
+    const profJoined = document.getElementById("profileJoined");
+
+    // Student Specific Fields
+    const profYear = document.getElementById("profileYear");
+    const profSection = document.getElementById("profileSection");
+    const profBatch = document.getElementById("profileBatch");
+    const profStream = document.getElementById("profileStream");
+    const profGender = document.getElementById("profileGender");
+    const profDob = document.getElementById("profileDob");
+
+    if (profAvatar) profAvatar.textContent = initials.substring(0, 2);
+    if (profUsername) profUsername.textContent = user.name || user.username;
+    if (profEmail) profEmail.textContent = user.email || (user.type === 'student' ? 'student@jmc.edu' : 'staff@jmc.edu');
+
+    // Register Date (Joined)
+    if (profJoined) {
+      if (user.createdAt) {
+        const date = new Date(user.createdAt);
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        profJoined.textContent = `Joined: ${date.toLocaleDateString('en-US', options)}`;
+      } else {
+        profJoined.textContent = "Joined: Jan 2024";
+      }
+    }
+
+    if (profRegNo) {
+      const regNo = user.username || user.details?.registerNumber || user.details?.staffCode || "N/A";
+      profRegNo.textContent = regNo;
+    }
+
+    // Populate Fields based on User Type
+    if (user.type === 'student' && user.details) {
+      if (profYear) profYear.textContent = user.details.year ? `${user.details.year}${getOrdinal(user.details.year)} Year` : "N/A";
+      if (profSection) profSection.textContent = `Section ${user.details.section || 'N/A'}`;
+      if (profBatch) profBatch.textContent = user.details.batch || "N/A";
+      if (profStream) profStream.textContent = user.details.streamType || "N/A";
+      if (profGender) profGender.textContent = user.details.gender || "N/A";
+      if (profDob) profDob.textContent = formatDate(user.details.dob) || "N/A";
+    } else if (user.type === 'staff' && user.details) {
+      if (profStaffRole) profStaffRole.textContent = user.details.designation || "Staff Member";
+      if (profStaffDeptFull) profStaffDeptFull.textContent = user.details.department ? `Department of ${user.details.department}` : "N/A";
+    }
+
+    if (profDept) profDept.textContent = user.details?.department ? `Department of ${user.details.department}` : "";
   }
+}
+
+// Helper: Get ordinal suffix
+function getOrdinal(n) {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return s[(v - 20) % 10] || s[v] || s[0];
+}
+
+// Helper: Format date
+function formatDate(dateStr) {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  if (isNaN(date)) return dateStr;
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  return date.toLocaleDateString('en-GB', options).replace(/\//g, '-');
 }
 
 // Availability toggle (Student Only)

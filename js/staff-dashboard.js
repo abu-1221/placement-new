@@ -1,11 +1,29 @@
 // Staff Dashboard JavaScript - Additional functionality
 
+function toggleQuestionType(select) {
+    // MCQ only now
+    const item = select.closest('.question-item');
+    item.querySelector('.mcq-options').style.display = 'block';
+}
+window.toggleQuestionType = toggleQuestionType;
+
+function updateQuestionNumbers() {
+    document.querySelectorAll('.question-item').forEach((item, index) => {
+        const count = index + 1;
+        item.dataset.question = count;
+        const numberSpan = item.querySelector('.question-number');
+        if (numberSpan) numberSpan.textContent = `Question ${count}`;
+    });
+}
+window.updateQuestionNumbers = updateQuestionNumbers;
+
 document.addEventListener('DOMContentLoaded', () => {
     initCreateTestForm();
     initAddQuestion();
     initTestsTable();
     initStudentsManagement();
     initStudentLookup();
+    initAiGenerator();
 });
 
 // Create Test Form with Confirmation Workflow
@@ -33,16 +51,34 @@ function initCreateTestForm() {
         // Collect questions
         const questions = [];
         document.querySelectorAll('.question-item').forEach((item) => {
-            const questionElement = item.querySelector('input[type="text"]');
-            const question = questionElement?.value || '';
+            const typeSelect = item.querySelector('.type-selector');
+            const type = typeSelect?.value || 'mcq';
 
-            const options = [];
-            item.querySelectorAll('.options-grid input').forEach(opt => options.push(opt.value));
+            const questionElement = item.querySelector('textarea, input[type="text"]');
+            const questionText = questionElement?.value || '';
 
-            const answerSelect = item.querySelector('select');
-            const answer = answerSelect?.value || 'A';
+            const questionObj = {
+                type: type,
+                question: questionText
+            };
 
-            questions.push({ question, options, answer });
+            if (type === 'mcq') {
+                const options = [];
+                item.querySelectorAll('.mcq-options .options-grid input').forEach(opt => options.push(opt.value));
+                const answerSelect = item.querySelector('.mcq-answer');
+                questionObj.options = options;
+                questionObj.answer = answerSelect?.value || 'A';
+            } else if (type === 'fill-blanks' || type === 'qa') {
+                const answerInput = item.querySelector('.plain-answer');
+                questionObj.answer = answerInput?.value || '';
+            } else if (type === 'code') {
+                const outputArea = item.querySelector('.expected-output');
+                const langSelect = item.querySelector('.code-language');
+                questionObj.expectedOutput = outputArea?.value || '';
+                questionObj.language = langSelect?.value || 'javascript';
+            }
+
+            questions.push(questionObj);
         });
 
         if (questions.length === 0) {
@@ -57,9 +93,23 @@ function initCreateTestForm() {
                 showNotification('Validation Error', `Question ${idx + 1} is missing text.`, 'error');
                 isValid = false;
             }
-            if (q.options.some(opt => !opt.trim())) {
-                showNotification('Validation Error', `Question ${idx + 1} has empty options.`, 'error');
-                isValid = false;
+
+            if (q.type === 'mcq') {
+                if (!q.options || q.options.some(opt => !opt.trim())) {
+                    showNotification('Validation Error', `Question ${idx + 1} has empty options.`, 'error');
+                    isValid = false;
+                }
+            } else if (q.type === 'code') {
+                if (!q.expectedOutput || !q.expectedOutput.trim()) {
+                    showNotification('Validation Error', `Question ${idx + 1} (Code) is missing expected output.`, 'error');
+                    isValid = false;
+                }
+            } else {
+                // fill-blanks or qa
+                if (!q.answer || !q.answer.trim()) {
+                    showNotification('Validation Error', `Question ${idx + 1} is missing the correct answer.`, 'error');
+                    isValid = false;
+                }
             }
         });
 
@@ -123,35 +173,43 @@ function initCreateTestForm() {
             if (qContainer) {
                 qContainer.innerHTML = `
                     <div class="question-item bounce-in" data-question="1">
-                        <div class="question-header">
-                            <span class="question-number">Question 1</span>
-                            <button type="button" class="remove-question-btn" title="Remove Question">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                            </button>
+                      <div class="question-header">
+                        <span class="question-number">Question 1</span>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                          <select class="form-input type-selector" style="display: none;">
+                            <option value="mcq">MCQ</option>
+                          </select>
+                          <button type="button" class="remove-question-btn" title="Remove Question">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                          </button>
                         </div>
-                        <div class="question-body">
-                            <div class="form-group">
-                                <label class="form-label">Question Text *</label>
-                                <input type="text" class="form-input" placeholder="e.g., What is the capital of France?" required>
-                            </div>
-                            <div class="options-grid">
-                                <div class="option-group"><input type="text" class="form-input" placeholder="Option A" required></div>
-                                <div class="option-group"><input type="text" class="form-input" placeholder="Option B" required></div>
-                                <div class="option-group"><input type="text" class="form-input" placeholder="Option C" required></div>
-                                <div class="option-group"><input type="text" class="form-input" placeholder="Option D" required></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="answer-group">
-                                    <label class="form-label">Correct Answer</label>
-                                    <select class="form-input">
-                                        <option value="A">Option A</option>
-                                        <option value="B">Option B</option>
-                                        <option value="C">Option C</option>
-                                        <option value="D">Option D</option>
-                                    </select>
-                                </div>
-                            </div>
+                      </div>
+                      <div class="question-body">
+                        <div class="form-group">
+                          <label class="form-label">Question Text *</label>
+                          <textarea class="form-input" rows="2" placeholder="Enter your question or problem statement..." required></textarea>
                         </div>
+                        
+                        <!-- MCQ Options -->
+                        <div class="mcq-options">
+                          <div class="options-grid">
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option A"></div>
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option B"></div>
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option C"></div>
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option D"></div>
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Correct Option</label>
+                            <select class="form-input mcq-answer">
+                              <option value="A">Option A</option>
+                              <option value="B">Option B</option>
+                              <option value="C">Option C</option>
+                              <option value="D">Option D</option>
+                            </select>
+                          </div>
+                        </div>
+
+                      </div>
                     </div>`;
             }
 
@@ -294,7 +352,14 @@ function showTestConfirmation(test) {
                             <span class="publish-q-number">Q${i + 1}</span>
                             <div class="publish-q-content">
                                 <div class="publish-q-text">${q.question}</div>
-                                <div class="publish-q-options">${q.options.map((opt, j) => `<span class="publish-q-opt ${String.fromCharCode(65 + j) === q.answer ? 'correct' : ''}">${String.fromCharCode(65 + j)}. ${opt}</span>`).join('')}</div>
+                                <div class="publish-q-type" style="font-size: 0.7rem; color: var(--primary-400); text-transform: uppercase;">${q.type || 'MCQ'}</div>
+                                ${q.type === 'mcq' ? `
+                                    <div class="publish-q-options">${q.options.map((opt, j) => `<span class="publish-q-opt ${String.fromCharCode(65 + j) === q.answer ? 'correct' : ''}">${String.fromCharCode(65 + j)}. ${opt}</span>`).join('')}</div>
+                                ` : q.type === 'coding' ? `
+                                    <div class="publish-q-answer" style="margin-top: 0.5rem; font-family: monospace; color: var(--green-400);">Expected Output: ${q.expectedOutput}</div>
+                                ` : `
+                                    <div class="publish-q-answer" style="margin-top: 0.5rem; color: var(--green-400);">Correct Answer: ${q.answer}</div>
+                                `}
                             </div>
                         </div>
                     `).join('')}
@@ -352,33 +417,31 @@ function initAddQuestion() {
             <div class="question-item bounce-in" data-question="${questionCount}">
                 <div class="question-header">
                     <span class="question-number">Question ${questionCount}</span>
-                    <button type="button" class="remove-question-btn" title="Remove Question">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                    </button>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <select class="form-input type-selector" style="display: none;">
+                            <option value="mcq">MCQ</option>
+                        </select>
+                        <button type="button" class="remove-question-btn" title="Remove Question">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="question-body">
                     <div class="form-group">
                         <label class="form-label">Question Text *</label>
-                        <input type="text" class="form-input" placeholder="e.g., What is the capital of France?" required>
+                        <textarea class="form-input" rows="2" placeholder="Enter your question..."></textarea>
                     </div>
-                    <div class="options-grid">
-                        <div class="option-group">
-                            <input type="text" class="form-input" placeholder="Option A" required>
+                    
+                    <div class="mcq-options">
+                        <div class="options-grid">
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option A"></div>
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option B"></div>
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option C"></div>
+                            <div class="option-group"><input type="text" class="form-input" placeholder="Option D"></div>
                         </div>
-                        <div class="option-group">
-                            <input type="text" class="form-input" placeholder="Option B" required>
-                        </div>
-                        <div class="option-group">
-                            <input type="text" class="form-input" placeholder="Option C" required>
-                        </div>
-                        <div class="option-group">
-                            <input type="text" class="form-input" placeholder="Option D" required>
-                        </div>
-                    </div>
-                    <div class="form-group flex-row">
-                        <div class="answer-group">
-                            <label class="form-label">Correct Answer</label>
-                            <select class="form-input">
+                        <div class="form-group">
+                            <label class="form-label">Correct Option</label>
+                            <select class="form-input mcq-answer">
                                 <option value="A">Option A</option>
                                 <option value="B">Option B</option>
                                 <option value="C">Option C</option>
@@ -386,9 +449,9 @@ function initAddQuestion() {
                             </select>
                         </div>
                     </div>
+
                 </div>
-            </div>
-        `;
+            </div>`;
         container.insertAdjacentHTML('beforeend', questionHTML);
 
         const newQuestion = container.lastElementChild;
@@ -1231,3 +1294,470 @@ window.deleteTest = deleteTest;
 window.viewTestAnalytics = viewTestAnalytics;
 window.showNotification = showNotification;
 window.lookupStudent = lookupStudent;
+
+// ========== AI QUESTION GENERATOR ==========
+function initAiGenerator() {
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('aiFileInput');
+    const extractionProgress = document.getElementById('extractionProgress');
+    const processingState = document.getElementById('processingState');
+    const processingTitle = document.getElementById('processingTitle');
+    const processingSubtitle = document.getElementById('processingSubtitle');
+    const extractionResults = document.getElementById('extractionResults');
+    const resultsList = document.getElementById('extractedQuestionsList');
+    const finalizeBtn = document.getElementById('finalizeExtractionBtn');
+    const reUploadBtn = document.getElementById('reUploadBtn');
+    const extractionSummary = document.getElementById('extractionSummary');
+
+    if (!uploadZone || !fileInput) return;
+
+    // Click handler (skip if clicking the button or input inside)
+    uploadZone.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+        fileInput.click();
+    });
+
+    // Drag and Drop handlers
+    uploadZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadZone.classList.add('dragover');
+    });
+
+    uploadZone.addEventListener('dragleave', () => {
+        uploadZone.classList.remove('dragover');
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+            handleFileUpload(e.dataTransfer.files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+            handleFileUpload(e.target.files[0]);
+        }
+    });
+
+    // Re-upload button
+    if (reUploadBtn) {
+        reUploadBtn.addEventListener('click', () => {
+            resetToUpload();
+            fileInput.value = '';
+            fileInput.click();
+        });
+    }
+
+    function resetToUpload() {
+        uploadZone.style.display = 'block';
+        processingState.style.display = 'none';
+        extractionResults.style.display = 'none';
+        resultsList.innerHTML = '';
+    }
+
+    // ============================================================
+    //  FILE UPLOAD HANDLER
+    // ============================================================
+    async function handleFileUpload(file) {
+        // Validate file type
+        if (!file.name.match(/\.docx$/i)) {
+            showNotification('Invalid File', 'Please upload a Word document (.docx) file.', 'error');
+            return;
+        }
+
+        // Validate file size (10 MB max)
+        if (file.size > 10 * 1024 * 1024) {
+            showNotification('File Too Large', 'Maximum file size is 10MB.', 'error');
+            return;
+        }
+
+        // Switch to processing state
+        uploadZone.style.display = 'none';
+        processingState.style.display = 'block';
+        extractionProgress.style.width = '0%';
+        processingTitle.textContent = 'Reading Document...';
+        processingSubtitle.textContent = 'Extracting text content from your Word file.';
+
+        try {
+            // Step 1: Read file as ArrayBuffer
+            extractionProgress.style.width = '15%';
+            const arrayBuffer = await readFileAsArrayBuffer(file);
+
+            // Step 2: Convert DOCX to raw text via mammoth
+            extractionProgress.style.width = '40%';
+            processingTitle.textContent = 'Parsing Document...';
+            processingSubtitle.textContent = 'Converting Word content to text.';
+
+            const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+            const rawText = result.value;
+
+            if (!rawText || rawText.trim().length === 0) {
+                throw new Error('The document appears to be empty or could not be read.');
+            }
+
+            // Step 3: Parse MCQ questions from text
+            extractionProgress.style.width = '70%';
+            processingTitle.textContent = 'Extracting Questions...';
+            processingSubtitle.textContent = 'Scanning for MCQ patterns in the document.';
+
+            // Small delay so user sees the transition
+            await delay(300);
+
+            const questions = parseMCQsFromText(rawText);
+
+            // Step 4: Show results
+            extractionProgress.style.width = '100%';
+            processingTitle.textContent = 'Extraction Complete!';
+
+            await delay(400);
+
+            if (questions.length === 0) {
+                processingState.style.display = 'none';
+                uploadZone.style.display = 'block';
+                showNotification('No Questions Found',
+                    'Could not find MCQ-style questions in this document. Ensure questions are numbered (1. / Q1.) with options labeled A–D.',
+                    'error');
+                return;
+            }
+
+            processingState.style.display = 'none';
+            extractionResults.style.display = 'block';
+            renderExtractedQuestions(questions);
+
+            const summary = `Extracted from "${file.name}" • Review and edit below before creating quiz`;
+            if (extractionSummary) extractionSummary.textContent = summary;
+
+            showNotification('Extraction Complete',
+                `Found exactly ${questions.length} question${questions.length > 1 ? 's' : ''} in ${file.name}`,
+                'success');
+
+        } catch (err) {
+            console.error('[AI Generator] Extraction error:', err);
+            processingState.style.display = 'none';
+            uploadZone.style.display = 'block';
+            showNotification('Extraction Failed', err.message || 'An error occurred while processing the file.', 'error');
+        }
+    }
+
+    // ============================================================
+    //  DOCX → MCQ PARSER  (handles many common formats)
+    // ============================================================
+    function parseMCQsFromText(text) {
+        const questions = [];
+
+        // Normalize line breaks and whitespace
+        const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n')
+            .map(l => l.trim()).filter(l => l.length > 0);
+
+        let i = 0;
+        while (i < lines.length) {
+            const line = lines[i];
+
+            // Try to detect a question line:
+            // Patterns: "1. Question?" / "1) Question?" / "Q1. Question?" / "Q.1 Question?"
+            //           "Question 1:" / just numbered like "1 Question"
+            const qMatch = line.match(/^(?:Q\.?\s*)?(\d+)[.):\s]+\s*(.+)/i) ||
+                line.match(/^Question\s+(\d+)[.:)]\s*(.+)/i);
+
+            if (qMatch) {
+                let questionText = qMatch[2].trim();
+                i++;
+
+                // Collect continuation lines (question text may span multiple lines)
+                while (i < lines.length && !isOptionLine(lines[i]) && !isQuestionLine(lines[i]) && !isAnswerLine(lines[i])) {
+                    questionText += ' ' + lines[i];
+                    i++;
+                }
+
+                // Collect options A–D (or more)
+                const options = [];
+                const optionLetters = [];
+                while (i < lines.length && isOptionLine(lines[i])) {
+                    const optMatch = parseOptionLine(lines[i]);
+                    if (optMatch) {
+                        optionLetters.push(optMatch.letter.toUpperCase());
+                        let optText = optMatch.text;
+                        i++;
+                        // Option text may span multiple lines
+                        while (i < lines.length && !isOptionLine(lines[i]) && !isQuestionLine(lines[i]) && !isAnswerLine(lines[i])) {
+                            optText += ' ' + lines[i];
+                            i++;
+                        }
+                        options.push(optText.trim());
+                    } else {
+                        break;
+                    }
+                }
+
+                // Try to find answer line
+                let answer = '';
+                if (i < lines.length && isAnswerLine(lines[i])) {
+                    answer = parseAnswerLine(lines[i], optionLetters);
+                    i++;
+                }
+
+                // Only add if we have enough data (at least question + 2 options)
+                if (questionText.length > 0 && options.length >= 2) {
+                    // Pad to 4 options if fewer
+                    while (options.length < 4) {
+                        options.push('');
+                    }
+                    // Default answer to A if not found
+                    if (!answer) answer = 'A';
+
+                    questions.push({
+                        question: questionText.trim(),
+                        options: options.slice(0, 4),  // cap at 4
+                        answer: answer
+                    });
+                }
+            } else {
+                i++;
+            }
+        }
+
+        return questions;
+    }
+
+    function isQuestionLine(line) {
+        return /^(?:Q\.?\s*)?(\d+)[.):\s]+\s*.+/i.test(line) ||
+            /^Question\s+\d+/i.test(line);
+    }
+
+    function isOptionLine(line) {
+        return /^\s*[A-Da-d][.):\s]/i.test(line) ||
+            /^\(?[A-Da-d]\)\s/i.test(line);
+    }
+
+    function parseOptionLine(line) {
+        // Matches: "A. text" / "a) text" / "(A) text" / "A: text" / "A text"
+        const m = line.match(/^\(?([A-Da-d])[.):\s]\)?\s*(.+)/i);
+        if (m) {
+            return { letter: m[1], text: m[2] };
+        }
+        return null;
+    }
+
+    function isAnswerLine(line) {
+        return /^\s*(Answer|Ans|Correct\s*(Answer|Option)?|Key)\s*[.:)\-]\s*/i.test(line);
+    }
+
+    function parseAnswerLine(line, validLetters) {
+        // Try to extract a letter: "Answer: B" / "Ans: (C)" / "Correct Answer: Option A"
+        const m = line.match(/[.:)\-]\s*\(?([A-Da-d])\)?/i);
+        if (m) {
+            return m[1].toUpperCase();
+        }
+        // Try to match option text
+        const textMatch = line.match(/[.:)\-]\s*(.+)/i);
+        if (textMatch) {
+            const ansText = textMatch[1].trim().toLowerCase();
+            // Check if it mentions a letter
+            for (const letter of ['a', 'b', 'c', 'd']) {
+                if (ansText === letter || ansText === `option ${letter}`) {
+                    return letter.toUpperCase();
+                }
+            }
+        }
+        return validLetters.length > 0 ? validLetters[0] : 'A';
+    }
+
+    // ============================================================
+    //  RENDER EXTRACTED QUESTIONS (with delete per item)
+    // ============================================================
+    function renderExtractedQuestions(questions) {
+        updateExtractedCount();
+        resultsList.innerHTML = '';
+
+        questions.forEach((q, i) => {
+            const item = document.createElement('div');
+            item.className = 'extracted-item bounce-in';
+            // Escape HTML in question/option values
+            const escQ = escapeHtml(q.question);
+            const escOpts = q.options.map(o => escapeHtml(o));
+
+            item.innerHTML = `
+                <div class="extracted-q-header">
+                    <span class="q-number">${i + 1}</span>
+                    <input type="text" class="q-input" value="${escQ}" placeholder="Question text">
+                    <button class="btn-icon delete-extracted-btn" title="Remove this question">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="options-grid">
+                    ${['A', 'B', 'C', 'D'].map((letter, idx) => `
+                        <div class="option-edit-group">
+                            <span class="option-letter">${letter}</span>
+                            <input type="text" class="q-input" value="${escOpts[idx] || ''}" placeholder="Option ${letter}">
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="answer-select-container">
+                    <span style="color: var(--gray-400); font-size: 0.9rem;">Correct Answer:</span>
+                    <select class="q-answer-select">
+                        <option value="A" ${q.answer === 'A' ? 'selected' : ''}>Option A</option>
+                        <option value="B" ${q.answer === 'B' ? 'selected' : ''}>Option B</option>
+                        <option value="C" ${q.answer === 'C' ? 'selected' : ''}>Option C</option>
+                        <option value="D" ${q.answer === 'D' ? 'selected' : ''}>Option D</option>
+                    </select>
+                </div>
+            `;
+            resultsList.appendChild(item);
+        });
+
+        // Bind delete buttons
+        resultsList.querySelectorAll('.delete-extracted-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const item = this.closest('.extracted-item');
+                item.style.transition = 'all 0.3s ease';
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(40px)';
+                setTimeout(() => {
+                    item.remove();
+                    renumberExtracted();
+                    updateExtractedCount();
+                }, 300);
+            });
+        });
+
+        updateExtractedCount();
+    }
+
+    function renumberExtracted() {
+        resultsList.querySelectorAll('.extracted-item').forEach((item, idx) => {
+            const numSpan = item.querySelector('.q-number');
+            if (numSpan) numSpan.textContent = idx + 1;
+        });
+    }
+
+    function updateExtractedCount() {
+        const count = resultsList.querySelectorAll('.extracted-item').length;
+        document.getElementById('extractedCount').textContent = count;
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str || '';
+        return div.innerHTML.replace(/"/g, '&quot;');
+    }
+
+    // ============================================================
+    //  FINALIZE → IMPORT INTO QUIZ BUILDER
+    // ============================================================
+    finalizeBtn.addEventListener('click', () => {
+        const items = resultsList.querySelectorAll('.extracted-item');
+        const finalQuestions = [];
+
+        items.forEach(item => {
+            const questionText = item.querySelector('.q-input').value.trim();
+            const options = Array.from(item.querySelectorAll('.options-grid .q-input')).map(input => input.value.trim());
+            const answer = item.querySelector('.q-answer-select').value;
+
+            // Skip if question text is empty
+            if (!questionText) return;
+
+            finalQuestions.push({
+                type: 'mcq',
+                question: questionText,
+                options: options,
+                answer: answer
+            });
+        });
+
+        if (finalQuestions.length === 0) {
+            showNotification('No Questions', 'There are no valid questions to import.', 'error');
+            return;
+        }
+
+        switchToCreateTestWithQuestions(finalQuestions);
+    });
+
+    function switchToCreateTestWithQuestions(questions) {
+        // 1. Activate Create Test UI
+        const createLink = document.querySelector('[data-section="create-test"]');
+        if (createLink) createLink.click();
+
+        // 2. Clear then Populate Questions Container
+        const container = document.getElementById('questionsContainer');
+        if (container) {
+            container.innerHTML = '';
+            questions.forEach((q, i) => {
+                const count = i + 1;
+                const html = `
+                    <div class="question-item bounce-in" data-question="${count}">
+                        <div class="question-header">
+                            <span class="question-number">Question ${count}</span>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <select class="form-input type-selector" style="display: none;">
+                                    <option value="mcq">MCQ</option>
+                                </select>
+                                <button type="button" class="remove-question-btn" title="Remove Question">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="question-body">
+                            <div class="form-group">
+                                <label class="form-label">Question Text *</label>
+                                <textarea class="form-input" rows="2" placeholder="Enter your question...">${escapeHtml(q.question)}</textarea>
+                            </div>
+                            <div class="mcq-options">
+                                <div class="options-grid">
+                                    ${q.options.map((opt, j) => `
+                                        <div class="option-group"><input type="text" class="form-input" placeholder="Option ${String.fromCharCode(65 + j)}" value="${escapeHtml(opt)}"></div>
+                                    `).join('')}
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Correct Option</label>
+                                    <select class="form-input mcq-answer">
+                                        <option value="A" ${q.answer === 'A' ? 'selected' : ''}>Option A</option>
+                                        <option value="B" ${q.answer === 'B' ? 'selected' : ''}>Option B</option>
+                                        <option value="C" ${q.answer === 'C' ? 'selected' : ''}>Option C</option>
+                                        <option value="D" ${q.answer === 'D' ? 'selected' : ''}>Option D</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+
+            // Re-bind remove buttons
+            container.querySelectorAll('.remove-question-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    if (container.children.length > 1) {
+                        this.closest('.question-item').remove();
+                        updateQuestionNumbers();
+                    }
+                });
+            });
+        }
+
+        showNotification('Questions Imported',
+            `Successfully imported ${questions.length} question${questions.length > 1 ? 's' : ''} into the quiz builder.`,
+            'info');
+
+        // Reset AI Gen Section for next time
+        resetToUpload();
+    }
+
+    // ============================================================
+    //  UTILITIES
+    // ============================================================
+    function readFileAsArrayBuffer(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(new Error('Failed to read file.'));
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}

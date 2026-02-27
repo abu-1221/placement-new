@@ -14,6 +14,9 @@
     />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
+    
+
+    <script src="js/db.js" defer></script>
     <style>
       body {
         background: linear-gradient(
@@ -76,170 +79,106 @@
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1rem;
-        padding: 2rem;
-        margin-bottom: 1.5rem;
+        border-radius: 1.25rem;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        animation: slideUp 0.6s ease-out;
+      }
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
       }
       .question-number {
+        font-family: var(--font-display);
         color: var(--primary-400);
-        font-weight: 600;
-        margin-bottom: 0.5rem;
+        font-weight: 700;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .q-type-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        font-size: 0.7rem;
+        border: 1px solid rgba(102, 126, 234, 0.2);
       }
       .question-text {
-        font-size: 1.125rem;
-        margin-bottom: 1.5rem;
-        line-height: 1.6;
+        font-size: 1.35rem;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+        font-weight: 500;
+        color: #fff;
       }
+      
+      /* MCQ Layout Fix */
       .options-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-      .option-item {
-        position: relative;
-      }
-      .option-item input[type="radio"] {
-        position: absolute;
-        opacity: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
       }
       .option-label {
         display: flex;
         align-items: center;
-        padding: 1rem 1.5rem;
+        padding: 1.5rem 2rem;
         background: rgba(255, 255, 255, 0.03);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1.25rem;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+        color: var(--gray-300);
+        font-size: 1.1rem;
       }
       .option-label:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(102, 126, 234, 0.5);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(102, 126, 234, 0.4);
+        transform: translateY(-2px);
+        color: #fff;
       }
       .option-item input[type="radio"]:checked + .option-label {
-        background: rgba(102, 126, 234, 0.2);
-        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.15);
+        border-color: var(--primary-500);
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        color: #fff;
       }
       .option-letter {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        background: rgba(102, 126, 234, 0.2);
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 600;
-        margin-right: 1rem;
-        color: var(--primary-400);
+        font-weight: 700;
+        margin-right: 1.5rem;
+        font-size: 1rem;
+        transition: all 0.25s;
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
       .option-item input[type="radio"]:checked + .option-label .option-letter {
-        background: #667eea;
-        color: white;
+        background: var(--primary-500);
+        color: #fff;
+        border-color: var(--primary-400);
       }
-      .navigation {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 2rem;
+      
+      .pulse-animation {
+        animation: pulse 1.5s infinite;
       }
-      .question-progress {
-        color: var(--gray-400);
-        font-size: 0.875rem;
+      @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
       }
-      .nav-buttons {
-        display: flex;
-        gap: 1rem;
-      }
-      .results-container {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1rem;
-        padding: 3rem;
-        text-align: center;
-      }
-      .score-circle {
-        width: 200px;
-        height: 200px;
-        margin: 0 auto 2rem;
-        border-radius: 50%;
-        background: conic-gradient(
-          #10b981 0deg,
-          #10b981 0deg,
-          rgba(255, 255, 255, 0.1) 0deg
-        );
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-      }
-      .score-inner {
-        width: 170px;
-        height: 170px;
-        border-radius: 50%;
-        background: #0f0f23;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      .score-value {
-        font-size: 3rem;
-        font-weight: 700;
-        font-family: var(--font-display);
-      }
-      .score-label {
-        font-size: 0.875rem;
-        color: var(--gray-400);
-        margin-top: 0.5rem;
-      }
-      .results-stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-        margin: 2rem 0;
-      }
-      .stat-box {
-        padding: 1.5rem;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 0.75rem;
-      }
-      .stat-box h3 {
-        font-size: 0.875rem;
-        color: var(--gray-400);
-        margin-bottom: 0.5rem;
-      }
-      .stat-box p {
-        font-size: 1.75rem;
-        font-weight: 700;
-        font-family: var(--font-display);
-      }
-      .stat-box.correct p {
-        color: #10b981;
-      }
-      .stat-box.wrong p {
-        color: #ef4444;
-      }
-      .stat-box.percentage p {
-        color: var(--primary-400);
-      }
-      .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--primary-400);
-        text-decoration: none;
-        margin-bottom: 2rem;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        transition: all 0.3s ease;
-      }
-      .back-link:hover {
-        background: rgba(102, 126, 234, 0.1);
-      }
-      .hidden {
-        display: none;
-      }
+      
+      .hidden { display: none; }
     </style>
   </head>
   <body>
@@ -373,6 +312,7 @@
       let answers = {};
       let startTime = null;
       let timerInterval = null;
+      let cmInstances = {};
 
       // Load test from URL parameter
       window.addEventListener("DOMContentLoaded", () => {
@@ -388,33 +328,42 @@
         loadTest(testId);
       });
 
-      function loadTest(testId) {
-        const tests = JSON.parse(localStorage.getItem("JMC-TEST_tests") || "[]");
-        currentTest = tests.find((t) => t.id == testId);
+      async function loadTest(testId) {
+        try {
+            // Wait for DB to be initialized
+            if (!window.DB) {
+                await new Promise(r => setTimeout(r, 500));
+            }
+            
+            currentTest = await window.DB.getTestById(testId);
+            
+            if (!currentTest) {
+              alert("Test not found!");
+              window.location.href = "student-dashboard.html";
+              return;
+            }
 
-        if (!currentTest) {
-          alert("Test not found!");
-          window.location.href = "student-dashboard.html";
-          return;
+            // Display test info
+            document.getElementById("testTitle").textContent = currentTest.name;
+            document.getElementById("testDescription").textContent = currentTest.description || "";
+            document.getElementById("testDuration").textContent = `${currentTest.duration} minutes`;
+            
+            const questions = typeof currentTest.questions === 'string' ? JSON.parse(currentTest.questions) : (currentTest.questions || []);
+            currentTest.questions = questions; 
+            
+            document.getElementById("testQuestions").textContent = `${questions.length} questions`;
+            document.getElementById("testCompany").textContent = currentTest.company;
+
+            // Start timer
+            startTime = Date.now();
+            startTimer(currentTest.duration * 60);
+
+            // Load first question
+            showQuestion(0);
+        } catch (err) {
+            console.error(err);
+            alert("Error loading test data");
         }
-
-        // Display test info
-        document.getElementById("testTitle").textContent = currentTest.name;
-        document.getElementById("testDescription").textContent =
-          currentTest.description || "";
-        document.getElementById("testDuration").textContent =
-          `${currentTest.duration} minutes`;
-        document.getElementById("testQuestions").textContent =
-          `${currentTest.questions.length} questions`;
-        document.getElementById("testCompany").textContent =
-          currentTest.company;
-
-        // Start timer
-        startTime = Date.now();
-        startTimer(currentTest.duration * 60); // Convert to seconds
-
-        // Load first question
-        showQuestion(0);
       }
 
       function startTimer(durationSeconds) {
@@ -443,131 +392,111 @@
 
       function showQuestion(index) {
         currentQuestionIndex = index;
-        const question = currentTest.questions[index];
-
+        const q = currentTest.questions[index];
+        if (!q) return;
+        
         const html = `
                 <div class="question-card">
-                    <div class="question-number">Question ${index + 1} of ${currentTest.questions.length}</div>
-                    <div class="question-text">${question.question}</div>
+                    <div class="question-number">
+                        <span>Question ${index + 1} of ${currentTest.questions.length}</span>
+                        <span class="q-type-badge">Multiple Choice</span>
+                    </div>
+                    <div class="question-text">${q.question}</div>
                     <div class="options-list">
-                        ${question.options
-                          .map(
-                            (option, i) => `
+                        ${(q.options || []).map((option, i) => `
                             <div class="option-item">
                                 <input type="radio" name="question-${index}" id="option-${index}-${i}" 
                                        value="${String.fromCharCode(65 + i)}" 
                                        ${answers[index] === String.fromCharCode(65 + i) ? "checked" : ""}
                                        onchange="saveAnswer(${index}, '${String.fromCharCode(65 + i)}')">
                                 <label class="option-label" for="option-${index}-${i}">
-                                    <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                                    <div class="option-letter">${String.fromCharCode(65 + i)}</div>
                                     <span>${option}</span>
                                 </label>
                             </div>
-                        `,
-                          )
-                          .join("")}
+                        `).join("")}
                     </div>
-                    <div class="navigation">
-                        <div class="question-progress">
-                            ${Object.keys(answers).length} of ${currentTest.questions.length} answered
+                    <div class="navigation" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <div style="width: 100%; margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--gray-400); margin-bottom: 0.5rem;">
+                                <span>Completion Progress</span>
+                                <span>${Math.round((Object.keys(answers).filter(k=>!isNaN(k)).length / currentTest.questions.length) * 100)}%</span>
+                            </div>
+                            <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+                                <div style="width: ${(Object.keys(answers).filter(k=>!isNaN(k)).length / currentTest.questions.length) * 100}%; height: 100%; background: linear-gradient(90deg, var(--primary-500), #805ad5); transition: width 0.3s ease;"></div>
+                            </div>
                         </div>
                         <div class="nav-buttons">
-                            ${index > 0 ? '<button class="btn btn-ghost" onclick="showQuestion(' + (index - 1) + ')">Previous</button>' : ""}
-                            ${
-                              index < currentTest.questions.length - 1
-                                ? '<button class="btn btn-primary" onclick="showQuestion(' +
-                                  (index + 1) +
-                                  ')">Next</button>'
-                                : '<button class="btn btn-primary" onclick="confirmSubmit()">Submit Test</button>'
+                            ${index > 0 ? `<button class="btn btn-ghost" onclick="showQuestion(${index - 1})" style="color: var(--gray-400);">Previous</button>` : ""}
+                            ${index < currentTest.questions.length - 1
+                                ? `<button class="btn btn-primary" onclick="showQuestion(${index + 1})">Next Question</button>`
+                                : `<button class="btn btn-primary" onclick="confirmSubmit()" style="background: linear-gradient(135deg, #10b981, #059669); border: none;">Submit Final Results</button>`
                             }
                         </div>
                     </div>
-                </div>
-            `;
+                </div>`;
 
         document.getElementById("questionsContainer").innerHTML = html;
       }
+
 
       function saveAnswer(questionIndex, answer) {
         answers[questionIndex] = answer;
       }
 
       function confirmSubmit() {
-        const answered = Object.keys(answers).length;
+        const answeredCount = Object.keys(answers).filter(k => !isNaN(k)).length;
         const total = currentTest.questions.length;
 
-        if (answered < total) {
-          if (
-            !confirm(
-              `You have only answered ${answered} out of ${total} questions. Do you want to submit anyway?`,
-            )
-          ) {
+        if (answeredCount < total) {
+          if (!confirm(`You have only addressed ${answeredCount} out of ${total} items. Do you want to submit anyway?`)) {
             return;
           }
         }
-
         submitTest();
       }
 
-      function submitTest() {
+      async function submitTest() {
         clearInterval(timerInterval);
+        const submitBtn = document.querySelector('button[onclick="confirmSubmit()"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Processing Result...";
+        }
+
 
         // Calculate results
         let correct = 0;
         currentTest.questions.forEach((q, i) => {
-          if (answers[i] === q.answer) {
-            correct++;
-          }
+          const studentAnswer = answers[i] || "";
+          if (studentAnswer === q.answer) correct++;
         });
 
         const total = currentTest.questions.length;
         const percentage = Math.round((correct / total) * 100);
-        const timeTaken = Math.round((Date.now() - startTime) / 1000 / 60); // minutes
+        const timeTaken = Math.round((Date.now() - startTime) / 1000 / 60);
 
-        // Save result
         const user = JSON.parse(sessionStorage.getItem("user") || "{}");
         const result = {
           testId: currentTest.id,
+          username: user.username,
           testName: currentTest.name,
           company: currentTest.company,
-          date: new Date().toISOString(),
           score: percentage,
           correct: correct,
           total: total,
           timeTaken: timeTaken,
-          status: percentage >= 60 ? "passed" : "failed",
+          status: percentage >= 50 ? "passed" : "failed",
         };
 
-        // Update user's test results
-        const storedUsers = JSON.parse(
-          localStorage.getItem("JMC-TEST_users") || '{"students":[],"staff":[]}',
-        );
-        const studentIndex = storedUsers.students.findIndex(
-          (s) => s.username === user.username,
-        );
-
-        if (studentIndex !== -1) {
-          if (!storedUsers.students[studentIndex].testsCompleted) {
-            storedUsers.students[studentIndex].testsCompleted = [];
-          }
-          storedUsers.students[studentIndex].testsCompleted.push(result);
-          localStorage.setItem("JMC-TEST_users", JSON.stringify(storedUsers));
+        try {
+            await window.DB.submitTest(result);
+            showNotification("Test Submitted!", `Score: ${percentage}% (${correct}/${total} correct)`, percentage >= 50 ? "success" : "error");
+            showResults(correct, total, percentage);
+        } catch (err) {
+            console.error(err);
+            alert("Failed to submit result to server. Please check your connection.");
         }
-
-        // Also update session
-        if (!user.testsCompleted) user.testsCompleted = [];
-        user.testsCompleted.push(result);
-        sessionStorage.setItem("user", JSON.stringify(user));
-
-        // Show notification
-        showNotification(
-          "Test Submitted Successfully!",
-          `Score: ${percentage}% (${correct}/${total} correct)`,
-          percentage >= 60 ? "success" : "error",
-        );
-
-        // Show results
-        showResults(correct, total, percentage);
       }
 
       function showResults(correct, total, percentage) {

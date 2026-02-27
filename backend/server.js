@@ -471,6 +471,48 @@ app.delete('/api/staff/students/:username', async (req, res) => {
   }
 });
 
+// === CODE EXECUTION ENGINE (Secure Backend VM) ===
+const vm = require('vm');
+
+app.post('/api/code/execute', async (req, res) => {
+  const { code, language = 'javascript' } = req.body;
+
+  if (language.toLowerCase() !== 'javascript') {
+    return res.json({
+      success: true,
+      output: `[System] ${language.toUpperCase()} execution is currently in 'Simulation Mode'. \nTo enable full runtime, please integrate Judge0 or Docker on your server.\n\nCode detected: \n${code.substring(0, 50)}...`,
+      simulated: true
+    });
+  }
+
+  let output = [];
+  const sandbox = {
+    console: {
+      log: (...args) => {
+        output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+      }
+    }
+  };
+
+  try {
+    const script = new vm.Script(code);
+    const context = vm.createContext(sandbox);
+    script.runInContext(context, { timeout: 2000 });
+
+    res.json({
+      success: true,
+      output: output.join('\n'),
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      error: err.message,
+      output: output.join('\n')
+    });
+  }
+});
+
 // === ACTIVITY LOG ROUTES ===
 app.get('/api/activity-logs', async (req, res) => {
   try {

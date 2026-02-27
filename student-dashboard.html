@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/modal.css" />
     <link rel="stylesheet" href="css/analytics.css" />
     <link rel="stylesheet" href="css/test-interface.css" />
+    <link rel="stylesheet" href="css/ai-buddy.css" />
   </head>
   <body>
     <div class="app-layout">
@@ -27,19 +28,12 @@
               src="logo.png"
               class="brand-logo"
               alt="JMC-TEST Logo"
-              style="margin-right: 10px"
             />
             <span>JMC-TEST</span>
           </div>
-          <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              style="width: 20px; height: 20px"
-            >
-              <path d="M15 18l-6-6 6-6" />
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Toggle Sidebar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
         </div>
@@ -97,6 +91,20 @@
             </svg>
             <span>Reports</span>
           </a>
+          <button class="nav-item ai-buddy-btn" id="aiBuddyBtn" style="background: none; border: none; font: inherit; cursor: pointer; width: calc(100% - 1.5rem);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              <path d="M12 7v6M9 10h6"/>
+            </svg>
+            <span>Smart Assistant</span>
+          </button>
+          <a href="#" class="nav-item" data-section="profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <span>My Profile</span>
+          </a>
         </nav>
         <div class="sidebar-footer">
           <button class="logout-btn" id="logoutBtn">
@@ -119,17 +127,10 @@
       <main class="main-content">
         <!-- Header -->
         <header class="dashboard-header">
-          <button class="menu-toggle" id="menuToggle">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
+          <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <div class="hamburger-box">
+              <div class="hamburger-inner"></div>
+            </div>
           </button>
           <div class="header-left">
             <h1 id="sectionTitle">My Task Queue</h1>
@@ -137,9 +138,8 @@
           <div class="header-right">
             <div class="user-info">
               <div class="user-avatar" id="userAvatar">JD</div>
-              <div class="user-details">
-                <span class="user-name" id="userName">John Doe</span>
-                <span class="user-role">Student</span>
+              <div class="user-details" style="justify-content: center;">
+                <span class="user-name" id="userName">User</span>
               </div>
             </div>
           </div>
@@ -448,48 +448,39 @@
           <!-- Reports Section -->
           <section class="content-section" id="reports-section">
             <div class="section-intro">
-              <h2>Academic & Test Reports</h2>
-              <p>Official placement records and verified performance certificates</p>
+              <h2>Official Documentation</h2>
+              <p>Access your verified academic transcripts and merit certificates</p>
             </div>
-            <div class="reports-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-              <!-- 1. Test Performance Report -->
+            <div class="reports-grid">
+              <!-- 1. Placement Transcript -->
               <div class="report-card">
                 <div class="report-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
                 </div>
-                <h3>Test Performance Report</h3>
-                <p>Comprehensive academic dossier of all attempted placement assessments and scores.</p>
-                <div style="margin-top: auto; display: flex; gap: 8px;">
+                <h3>Performance Transcript</h3>
+                <p>A consolidated record of all attempted assessments, including scores and percentile rankings.</p>
+                <div style="margin-top: auto; display: flex; gap: 10px;">
                   <button class="btn btn-primary btn-sm" onclick="generatePerformanceReport('pdf')">
                     Download PDF
                   </button>
                   <button class="btn btn-ghost btn-sm" onclick="generatePerformanceReport('excel')" style="border: 1px solid rgba(255,255,255,0.1);">
-                    Excel
+                    Excel Report
                   </button>
                 </div>
               </div>
 
-              <!-- 2. Attempt Summary -->
+              <!-- 2. Merit Certificate -->
               <div class="report-card">
                 <div class="report-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="8" r="7"/>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                  </svg>
                 </div>
-                <h3>Attempt Summary</h3>
-                <p>A detailed chronological log of test sessions, including durations and accuracy.</p>
+                <h3>Merit Certificate</h3>
+                <p>Generate a verified certificate of completion for assessments with qualifying scores.</p>
                 <button class="btn btn-primary btn-sm" onclick="generateAttemptReport()" style="margin-top: auto;">
-                  Download Log
-                </button>
-              </div>
-
-              <!-- 3. Score Analysis -->
-              <div class="report-card">
-                <div class="report-icon" style="background: rgba(96, 165, 250, 0.1); color: #60a5fa;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-                </div>
-                <h3>Score Analysis</h3>
-                <p>Statistical breakdown of proficiency levels across different assessment drives.</p>
-                <button class="btn btn-primary btn-sm" onclick="generateScoreAnalysis()" style="margin-top: auto;">
-                  View Analysis
+                  Issue Certificate
                 </button>
               </div>
             </div>
@@ -540,6 +531,96 @@
               </div>
             </div>
           </div>
+          <!-- Profile Section -->
+          <section class="content-section" id="profile-section">
+            <div class="section-intro">
+              <h2>My Profile</h2>
+              <p>Your official academic records and platform credentials</p>
+            </div>
+            
+            <div class="profile-card-premium">
+              <div class="profile-header-main">
+                <div class="profile-avatar-large" id="profileAvatarLarge">JD</div>
+                <div class="profile-identity">
+                  <span class="profile-label">Registered Username</span>
+                  <div class="profile-username-main" id="profileUsername">username</div>
+                </div>
+              </div>
+              
+              <div class="profile-details-grid">
+                <div class="profile-info-block">
+                  <span class="block-label">Register Number</span>
+                  <h1 class="profile-h1" id="profileRegNo">2024CSE001</h1>
+                </div>
+
+                <div class="profile-info-block">
+                  <span class="block-label">Current Academic Year</span>
+                  <h1 class="profile-h1" id="profileYear">3rd Year</h1>
+                </div>
+
+                <div class="profile-info-block">
+                  <span class="block-label">Assigned Section</span>
+                  <h1 class="profile-h1" id="profileSection">Section A</h1>
+                </div>
+
+                <div class="profile-info-block">
+                  <span class="block-label">Academic Batch</span>
+                  <h1 class="profile-h1" id="profileBatch">2022-2025</h1>
+                </div>
+
+                <div class="profile-info-block">
+                  <span class="block-label">Stream Type</span>
+                  <h1 class="profile-h1" id="profileStream">Self-Financed</h1>
+                </div>
+
+                <div class="profile-info-block">
+                  <span class="block-label">Gender</span>
+                  <h1 class="profile-h1" id="profileGender">Male</h1>
+                </div>
+
+                <div class="profile-info-block">
+                  <span class="block-label">Date of Birth</span>
+                  <h1 class="profile-h1" id="profileDob">01-01-2003</h1>
+                </div>
+              </div>
+
+              <div class="profile-section-divider">
+                <span>Academic Standing & Performance</span>
+              </div>
+
+              <div class="qualifications-grid">
+                <div class="qual-item">
+                  <div class="qual-icon">📈</div>
+                  <div class="qual-text">
+                    <strong>Cumulative GPA (CGPA)</strong>
+                    <span>Calculated based on results</span>
+                  </div>
+                </div>
+                <div class="qual-item">
+                  <div class="qual-icon">🏆</div>
+                  <div class="qual-text">
+                    <strong>Extracurricular Activities</strong>
+                    <span>Professional Portfolio Sync</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="profile-meta-info">
+                  <div class="meta-item">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                      <span id="profileDept">Department of Computer Science</span>
+                  </div>
+                  <div class="meta-item">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      <span id="profileJoined">Joined: Jan 2024</span>
+                  </div>
+                  <div class="meta-item">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                      <span id="profileEmail">student@jmc.edu</span>
+                  </div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
 
@@ -563,5 +644,6 @@
     <script src="js/pdf-reports.js"></script>
     <script src="js/dashboard.js?v=3.1"></script>
     <script src="js/analytics.js?v=2.0"></script>
+    <script src="js/ai-buddy.js"></script>
   </body>
 </html>

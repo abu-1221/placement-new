@@ -20,6 +20,10 @@ const Test = require('./models/Test');
 const Result = require('./models/Result');
 const ActivityLog = require('./models/ActivityLog');
 const TestAssignment = require('./models/TestAssignment');
+const PlacementDrive = require('./models/PlacementDrive');
+const Certificate = require('./models/Certificate');
+const Notification = require('./models/Notification');
+const ChatHistory = require('./models/ChatHistory');
 
 // ═══════════════ MODEL ASSOCIATIONS ═══════════════
 // Test → TestAssignment (One-to-Many)
@@ -29,6 +33,18 @@ TestAssignment.belongsTo(Test, { foreignKey: 'testId' });
 // Test → Result (One-to-Many)
 Test.hasMany(Result, { foreignKey: 'testId', onDelete: 'CASCADE' });
 Result.belongsTo(Test, { foreignKey: 'testId' });
+
+// User → Certificate (One-to-Many)
+User.hasMany(Certificate, { foreignKey: 'studentUsername', sourceKey: 'username', onDelete: 'CASCADE' });
+Certificate.belongsTo(User, { foreignKey: 'studentUsername', targetKey: 'username' });
+
+// User → Notification (One-to-Many)
+User.hasMany(Notification, { foreignKey: 'recipientUsername', sourceKey: 'username', onDelete: 'CASCADE' });
+Notification.belongsTo(User, { foreignKey: 'recipientUsername', targetKey: 'username' });
+
+// User → ChatHistory (One-to-Many)
+User.hasMany(ChatHistory, { foreignKey: 'username', sourceKey: 'username', onDelete: 'CASCADE' });
+ChatHistory.belongsTo(User, { foreignKey: 'username', targetKey: 'username' });
 
 async function init() {
     try {
@@ -70,8 +86,22 @@ async function init() {
             }
         });
 
+        const staff3 = await User.create({
+            username: 'YMI',
+            password: 'JMC',
+            name: 'YMI Staff',
+            type: 'staff',
+            email: 'ymi@jmc.edu',
+            details: {
+                staffCode: 'YMI',
+                department: 'Jamal Mohamed College',
+                designation: 'Placement Coordinator'
+            }
+        });
+
         console.log(`  ✓ ${staff1.name} (${staff1.username})`);
         console.log(`  ✓ ${staff2.name} (${staff2.username})`);
+        console.log(`  ✓ ${staff3.name} (${staff3.username})`);
 
         // ═══════════════ STUDENT ACCOUNTS ═══════════════
         console.log('\n── Creating Student Accounts ──');
@@ -228,6 +258,23 @@ async function init() {
                     batch: '2022-2026',
                     streamType: 'UG',
                     dob: '2004-08-25'
+                }
+            },
+            {
+                username: '23ucs006',
+                password: '11111111',
+                name: 'Student 23ucs006',
+                type: 'student',
+                email: '23ucs006@student.jmc.edu',
+                details: {
+                    registerNumber: '23ucs006',
+                    department: 'Computer Science',
+                    year: '2',
+                    section: 'A',
+                    gender: 'Male',
+                    batch: '2023-2026',
+                    streamType: 'UG',
+                    dob: '01-01-2005'
                 }
             },
             {
@@ -588,6 +635,60 @@ async function init() {
         ]);
         console.log('  ✓ 13 activity log entries created');
 
+        // ═══════════════ PLACEMENT DRIVES ═══════════════
+        console.log('\n── Creating Placement Drives ──');
+        await PlacementDrive.bulkCreate([
+            {
+                company: 'Amazon',
+                role: 'SDE Intern',
+                salary: '₹80,000/month',
+                deadline: new Date(Date.now() + 86400000 * 10),
+                description: 'Summer internship for pre-final year students. High conversion rate to PPO.',
+                applyLink: 'https://amazon.jobs/internships',
+                eligibility: { departments: ['Computer Science', 'Information Technology'], minCgpa: 8.0 }
+            },
+            {
+                company: 'Zoho Corporation',
+                role: 'Software Developer',
+                salary: '₹6.5 - ₹12 LPA',
+                deadline: new Date(Date.now() + 86400000 * 5),
+                description: 'Full-time software engineering roles across Zoho applications.',
+                applyLink: 'https://zoho.com/careers',
+                eligibility: { departments: [], minCgpa: 7.0 }
+            }
+        ]);
+        console.log('  ✓ 2 placement drives created');
+
+        // ═══════════════ NOTIFICATIONS ═══════════════
+        console.log('\n── Creating Sample Notifications ──');
+        await Notification.bulkCreate([
+            {
+                recipientUsername: '2024CSE001',
+                title: 'New Mock Test Assigned',
+                message: 'You have been assigned to the Google Aptitude Assessment. Complete it before Friday.',
+                type: 'test',
+                actionUrl: '/student-dashboard.html?section=availability'
+            },
+            {
+                recipientUsername: '2024CSE002',
+                title: 'Merit Certificate Generated',
+                message: 'Congratulations! Your performance in the TCS exam earned you a Merit Certificate.',
+                type: 'success',
+                actionUrl: '/student-dashboard.html?section=reports'
+            }
+        ]);
+        console.log('  ✓ 2 sample notifications created');
+
+        // ═══════════════ CERTIFICATES ═══════════════
+        console.log('\n── Creating Sample Certificates ──');
+        await Certificate.create({
+            studentUsername: '2024CSE002',
+            testId: test2.id,
+            serialNumber: 'JMC-CERT-2026-001',
+            metadata: { score: 83, testName: test2.name, company: test2.company }
+        });
+        console.log('  ✓ 1 merit certificate generated');
+
         // ═══════════════ FINAL SUMMARY ═══════════════
         const totalUsers = await User.count();
         const totalStudents = await User.count({ where: { type: 'student' } });
@@ -609,9 +710,11 @@ async function init() {
         console.log('║  LOGIN CREDENTIALS                               ║');
         console.log('║──────────────────────────────────────────────────║');
         console.log('║  STAFF:                                          ║');
+        console.log('║    YMI    / JMC          (Permanent Staff)       ║');
         console.log('║    STF001 / password123  (Dr. Iqbal — CS HOD)    ║');
         console.log('║    STF002 / password123  (Prof. Meera — IT)      ║');
         console.log('║  STUDENTS:                                       ║');
+        console.log('║    23ucs006 / 11111111   (Permanent Student)     ║');
         console.log('║    student_demo_01 / 123456  (Demo)              ║');
         console.log('║    2024CSE001 / DOB: 2006-05-24 (Abu Bakar)      ║');
         console.log('║    2024CSE002 / DOB: 2005-03-15 (Priya)          ║');

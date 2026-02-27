@@ -240,6 +240,23 @@ class JMCTestDB {
             throw error;
         }
     }
+
+    /**
+     * Execute Code (Backend VM)
+     */
+    async executeCode(code, language = 'javascript') {
+        try {
+            const response = await fetch(`${this.API_URL}/code/execute`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code, language })
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('[JMCTestDB] CodeExecution Error:', error);
+            return { success: false, error: 'Connection to execution engine lost.' };
+        }
+    }
 }
 
 // Export global instance

@@ -41,12 +41,14 @@ Server runs on `http://localhost:3000`
 ### Staff
 | Username | Password     | Name               | Department         |
 |----------|-------------|--------------------|--------------------|
+| YMI      | JMC         | YMI Staff          | Jamal Mohamed College |
 | STF001   | password123 | Dr. Iqbal Ahmed    | Computer Science   |
 | STF002   | password123 | Prof. Meera Krishnan | Information Technology |
 
 ### Students (Password = DOB in DDMMYYYY format)
 | Username      | DOB (Password) | Name              | Department          | Year |
 |---------------|---------------|-------------------|---------------------|------|
+| 23ucs006      | 11111111      | Student 23ucs006  | Computer Science    | 2    |
 | student_demo_01 | 123456      | Demo Student      | Computer Science    | 4    |
 | 2024CSE001    | 24052006      | Abu Bakar S       | Computer Science    | 4    |
 | 2024CSE002    | 15031005      | Priya Dharshini R | Computer Science    | 4    |
