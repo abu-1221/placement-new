@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard | PlaceMe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo">
+                <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="url(#lg4)"/><path d="M12 28V12h6.5c1.5 0 2.7.4 3.6 1.2.9.8 1.4 1.9 1.4 3.3 0 1.4-.5 2.5-1.4 3.3-.9.8-2.1 1.2-3.6 1.2H15.5V28H12z" fill="#fff"/><circle cx="28" cy="24" r="6" fill="rgba(255,255,255,0.3)"/><path d="M26 24l2 2 4-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="lg4" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs></svg>
+                <span>PlaceMe</span>
+            </a>
+            <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="create-test">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                <span>Create Test</span>
+            </a>
+            <a href="#" class="nav-item" data-section="manage-tests">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span>Manage Tests</span>
+            </a>
+            <a href="#" class="nav-item" data-section="students">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                <span>Students</span>
+            </a>
+            <a href="#" class="nav-item" data-section="analytics">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span>Analytics</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logoutBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <button class="menu-toggle" id="menuToggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div class="header-left">
+                <h1 id="sectionTitle">Create Test</h1>
+            </div>
+            <div class="header-right">
+                <a href="analytics-viewer.html" class="btn btn-ghost" style="margin-right: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    Advanced Analytics
+                </a>
+                <div class="user-info">
+                    <div class="user-avatar staff" id="userAvatar">AU</div>
+                    <div class="user-details">
+                        <span class="user-name" id="userName">Admin User</span>
+                        <span class="user-role">Staff</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Create Test Section -->
+            <section class="content-section active" id="create-test-section">
+                <div class="section-intro">
+                    <h2>Create New Test</h2>
+                    <p>Design placement tests for students</p>
+                </div>
+                <div class="create-test-container">
+                    <form id="createTestForm" class="test-form">
+                        <div class="form-card">
+                            <h3>Test Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Test Name</label>
+                                    <input type="text" class="form-input" id="testName" placeholder="e.g., Technical Round 1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Company</label>
+                                    <input type="text" class="form-input" id="testCompany" placeholder="e.g., Google" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" class="form-input" id="testDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Duration (minutes)</label>
+                                    <input type="number" class="form-input" id="testDuration" placeholder="60" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-input" id="testDescription" rows="3" placeholder="Brief description of the test"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-card">
+                            <h3>Questions</h3>
+                            <div id="questionsContainer">
+                                <div class="question-item" data-question="1">
+                                    <div class="question-header">
+                                        <span class="question-number">Question 1</span>
+                                        <button type="button" class="remove-question-btn">×</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Question Type</label>
+                                        <select class="form-input question-type-select" onchange="updateQuestionFields(this)">
+                                            <option value="mcq">Multiple Choice (MCQ)</option>
+                                            <option value="truefalse">True/False</option>
+                                            <option value="fillblank">Fill in the Blank</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Question Text</label>
+                                        <input type="text" class="form-input question-text" placeholder="Enter question" required>
+                                    </div>
+                                    <div class="question-options-container">
+                                        <!-- MCQ Options (default) -->
+                                        <div class="mcq-options">
+                                            <div class="options-grid">
+                                                <input type="text" class="form-input" placeholder="Option A" required>
+                                                <input type="text" class="form-input" placeholder="Option B" required>
+                                                <input type="text" class="form-input" placeholder="Option C" required>
+                                                <input type="text" class="form-input" placeholder="Option D" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">Correct Answer</label>
+                                                <select class="form-input answer-select">
+                                                    <option value="A">Option A</option>
+                                                    <option value="B">Option B</option>
+                                                    <option value="C">Option C</option>
+                                                    <option value="D">Option D</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-glass add-question-btn" id="addQuestionBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Add Question
+                            </button>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Create Test</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Manage Tests Section -->
+            <section class="content-section" id="manage-tests-section">
+                <div class="section-intro">
+                    <h2>Manage Tests</h2>
+                    <p>View and manage all created tests</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+                        <div class="stat-info"><span class="stat-value">24</span><span class="stat-label">Total Tests</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+                        <div class="stat-info"><span class="stat-value">8</span><span class="stat-label">Active</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                        <div class="stat-info"><span class="stat-value">156</span><span class="stat-label">Participants</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/></svg></div>
+                        <div class="stat-info"><span class="stat-value">72%</span><span class="stat-label">Pass Rate</span></div>
+                    </div>
+                </div>
+                <div class="tests-table-container">
+                    <div class="table-header">
+                        <input type="text" class="form-input search-input" placeholder="Search tests...">
+                        <select class="form-input filter-select">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Test Name</th>
+                                <th>Company</th>
+                                <th>Date</th>
+                                <th>Participants</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="testsTableBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray-500);">Loading tests...</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Students Management Section -->
+            <section class="content-section" id="students-section">
+                <div class="section-intro">
+                    <h2>Students Management</h2>
+                    <p>View and manage all registered students</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                        <div class="stat-info"><span class="stat-value" id="totalStudents">0</span><span class="stat-label">Total Students</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></div>
+                        <div class="stat-info"><span class="stat-value" id="totalDepartments">0</span><span class="stat-label">Departments</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+                        <div class="stat-info"><span class="stat-value" id="activeStudents">0</span><span class="stat-label">Active</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/></svg></div>
+                        <div class="stat-info"><span class="stat-value" id="placedStudents">0</span><span class="stat-label">Placed</span></div>
+                    </div>
+                </div>
+                <div class="tests-table-container">
+                    <div class="table-header">
+                        <input type="text" class="form-input search-input" id="studentSearch" placeholder="Search by name, register number...">
+                        <select class="form-input filter-select" id="departmentFilter">
+                            <option value="">All Departments</option>
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                            <option value="EEE">EEE</option>
+                            <option value="MECH">MECH</option>
+                            <option value="CIVIL">CIVIL</option>
+                            <option value="IT">IT</option>
+                        </select>
+                        <select class="form-input filter-select" id="classFilter">
+                            <option value="">All Classes</option>
+                        </select>
+                        <select class="form-input filter-select" id="yearFilter">
+                            <option value="">All Years</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                        <select class="form-input filter-select" id="batchFilter">
+                            <option value="">All Batches</option>
+                            <option value="2023-2026">2023-2026</option>
+                            <option value="2024-2027">2024-2027</option>
+                            <option value="2025-2028">2025-2028</option>
+                            <option value="2026-2029">2026-2029</option>
+                            <option value="2027-2030">2027-2030</option>
+                        </select>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Register No</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Year</th>
+                                <th>Class</th>
+                                <th>Batch</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Tests Taken</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <tr>
+                                <td colspan="9" style="text-align: center; padding: 2rem; color: var(--gray-500);">No students registered yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section class="content-section" id="analytics-section">
+                <div class="section-intro">
+                    <h2>Test Analytics</h2>
+                    <p>Detailed performance analysis for each test</p>
+                    <div style="margin-top: 1rem;">
+                        <select class="form-input" id="analyticsTestSelect" style="max-width: 300px;">
+                            <option value="">Select a test to view analytics</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="analyticsContent" style="display: none;">
+                    <div class="analytics-grid">
+                        <div class="chart-card large">
+                            <h3>Score Distribution</h3>
+                            <div class="chart-container">
+                                <canvas id="scoreDistributionChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Test Attendance</h3>
+                            <div class="chart-container">
+                                <canvas id="attendanceChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Pass vs Fail</h3>
+                            <div class="chart-container">
+                                <canvas id="passFailChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card large">
+                            <h3>Month-wise Performance Average</h3>
+                            <div class="chart-container">
+                                <canvas id="monthlyAverageChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="insight-icon up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/></svg></div>
+                            <div class="insight-content">
+                                <h4>Highest Score</h4>
+                                <p><strong id="highestScoreVal">-</strong></p>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-icon star"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01z"/></svg></div>
+                            <div class="insight-content">
+                                <h4>Average Score</h4>
+                                <p><strong id="averageScoreVal">-</strong></p>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-icon target"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+                            <div class="insight-content">
+                                <h4>Lowest Score</h4>
+                                <p><strong id="lowestScoreVal">-</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card large" style="margin-top: 2rem;">
+                        <h3>Student Performance Details</h3>
+                        <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Date Taken</th>
+                                        <th>Score</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="testResultsTableBody">
+                                    <tr><td colspan="4" style="text-align: center;">No data available</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="noAnalyticsMsg" style="text-align: center; padding: 4rem; color: var(--gray-500);">
+                    <p>Please select a test from the dropdown above to view analytics.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/staff-dashboard.js"></script>
+</body>
+</html>

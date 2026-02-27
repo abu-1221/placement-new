@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Register for JMC-TEST - India's Premier Student Placement Portal"
+    />
+    <title>Register | JMC-TEST</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/auth-professional.css" />
+  </head>
+  <body>
+    <!-- Main Container -->
+    <div class="auth-container">
+      <div class="auth-card wide">
+        <!-- Header -->
+        <div class="auth-header">
+          <a href="index.html" class="auth-logo">
+            <img src="logo.png" class="brand-logo" alt="JMC-TEST Logo" />
+          </a>
+          <h1>Create Account</h1>
+          <p>Join JMC-TEST and start your journey</p>
+        </div>
+
+        <!-- User Type Tabs -->
+        <div class="auth-tabs">
+          <button class="tab-btn active" data-type="student">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+            <span>Student</span>
+          </button>
+          <button class="tab-btn" data-type="staff">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <span>Staff</span>
+          </button>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="registerForm" autocomplete="off">
+          <input type="hidden" id="userType" value="student" />
+
+          <!-- Common Fields -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fullName">Full Name *</label>
+              <div class="input-wrapper">
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <input
+                  type="text"
+                  id="fullName"
+                  class="form-input"
+                  placeholder="Enter your full name"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address *</label>
+              <div class="input-wrapper">
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-input"
+                  placeholder="Enter your email"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Student Fields -->
+          <div id="studentFields">
+            <div class="section-title"><span>Academic Details</span></div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="registerNumber"
+                  >Register Number *</label
+                >
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="9" y1="9" x2="15" y2="9" />
+                    <line x1="9" y1="13" x2="15" y2="13" />
+                    <line x1="9" y1="17" x2="13" y2="17" />
+                  </svg>
+                  <input
+                    type="text"
+                    id="registerNumber"
+                    class="form-input"
+                    placeholder="e.g., 2024CSE001"
+                    autocomplete="off"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="department">Department *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                    <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+                  </svg>
+                  <select id="department" class="form-input" required>
+                    <option value="">Select Department</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="English">English</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="Arabic">Arabic</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="year">Year *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  <select id="year" class="form-input" required>
+                    <option value="">Select Year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="section">Section *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                  </svg>
+                  <select id="section" class="form-input" required>
+                    <option value="">Select Section</option>
+                    <option value="A">Section A</option>
+                    <option value="B">Section B</option>
+                    <option value="C">Section C</option>
+                    <option value="D">Section D</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="gender">Gender *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M12 8v8" />
+                    <path d="M8 12h8" />
+                  </svg>
+                  <select id="gender" class="form-input" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="batch">Batch *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  <select id="batch" class="form-input" required>
+                    <option value="">Select Batch</option>
+                    <option value="2022-2025">2022-2025</option>
+                    <option value="2022-2026">2022-2026</option>
+                    <option value="2023-2026">2023-2026</option>
+                    <option value="2023-2027">2023-2027</option>
+                    <option value="2024-2027">2024-2027</option>
+                    <option value="2024-2028">2024-2028</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="streamType">Stream Type *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                  <select id="streamType" class="form-input" required>
+                    <option value="">Select Stream</option>
+                    <option value="Aided">Aided</option>
+                    <option value="Self-Financed">Self-Financed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="dob">Date of Birth *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  <input type="date" id="dob" class="form-input" required />
+                </div>
+                <div
+                  class="form-hint"
+                  style="font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem"
+                >
+                  This will be used as your password (DDMMYYYY format)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Staff Fields -->
+          <div id="staffFields" style="display: none">
+            <div class="section-title"><span>Staff Details</span></div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="staffCode">Staff Code *</label>
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="9" y1="9" x2="15" y2="9" />
+                    <line x1="9" y1="13" x2="15" y2="13" />
+                  </svg>
+                  <input
+                    type="text"
+                    id="staffCode"
+                    class="form-input"
+                    placeholder="e.g., STF001"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="staffDepartment"
+                  >Department *</label
+                >
+                <div class="input-wrapper">
+                  <svg
+                    class="input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+                    <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+                  </svg>
+                  <select id="staffDepartment" class="form-input">
+                    <option value="">Select Department</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="English">English</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="Arabic">Arabic</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="designation">Designation *</label>
+              <div class="input-wrapper">
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M20 7h-4V3H8v4H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"
+                  />
+                </svg>
+                <select id="designation" class="form-input">
+                  <option value="">Select Designation</option>
+                  <option value="HOD">Head of Department</option>
+                  <option value="Professor">Professor</option>
+                  <option value="Associate Professor">
+                    Associate Professor
+                  </option>
+                  <option value="Assistant Professor">
+                    Assistant Professor
+                  </option>
+                  <option value="Placement Officer">Placement Officer</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="staffPassword">Password *</label>
+              <div class="input-wrapper">
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0110 0v4" />
+                </svg>
+                <input
+                  type="password"
+                  id="staffPassword"
+                  class="form-input"
+                  placeholder="Create a password"
+                  autocomplete="new-password"
+                  style="padding-right: 2.75rem"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="toggleStaffPassword"
+                >
+                  <svg
+                    class="eye-open"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  <svg
+                    class="eye-closed"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    style="display: none"
+                  >
+                    <path
+                      d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"
+                    />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                </button>
+              </div>
+              <div class="password-strength" id="passwordStrength">
+                <!-- Strength bar logic removed for simplicity in UI request, or can add back if desired. Keeping it minimal/pro -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Terms -->
+          <div style="margin: 1.5rem 0">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" id="agreeTerms" />
+              <span
+                >I agree to the <a href="#" class="auth-link">Terms</a> and
+                <a href="#" class="auth-link">Privacy Policy</a></span
+              >
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" id="registerBtn">
+            Create Account
+          </button>
+
+          <div class="alert" id="authAlert"></div>
+        </form>
+
+        <div class="divider"><span>Already registered?</span></div>
+
+        <a href="login.html" class="btn-secondary">Sign In</a>
+      </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (typeof initRegisterForm === 'function') initRegisterForm();
+        if (typeof initAuthTabs === 'function') initAuthTabs();
+        if (typeof initPasswordToggle === 'function') initPasswordToggle();
+      });
+    </script>
+  </body>
+</html>

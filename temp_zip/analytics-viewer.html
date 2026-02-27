@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Analytics Viewer | PlaceMe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .analytics-viewer {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        .page-header p {
+            color: var(--gray-400);
+            font-size: 1.125rem;
+        }
+        .analytics-section {
+            margin-bottom: 3rem;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            color: white;
+        }
+        .badge {
+            padding: 0.375rem 0.875rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge.basic { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .badge.advanced { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .badge.ml { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+        .chart-item {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .chart-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(102,126,234,0.5);
+            box-shadow: 0 8px 30px rgba(102,126,234,0.2);
+        }
+        .chart-item h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            color: var(--gray-200);
+        }
+        .chart-image {
+            width: 100%;
+            border-radius: 0.5rem;
+            background: white;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chart-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .loading {
+            color: var(--gray-500);
+            text-align: center;
+            padding: 3rem;
+        }
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .error {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .control-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--gray-300);
+        }
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .meta-item {
+            font-size: 0.875rem;
+        }
+        .meta-item strong {
+            color: var(--primary-400);
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-400);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            background: rgba(102,126,234,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="analytics-viewer">
+        <a href="staff-dashboard.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Back to Dashboard
+        </a>
+        
+        <div class="page-header">
+            <h1>Advanced Analytics Viewer</h1>
+            <p>Comprehensive placement analytics powered by Python Matplotlib & Machine Learning</p>
+        </div>
+
+        <!-- Basic Charts Section -->
+        <div class="analytics-section">
+            <div class="section-header">
+                <h2>Basic Analytics Charts</h2>
+                <span class="badge basic">Standard</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-item" id="chart-line">
+                    <h3>📈 Monthly Placement Trends</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-bar">
+                    <h3>📊 Department-wise Placements</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-pie">
+                    <h3>🥧 Company Distribution</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-scatter">
+                    <h3>🎯 Scores vs Packages</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Charts Section -->
+        <div class="analytics-section">
+            <div class="section-header">
+                <h2>Advanced Visualizations</h2>
+                <span class="badge advanced">Professional</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-item" id="chart-box">
+                    <h3>📦 Skill Score Distribution</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-histogram">
+                    <h3>📊 Test Score Frequency</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-heatmap">
+                    <h3>🔥 Department-Skill Heatmap</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-radar">
+                    <h3>🎯 Skills Radar Comparison</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ML Analytics Section -->
+        <div class="analytics-section">
+            <div class="section-header">
+                <h2>Machine Learning Analytics</h2>
+                <span class="badge ml">AI Powered</span>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label">Test Score (for Prediction)</label>
+                    <input type="number" id="testScore" class="form-input" value="75" min="0" max="100">
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Student Name (for Trend)</label>
+                    <input type="text" id="studentName" class="form-input" value="John Doe">
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="loadMLAnalytics()">
+                        🔄 Generate ML Analytics
+                    </button>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-item" id="chart-prediction">
+                    <h3>🎲 Placement Probability Prediction</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-trend">
+                    <h3>📈 Performance Trend Analysis</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-gap">
+                    <h3>🎯 Skills Gap Analysis</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="chart-item" id="chart-comparative">
+                    <h3>⚖️ Comparative Performance</h3>
+                    <div class="chart-image loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api/analytics';
+
+        // Load basic charts
+        async function loadChart(chartId, endpoint, method = 'GET', body = null) {
+            const container = document.querySelector(`#${chartId} .chart-image`);
+            try {
+                container.innerHTML = '<div class="spinner"></div>';
+                
+                const options = {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' }
+                };
+                
+                if (body && method === 'POST') {
+                    options.body = JSON.stringify(body);
+                }
+                
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                const data = await response.json();
+                
+                if (data.success) {
+                    container.innerHTML = `<img src="${data.image}" alt="Chart">`;
+                    
+                    // Add metadata if available
+                    if (data.data || data.prediction) {
+                        const metaDiv = document.createElement('div');
+                        metaDiv.className = 'meta-info';
+                        
+                        if (data.prediction) {
+                            metaDiv.innerHTML = `
+                                <div class="meta-item"><strong>Prediction:</strong> ${data.prediction.will_be_placed ? 'Will be placed' : 'Needs improvement'}</div>
+                                <div class="meta-item"><strong>Probability:</strong> ${data.prediction.placement_probability.toFixed(1)}%</div>
+                                <div class="meta-item"><strong>Recommendation:</strong> ${data.prediction.recommendation}</div>
+                            `;
+                        } else if (data.data.correlation !== undefined) {
+                            metaDiv.innerHTML = `
+                                <div class="meta-item"><strong>Correlation:</strong> ${data.data.correlation.toFixed(3)}</div>
+                            `;
+                        } else if (data.data.mean !== undefined) {
+                            metaDiv.innerHTML = `
+                                <div class="meta-item"><strong>Mean:</strong> ${data.data.mean.toFixed(1)}</div>
+                                <div class="meta-item"><strong>Median:</strong> ${data.data.median.toFixed(1)}</div>
+                                <div class="meta-item"><strong>Std Dev:</strong> ${data.data.std_dev.toFixed(1)}</div>
+                            `;
+                        } else if (data.data.trend) {
+                            metaDiv.innerHTML = `
+                                <div class="meta-item"><strong>Trend:</strong> ${data.data.trend}</div>
+                                <div class="meta-item"><strong>Average:</strong> ${data.data.avg_score.toFixed(1)}</div>
+                                <div class="meta-item"><strong>Improvement:</strong> ${data.data.improvement > 0 ? '+' : ''}${data.data.improvement.toFixed(1)}</div>
+                            `;
+                        } else if (data.data.readiness_score !== undefined) {
+                            metaDiv.innerHTML = `
+                                <div class="meta-item"><strong>Readiness Score:</strong> ${data.data.readiness_score.toFixed(1)}%</div>
+                                <div class="meta-item"><strong>High Priority:</strong> ${data.data.recommendations.filter(r => r.priority === 'High').length}</div>
+                            `;
+                        } else if (data.data.percentile !== undefined) {
+                            metaDiv.innerHTML = `
+                                <div class="meta-item"><strong>Percentile:</strong> ${data.data.percentile}th</div>
+                            `;
+                        }
+                        
+                        if (metaDiv.innerHTML) {
+                            container.parentElement.appendChild(metaDiv);
+                        }
+                    }
+                } else {
+                    throw new Error(data.error || 'Unknown error');
+                }
+            } catch (error) {
+                container.innerHTML = `<div class="error">❌ Error loading chart: ${error.message}<br><small>Make sure Python analytics server is running on port 5000</small></div>`;
+            }
+        }
+
+        // Load all basic and advanced charts on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Basic charts
+            loadChart('chart-line', '/line-chart');
+            loadChart('chart-bar', '/bar-chart');
+            loadChart('chart-pie', '/pie-chart');
+            loadChart('chart-scatter', '/scatter-plot');
+            
+            // Advanced charts
+            loadChart('chart-box', '/box-plot');
+            loadChart('chart-histogram', '/histogram');
+            loadChart('chart-heatmap', '/heatmap');
+            loadChart('chart-radar', '/radar-chart');
+            
+            // ML charts
+            loadMLAnalytics();
+        });
+
+        // Load ML analytics
+        function loadMLAnalytics() {
+            const testScore = parseInt(document.getElementById('testScore').value) || 75;
+            const studentName = document.getElementById('studentName').value || 'Student';
+            
+            loadChart('chart-prediction', '/placement-prediction', 'POST', { test_score: testScore });
+            loadChart('chart-trend', '/performance-trend', 'POST', { student_name: studentName });
+            loadChart('chart-gap', '/skills-gap', 'POST', {
+                skills: {
+                    'DSA': 75,
+                    'Web Dev': 65,
+                    'SQL': 60,
+                    'Communication': 80,
+                    'Problem Solving': 70
+                }
+            });
+            loadChart('chart-comparative', '/comparative-analysis', 'POST', {});
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Test | PlaceMe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        body { background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); min-height: 100vh; }
+        .test-container { max-width: 900px; margin: 2rem auto; padding: 2rem; }
+        .test-header { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; }
+        .test-header h1 { font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.5rem; }
+        .test-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .info-item { display: flex; align-items: center; gap: 0.5rem; color: var(--gray-400); }
+        .info-item svg { width: 20px; height: 20px; stroke: var(--primary-400); }
+        .timer-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-top: 1rem; }
+        .timer-fill { height: 100%; background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444); transition: width 1s linear; }
+        .question-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; }
+        .question-number { color: var(--primary-400); font-weight: 600; margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.125rem; margin-bottom: 1.5rem; line-height: 1.6; }
+        .options-list { display: flex; flex-direction: column; gap: 1rem; }
+        .option-item { position: relative; }
+        .option-item input[type="radio"] { position: absolute; opacity: 0; }
+        .option-label { display: flex; align-items: center; padding: 1rem 1.5rem; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 0.75rem; cursor: pointer; transition: all 0.3s ease; }
+        .option-label:hover { background: rgba(255,255,255,0.08); border-color: rgba(102,126,234,0.5); }
+        .option-item input[type="radio"]:checked + .option-label { background: rgba(102,126,234,0.2); border-color: #667eea; }
+        .option-letter { width: 35px; height: 35px; border-radius: 50%; background: rgba(102,126,234,0.2); display: flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 1rem; color: var(--primary-400); }
+        .option-item input[type="radio"]:checked + .option-label .option-letter { background: #667eea; color: white; }
+        .navigation { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
+        .question-progress { color: var(--gray-400); font-size: 0.875rem; }
+        .nav-buttons { display: flex; gap: 1rem; }
+        .results-container { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 3rem; text-align: center; }
+        .score-circle { width: 200px; height: 200px; margin: 0 auto 2rem; border-radius: 50%; background: conic-gradient(#10b981 0deg, #10b981 0deg, rgba(255,255,255,0.1) 0deg); display: flex; align-items: center; justify-content: center; position: relative; }
+        .score-inner { width: 170px; height: 170px; border-radius: 50%; background: #0f0f23; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .score-value { font-size: 3rem; font-weight: 700; font-family: var(--font-display); }
+        .score-label { font-size: 0.875rem; color: var(--gray-400); margin-top: 0.5rem; }
+        .results-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+        .stat-box { padding: 1.5rem; background: rgba(255,255,255,0.03); border-radius: 0.75rem; }
+        .stat-box h3 { font-size: 0.875rem; color: var(--gray-400); margin-bottom: 0.5rem; }
+        .stat-box p { font-size: 1.75rem; font-weight: 700; font-family: var(--font-display); }
+        .stat-box.correct p { color: #10b981; }
+        .stat-box.wrong p { color: #ef4444; }
+        .stat-box.percentage p { color: var(--primary-400); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary-400); text-decoration: none; margin-bottom: 2rem; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: all 0.3s ease; }
+        .back-link:hover { background: rgba(102,126,234,0.1); }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <a href="student-dashboard.html" class="back-link" id="backLink">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Back to Dashboard
+        </a>
+
+        <!-- Test Header -->
+        <div class="test-header" id="testHeader">
+            <h1 id="testTitle">Loading Test...</h1>
+            <p id="testDescription" style="color: var(--gray-400); margin-top: 0.5rem;"></p>
+            <div class="test-info">
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                    <span id="testDuration">0 minutes</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                    <span id="testQuestions">0 questions</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span id="testCompany">Company</span>
+                </div>
+            </div>
+            <div class="timer-bar">
+                <div class="timer-fill" id="timerFill" style="width: 100%;"></div>
+            </div>
+            <div style="text-align: right; margin-top: 0.5rem; color: var(--gray-400); font-size: 0.875rem;">
+                <span id="timeRemaining">Time Remaining: --:--</span>
+            </div>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questionsContainer">
+            <!-- Questions will be loaded here -->
+        </div>
+
+        <!-- Results Container -->
+        <div id="resultsContainer" class="results-container hidden">
+            <h1 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 1rem;">Test Completed!</h1>
+            <div class="score-circle" id="scoreCircle">
+                <div class="score-inner">
+                    <div class="score-value" id="scoreValue">0%</div>
+                    <div class="score-label">Your Score</div>
+                </div>
+            </div>
+            <div class="results-stats">
+                <div class="stat-box correct">
+                    <h3>Correct Answers</h3>
+                    <p id="correctCount">0</p>
+                </div>
+                <div class="stat-box wrong">
+                    <h3>Wrong Answers</h3>
+                    <p id="wrongCount">0</p>
+                </div>
+                <div class="stat-box percentage">
+                    <h3>Percentage</h3>
+                    <p id="percentageValue">0%</p>
+                </div>
+            </div>
+            <p style="color: var(--gray-400); margin-bottom: 2rem;" id="resultMessage"></p>
+            <button class="btn btn-primary" onclick="window.location.href='student-dashboard.html'">
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentTest = null;
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let startTime = null;
+        let timerInterval = null;
+
+        // Load test from URL parameter
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const testId = urlParams.get('testId');
+            
+            if (!testId) {
+                alert('No test specified!');
+                window.location.href = 'student-dashboard.html';
+                return;
+            }
+
+            loadTest(testId);
+        });
+
+        function loadTest(testId) {
+            const tests = JSON.parse(localStorage.getItem('placeme_tests') || '[]');
+            currentTest = tests.find(t => t.id == testId);
+
+            if (!currentTest) {
+                alert('Test not found!');
+                window.location.href = 'student-dashboard.html';
+                return;
+            }
+
+            // Display test info
+            document.getElementById('testTitle').textContent = currentTest.name;
+            document.getElementById('testDescription').textContent = currentTest.description || '';
+            document.getElementById('testDuration').textContent = `${currentTest.duration} minutes`;
+            document.getElementById('testQuestions').textContent = `${currentTest.questions.length} questions`;
+            document.getElementById('testCompany').textContent = currentTest.company;
+
+            // Start timer
+            startTime = Date.now();
+            startTimer(currentTest.duration * 60); // Convert to seconds
+
+            // Load first question
+            showQuestion(0);
+        }
+
+        function startTimer(durationSeconds) {
+            const endTime = startTime + (durationSeconds * 1000);
+            
+            timerInterval = setInterval(() => {
+                const now = Date.now();
+                const remaining = Math.max(0, endTime - now);
+                const remainingSeconds = Math.floor(remaining / 1000);
+                
+                const minutes = Math.floor(remainingSeconds / 60);
+                const seconds = remainingSeconds % 60;
+                
+                document.getElementById('timeRemaining').textContent = 
+                    `Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                const progress = (remaining / (durationSeconds * 1000)) * 100;
+                document.getElementById('timerFill').style.width = progress + '%';
+                
+                if (remaining === 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            const question = currentTest.questions[index];
+            
+            const html = `
+                <div class="question-card">
+                    <div class="question-number">Question ${index + 1} of ${currentTest.questions.length}</div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="options-list">
+                        ${question.options.map((option, i) => `
+                            <div class="option-item">
+                                <input type="radio" name="question-${index}" id="option-${index}-${i}" 
+                                       value="${String.fromCharCode(65 + i)}" 
+                                       ${answers[index] === String.fromCharCode(65 + i) ? 'checked' : ''}
+                                       onchange="saveAnswer(${index}, '${String.fromCharCode(65 + i)}')">
+                                <label class="option-label" for="option-${index}-${i}">
+                                    <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                                    <span>${option}</span>
+                                </label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="navigation">
+                        <div class="question-progress">
+                            ${Object.keys(answers).length} of ${currentTest.questions.length} answered
+                        </div>
+                        <div class="nav-buttons">
+                            ${index > 0 ? '<button class="btn btn-ghost" onclick="showQuestion(' + (index - 1) + ')">Previous</button>' : ''}
+                            ${index < currentTest.questions.length - 1 ? 
+                                '<button class="btn btn-primary" onclick="showQuestion(' + (index + 1) + ')">Next</button>' :
+                                '<button class="btn btn-primary" onclick="confirmSubmit()">Submit Test</button>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('questionsContainer').innerHTML = html;
+        }
+
+        function saveAnswer(questionIndex, answer) {
+            answers[questionIndex] = answer;
+        }
+
+        function confirmSubmit() {
+            const answered = Object.keys(answers).length;
+            const total = currentTest.questions.length;
+            
+            if (answered < total) {
+                if (!confirm(`You have only answered ${answered} out of ${total} questions. Do you want to submit anyway?`)) {
+                    return;
+                }
+            }
+            
+            submitTest();
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            
+            // Calculate results
+            let correct = 0;
+            currentTest.questions.forEach((q, i) => {
+                if (answers[i] === q.answer) {
+                    correct++;
+                }
+            });
+            
+            const total = currentTest.questions.length;
+            const percentage = Math.round((correct / total) * 100);
+            const timeTaken = Math.round((Date.now() - startTime) / 1000 / 60); // minutes
+            
+            // Save result
+            const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+            const result = {
+                testId: currentTest.id,
+                testName: currentTest.name,
+                company: currentTest.company,
+                date: new Date().toISOString(),
+                score: percentage,
+                correct: correct,
+                total: total,
+                timeTaken: timeTaken,
+                status: percentage >= 60 ? 'passed' : 'failed'
+            };
+            
+            // Update user's test results
+            const storedUsers = JSON.parse(localStorage.getItem('placeme_users') || '{"students":[],"staff":[]}');
+            const studentIndex = storedUsers.students.findIndex(s => s.username === user.username);
+            
+            if (studentIndex !== -1) {
+                if (!storedUsers.students[studentIndex].testsCompleted) {
+                    storedUsers.students[studentIndex].testsCompleted = [];
+                }
+                storedUsers.students[studentIndex].testsCompleted.push(result);
+                localStorage.setItem('placeme_users', JSON.stringify(storedUsers));
+            }
+            
+            // Also update session
+            if (!user.testsCompleted) user.testsCompleted = [];
+            user.testsCompleted.push(result);
+            sessionStorage.setItem('user', JSON.stringify(user));
+            
+            // Show notification
+            showNotification(
+                'Test Submitted Successfully!',
+                `Score: ${percentage}% (${correct}/${total} correct)`,
+                percentage >= 60 ? 'success' : 'error'
+            );
+            
+            // Show results
+            showResults(correct, total, percentage);
+        }
+
+        function showResults(correct, total, percentage) {
+            document.getElementById('testHeader').classList.add('hidden');
+            document.getElementById('questionsContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+            document.getElementById('backLink').classList.add('hidden');
+            
+            // Animate score circle
+            const degrees = (percentage / 100) * 360;
+            document.getElementById('scoreCircle').style.background = 
+                `conic-gradient(${percentage >= 60 ? '#10b981' : '#ef4444'} ${degrees}deg, rgba(255,255,255,0.1) ${degrees}deg)`;
+            
+            document.getElementById('scoreValue').textContent = percentage + '%';
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('wrongCount').textContent = total - correct;
+            document.getElementById('percentageValue').textContent = percentage + '%';
+            
+            const message = percentage >= 90 ? 'Excellent! Outstanding performance!' :
+                           percentage >= 75 ? 'Great job! Well done!' :
+                           percentage >= 60 ? 'Good effort! You passed!' :
+                           'Keep practicing! You can do better!';
+            
+            document.getElementById('resultMessage').textContent = message;
+        }
+        
+        // Show notification function
+        function showNotification(title, message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 
+                             type === 'error' ? 'linear-gradient(135deg, #ef4444, #dc2626)' :
+                             'linear-gradient(135deg, #667eea, #764ba2)'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                max-width: 350px;
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                    <div style="font-size: 1.5rem;">
+                        ${type === 'success' ? '✓' : type === 'error' ? '✕' : '📧'}
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">${title}</div>
+                        <div style="font-size: 0.875rem; opacity: 0.9;">${message}</div>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.25rem; padding: 0; opacity: 0.7;">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+        
+        // Add animation styles
+        if (!document.getElementById('notificationStyles')) {
+            const style = document.createElement('style');
+            style.id = 'notificationStyles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                @keyframes slideOut {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>
