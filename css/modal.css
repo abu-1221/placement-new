@@ -5,8 +5,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 15, 35, 0.8);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -15,52 +15,64 @@
 }
 
 .modal-content {
-    background: rgba(26, 26, 46, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: white;
+    border: 1px solid var(--gray-200);
     border-radius: 1rem;
     padding: 2rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-xl);
     animation: slideUp 0.3s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Test Details Styling */
 .detail-item {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--gray-50);
     border-radius: 0.5rem;
     padding: 1rem;
     margin-bottom: 1rem;
-    border-left: 4px solid transparent;
+    border-left: 4px solid var(--gray-300);
 }
 
 .detail-item.correct {
     border-left-color: #10b981;
-    background: rgba(16, 185, 129, 0.05);
+    background: #ecfdf5;
 }
 
 .detail-item.wrong {
     border-left-color: #ef4444;
-    background: rgba(239, 68, 68, 0.05);
+    background: #fef2f2;
 }
 
 .detail-q {
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: white;
+    color: var(--gray-900);
 }
 
 .detail-ans {
     font-size: 0.9rem;
-    color: var(--gray-400);
+    color: var(--gray-600);
 }
 
 .detail-status {
@@ -70,8 +82,13 @@
     float: right;
 }
 
-.correct .detail-status { color: #10b981; }
-.wrong .detail-status { color: #ef4444; }
+.correct .detail-status {
+    color: #059669;
+}
+
+.wrong .detail-status {
+    color: #dc2626;
+}
 
 /* Test Interface specific overrides for dashboard integration */
 #test-interface-container .test-container {
@@ -81,7 +98,8 @@
 }
 
 #test-interface-container .back-link {
-    display: none; /* Hide back link in internal mode */
+    display: none;
+    /* Hide back link in internal mode */
 }
 
 /* Modal Buttons */
