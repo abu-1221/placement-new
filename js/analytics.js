@@ -1,6 +1,6 @@
 /**
  * ═══════════════════════════════════════════════════════════
- *  JMC-TEST — Student Analytics Engine
+ *  JMC-Test — Student Analytics Engine
  *  User-friendly performance insights & visual analytics
  * ═══════════════════════════════════════════════════════════
  */
@@ -162,7 +162,7 @@ const AnalyticsEngine = {
       const date = t.date ? new Date(t.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : `Test ${i + 1}`;
       const passed = t.status === 'passed';
       return `
-        <div class="timeline-item" title="${t.testName || 'Test'} — ${t.company || ''}">
+        <div class="timeline-item" title="${t.testName || 'Test'} — ${t.company || ''}" style="flex-shrink: 0; min-width: 140px;">
           <span class="timeline-score ${passed ? 'passed' : 'failed'}">${Math.round(t.score)}%</span>
           <span class="timeline-date">${date}</span>
           <span class="timeline-test">${(t.company || t.testName || 'Test').substring(0, 12)}</span>
@@ -170,6 +170,15 @@ const AnalyticsEngine = {
         </div>
       `;
     }).join('');
+
+    // Smooth wheel scrolling
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      container.scrollBy({
+        left: e.deltaY * 3,
+        behavior: 'smooth'
+      });
+    }, { passive: false });
   },
 
   // ═══════════════ TEST HISTORY BREAKDOWN ═══════════════

@@ -257,6 +257,23 @@ class JMCTestDB {
             return { success: false, error: 'Connection to execution engine lost.' };
         }
     }
+
+    /**
+     * Update User Profile (Self)
+     */
+    async updateUser(username, updateData) {
+        try {
+            const response = await fetch(`${this.API_URL}/users/${encodeURIComponent(username)}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateData)
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('[JMCTestDB] UpdateProfile Error:', error);
+            throw error;
+        }
+    }
 }
 
 // Export global instance

@@ -1,516 +1,549 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="JMC TEST - India's Premier Student Placement Portal for seamless campus recruitment and career success"
-    />
-    <meta
-      name="keywords"
-      content="Placement, campus recruitment, jobs, career, students, hiring"
-    />
-    <meta name="author" content="JMC-TEST" />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="JMC-TEST | Student Placement Portal" />
-    <meta
-      property="og:description"
-      content="Connect with top recruiters, track your progress, and land your dream job"
-    />
-    <meta property="og:type" content="website" />
-    <title>JMC - Career Development Centre | Placement Portal</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="logo.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="JMC TEST - India's Premier Student Placement Portal for seamless campus recruitment and career success" />
+  <meta name="keywords" content="Placement, campus recruitment, jobs, career, students, hiring" />
+  <meta name="author" content="JMC-Test" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="JMC-Test | Student Placement Portal" />
+  <meta property="og:description" content="Connect with top recruiters, track your progress, and land your dream job" />
+  <meta property="og:type" content="website" />
+  <title>JMC - Career Development Centre | Placement Portal</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png" />
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/landing.css" />
-    <link rel="stylesheet" href="css/professional.css" />
-  </head>
-  <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen">
-      <div class="loading-logo">
-        <img src="logo.png" class="brand-logo" alt="JMC-TEST Logo" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+
+</head>
+
+<body>
+
+
+
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-professional">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <img src="logo.png" class="brand-logo" alt="JMC-Test Logo" />
+        </div>
+        <span class="logo-text">JMC Placement</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link-pro">CDC Features</a>
+        <a href="#testimonials" class="nav-link-pro">Success Stories</a>
+        <a href="#about" class="nav-link-pro">About CDC</a>
+        <a href="#contact-section" class="nav-link-pro">Contact</a>
       </div>
-      <div class="loading-bar"></div>
-      <div class="loading-text">Initializing Portal...</div>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-login-nav">Login</a>
+        <a href="register.html" class="btn btn-primary btn-premium">Get Started Free</a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+        <div class="hamburger-box">
+          <div class="hamburger-inner"></div>
+        </div>
+      </button>
     </div>
+  </nav>
 
-    <!-- Particle Background -->
-    <div class="particles-container"></div>
-
-    <!-- Animated Background -->
-    <div class="bg-animation">
-      <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-        <div class="shape shape-5"></div>
-        <div class="shape shape-6"></div>
-      </div>
-      <div class="grid-overlay"></div>
-      <div class="gradient-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-content">
+      <a href="#features">Features</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <div class="mobile-menu-buttons">
+        <a href="login.html" class="btn btn-ghost">Login</a>
+        <a href="register.html" class="btn btn-primary">Get Started Free</a>
       </div>
     </div>
+  </div>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-professional">
-      <div class="nav-container">
-        <a href="index.html" class="logo">
-          <div class="logo-icon">
-            <img src="logo.png" class="brand-logo" alt="JMC-TEST Logo" />
-          </div>
-          <span class="logo-text">JMC Placement</span>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-icon">🏛️</span>
+        <span>Jamal Mohamed College (Autonomous) - Since 1951</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="title-line">Empowering Careers at</span>
+        <span class="title-gradient">Career Development Centre (CDC)</span>
+      </h1>
+      <p class="hero-description">
+        The official placement portal of Jamal Mohamed College. We provide a seamless connection between 25+ departments
+        and top-tier recruiters worldwide.
+      </p>
+      <div class="hero-buttons">
+        <a href="register.html" class="btn btn-primary btn-lg">
+          <span>Register for Placement</span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
         </a>
-        <div class="nav-links">
-          <a href="#features" class="nav-link-pro">CDC Features</a>
-          <a href="#testimonials" class="nav-link-pro">Success Stories</a>
-          <a href="#about" class="nav-link-pro">About CDC</a>
-          <a href="#contact" class="nav-link-pro">Contact</a>
-        </div>
-        <div class="nav-buttons">
-          <a href="login.html" class="btn btn-ghost">Login</a>
-          <a href="register.html" class="btn btn-primary btn-premium"
-            >Get Started Free</a
-          >
-        </div>
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
-          <div class="hamburger-box">
-            <div class="hamburger-inner"></div>
-          </div>
-        </button>
+        <a href="login.html" class="btn btn-lg btn-login-hero">
+          <span>Already a Member? Sign In</span>
+        </a>
       </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-      <div class="mobile-menu-content">
-        <a href="#features">Features</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <div class="mobile-menu-buttons">
-          <a href="login.html" class="btn btn-ghost">Login</a>
-          <a href="register.html" class="btn btn-primary">Get Started Free</a>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number" data-count="25">0</span><span class="stat-number">+</span>
+          <span class="stat-label">Departments</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-count="70">0</span><span class="stat-number">+</span>
+          <span class="stat-label">Years of Excellence</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-count="100">0</span><span class="stat-number">%</span>
+          <span class="stat-label">Placement Commitment</span>
         </div>
       </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <div class="hero-badge reveal">
-          <span class="badge-icon">🏛️</span>
-          <span>Jamal Mohamed College (Autonomous) - Since 1951</span>
-        </div>
-        <h1 class="hero-title">
-          <span class="title-line reveal reveal-delay-1"
-            >Empowering Careers at</span
-          >
-          <span class="title-gradient reveal reveal-delay-2"
-            >Career Development Centre (CDC)</span
-          >
-        </h1>
-        <p class="hero-description reveal reveal-delay-3">
-          The official placement portal of Jamal Mohamed College. We provide a seamless connection between 25+ departments and top-tier recruiters worldwide.
+  </section>
+
+  <!-- Removed Trust Badges -->
+
+  <!-- Removed Partner Companies -->
+  <!-- Institutional Partners Section Cleaned -->
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Powerful Features</span>
+        <h2 class="section-title">Everything You Need to Succeed</h2>
+        <p class="section-description">
+          Comprehensive tools designed to streamline your Placement journey
+          from start to finish
         </p>
-        <div class="hero-buttons reveal reveal-delay-4">
-          <a
-            href="register.html"
-            class="btn btn-primary btn-lg btn-premium btn-magnetic"
-          >
-            <span>Register for Placement</span>
-            <svg
-              class="btn-arrow"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
-          </a>
-          <a href="login.html" class="btn btn-glass btn-lg">
-            <span>Already a Member? Sign In</span>
-          </a>
-        </div>
-        <div class="hero-stats reveal reveal-delay-4">
-          <div class="stat-item">
-            <span class="stat-number" data-count="25">0</span
-            ><span class="stat-number">+</span>
-            <span class="stat-label">Departments</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="70">0</span
-            ><span class="stat-number">+</span>
-            <span class="stat-label">Years of Excellence</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="100">0</span
-            ><span class="stat-number">%</span>
-            <span class="stat-label">Placement Commitment</span>
-          </div>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="floating-card card-1" data-parallax="0.2">
-          <div class="card-icon">📊</div>
-          <div class="card-text">
-            <span class="card-title">Real-time Analytics</span>
-            <span class="card-desc">Track your progress instantly</span>
-          </div>
-        </div>
-        <div class="floating-card card-2" data-parallax="0.3">
-          <div class="card-icon">✅</div>
-          <div class="card-text">
-            <span class="card-title">Smart Assessments</span>
-            <span class="card-desc">AI-powered skill tests</span>
-          </div>
-        </div>
-        <div class="floating-card card-3" data-parallax="0.25">
-          <div class="card-icon">🎯</div>
-          <div class="card-text">
-            <span class="card-title">Job Matching</span>
-            <span class="card-desc">Find perfect opportunities</span>
-          </div>
-        </div>
-        <div class="hero-3d-element">
-          <div class="cube">
-            <div class="cube-face front"></div>
-            <div class="cube-face back"></div>
-            <div class="cube-face right"></div>
-            <div class="cube-face left"></div>
-            <div class="cube-face top"></div>
-            <div class="cube-face bottom"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-<!-- Removed Trust Badges -->
-
-<!-- Removed Partner Companies -->
-<!-- Institutional Partners Section Cleaned -->
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-badge">Powerful Features</span>
-          <h2 class="section-title">Everything You Need to Succeed</h2>
-          <p class="section-description">
-            Comprehensive tools designed to streamline your Placement journey
-            from start to finish
+          <h3>Smart Dashboard</h3>
+          <p>
+            AI-powered personalized dashboards with real-time insights,
+            progress tracking, and actionable recommendations.
           </p>
         </div>
-        <div class="features-grid">
-          <div
-            class="feature-card glass-panel glass-panel-hover reveal reveal-delay-1"
-          >
-            <div class="feature-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-                />
-              </svg>
-            </div>
-            <h3>Smart Dashboard</h3>
-            <p>
-              AI-powered personalized dashboards with real-time insights,
-              progress tracking, and actionable recommendations.
-            </p>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
           </div>
-          <div
-            class="feature-card glass-panel glass-panel-hover reveal reveal-delay-2"
-          >
-            <div class="feature-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-            </div>
-            <h3>Advanced Test Engine</h3>
-            <p>
-              Create and manage skill assessments with MCQ, coding challenges,
-              and automated proctoring features.
-            </p>
+          <h3>Advanced Test Engine</h3>
+          <p>
+            Create and manage skill assessments with MCQ, coding challenges,
+            and automated proctoring features.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10" />
+              <line x1="12" y1="20" x2="12" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="14" />
+            </svg>
           </div>
-          <div
-            class="feature-card glass-panel glass-panel-hover reveal reveal-delay-3"
-          >
-            <div class="feature-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <line x1="18" y1="20" x2="18" y2="10" />
-                <line x1="12" y1="20" x2="12" y2="4" />
-                <line x1="6" y1="20" x2="6" y2="14" />
-              </svg>
-            </div>
-            <h3>Deep Analytics</h3>
-            <p>
-              Comprehensive reports with Placement trends, performance metrics,
-              and predictive insights.
-            </p>
+          <h3>Deep Analytics</h3>
+          <p>
+            Comprehensive reports with Placement trends, performance metrics,
+            and predictive insights.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
           </div>
-          <div
-            class="feature-card glass-panel glass-panel-hover reveal reveal-delay-1"
-          >
-            <div class="feature-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-            </div>
-            <h3>Multi-Role Access</h3>
-            <p>
-              Secure authentication with dedicated portals for students, staff,
-              and company recruiters.
-            </p>
+          <h3>Multi-Role Access</h3>
+          <p>
+            Secure authentication with dedicated portals for students, staff,
+            and company recruiters.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22,4 12,14.01 9,11.01" />
+            </svg>
           </div>
-          <div
-            class="feature-card glass-panel glass-panel-hover reveal reveal-delay-2"
-          >
-            <div class="feature-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22,4 12,14.01 9,11.01" />
-              </svg>
-            </div>
-            <h3>Smart Matching</h3>
-            <p>
-              AI algorithms match students with ideal opportunities based on
-              skills, preferences, and company needs.
-            </p>
+          <h3>Smart Matching</h3>
+          <p>
+            AI algorithms match students with ideal opportunities based on
+            skills, preferences, and company needs.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14,2 14,8 20,8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
           </div>
-          <div
-            class="feature-card glass-panel glass-panel-hover reveal reveal-delay-3"
-          >
-            <div class="feature-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                />
-                <polyline points="14,2 14,8 20,8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-              </svg>
-            </div>
-            <h3>Auto Reports</h3>
-            <p>
-              Generate professional PDF reports for Placement statistics,
-              student performance, and company feedback.
-            </p>
-          </div>
+          <h3>Auto Reports</h3>
+          <p>
+            Generate professional PDF reports for Placement statistics,
+            student performance, and company feedback.
+          </p>
         </div>
       </div>
-    </section>
 
-    <!-- Success Stories Section -->
-    <section class="testimonials-section reveal" id="testimonials">
-      <div class="container">
-        <div class="section-header text-center">
-          <h2 style="color: var(--gray-800); font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Success Stories</h2>
-          <p style="color: var(--gray-500); max-width: 600px; margin: 0 auto 3rem;">Inspirational journeys of JMC students landing their dream placements.</p>
+    </div>
+  </section>
+
+  <!-- Success Stories Section -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 style="color: #ffffff; font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Success Stories
+        </h2>
+        <p style="color: #ffffff; opacity: 0.9; max-width: 600px; margin: 0 auto 3rem;">Inspirational journeys of JMC
+          students
+          landing their dream placements.</p>
+      </div>
+      <div class="testimonials-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div class="testimonial-card"
+          style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+          <div style="font-size: 2.5rem; margin-bottom: 1.5rem;">🌟</div>
+          <p style="font-style: italic; color: #ffffff; opacity: 0.9; line-height: 1.8; margin-bottom: 1.5rem;">"JMC's
+            placement portal made it seamless to track multiple job applications. I'm now placed at Amazon, and the
+            guidance from the CDC was invaluable."</p>
+          <div style="font-weight: 700; color: #ffffff;">Mohammed Anees</div>
+          <div style="font-size: 0.8rem; color: var(--primary-400);">B.Sc Computer Science, Batch 2024</div>
         </div>
-        <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-          <div class="testimonial-card" style="background: white; padding: 2.5rem; border-radius: 1.5rem; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
-            <div style="font-size: 2.5rem; margin-bottom: 1.5rem;">🌟</div>
-            <p style="font-style: italic; color: var(--gray-600); line-height: 1.8; margin-bottom: 1.5rem;">"JMC's placement portal made it seamless to track multiple job applications. I'm now placed at Amazon, and the guidance from the CDC was invaluable."</p>
-            <div style="font-weight: 700; color: var(--gray-800);">Mohammed Anees</div>
-            <div style="font-size: 0.8rem; color: var(--primary-500);">B.Sc Computer Science, Batch 2024</div>
-          </div>
-          <div class="testimonial-card" style="background: white; padding: 2.5rem; border-radius: 1.5rem; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
-            <div style="font-size: 2.5rem; margin-bottom: 1.5rem;">🎯</div>
-            <p style="font-style: italic; color: var(--gray-600); line-height: 1.8; margin-bottom: 1.5rem;">"The mock tests on the portal perfectly simulated the actual technical rounds of top IT firms. It gave me the confidence to ace my interview at TCS."</p>
-            <div style="font-weight: 700; color: var(--gray-800);">Ayesha Siddiqua</div>
-            <div style="font-size: 0.8rem; color: var(--primary-500);">MCA, Batch 2024</div>
-          </div>
+        <div class="testimonial-card"
+          style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+          <div style="font-size: 2.5rem; margin-bottom: 1.5rem;">🎯</div>
+          <p style="font-style: italic; color: #ffffff; opacity: 0.9; line-height: 1.8; margin-bottom: 1.5rem;">"The
+            mock
+            tests on the portal perfectly simulated the actual technical rounds of top IT firms. It gave me the
+            confidence to ace my interview at TCS."</p>
+          <div style="font-weight: 700; color: #ffffff;">Ayesha Siddiqua</div>
+          <div style="font-size: 0.8rem; color: var(--primary-400);">MCA, Batch 2024</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section reveal" id="about">
-      <div class="container">
-        <div class="cta-content gradient-border">
-          <div class="cta-text">
-            <h2>Ready to Join JMC's Placement Network?</h2>
-            <p>
-              Jamal Mohamed College provides a comprehensive career path for students across all 25+ departments. Register now to start your journey.
-            </p>
-          </div>
-          <div class="cta-buttons">
-            <a href="register.html" class="btn btn-white btn-lg">
-              🎓 Register as Student
-            </a>
-            <a href="register.html" class="btn btn-outline-white btn-lg">
-              👨‍🏫 Register as Staff
-            </a>
-          </div>
+  <!-- CTA Section -->
+  <section class="cta-section" id="about">
+    <div class="container">
+      <div class="cta-content gradient-border">
+        <div class="cta-text">
+          <h2>Ready to Join JMC's Placement Network?</h2>
+          <p>
+            Jamal Mohamed College provides a comprehensive career path for students across all 25+ departments. Register
+            now to start your journey.
+          </p>
+        </div>
+        <div class="cta-buttons">
+          <a href="register.html" class="btn btn-white btn-lg">
+            🎓 Register as Student
+          </a>
+          <a href="register.html" class="btn btn-outline-white btn-lg">
+            👨‍🏫 Register as Staff
+          </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer footer-professional" id="contact">
-      <div class="container">
-        <div class="footer-top">
-          <div class="footer-brand-pro">
-            <a href="index.html" class="logo">
-              <div class="logo-icon">
-                <img src="logo.png" class="brand-logo" alt="JMC-TEST Logo" />
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact-section"
+    style="padding: 5rem 0; background: linear-gradient(180deg, #0d1224 0%, #111827 100%);">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <span
+          style="display: inline-block; background: rgba(102,126,234,0.12); color: #667eea; padding: 0.5rem 1.5rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;">Get
+          in Touch</span>
+        <h2 style="color: #fff; font-size: 2.2rem; font-weight: 800; margin: 0;">Contact Us</h2>
+        <p style="color: rgba(255,255,255,0.6); max-width: 500px; margin: 0.75rem auto 0; font-size: 1rem;">Have
+          questions about placements? Reach out to the Career Development Centre.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
+        <!-- Left: Contact Info -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div
+            style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem;">
+            <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin: 0 0 1.5rem;">Contact Information</h3>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <a href="tel:+914312331535"
+                style="display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.92rem; transition: color 0.2s;">
+                <span
+                  style="width: 40px; height: 40px; background: rgba(102,126,234,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2"
+                    style="width:18px;height:18px;">
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </span>
+                +91 431 233 1535
+              </a>
+              <a href="mailto:cdc@jmc.edu"
+                style="display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.92rem; transition: color 0.2s;">
+                <span
+                  style="width: 40px; height: 40px; background: rgba(16,185,129,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"
+                    style="width:18px;height:18px;">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </span>
+                cdc@jmc.edu
+              </a>
+              <div
+                style="display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.85); font-size: 0.92rem;">
+                <span
+                  style="width: 40px; height: 40px; background: rgba(245,158,11,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"
+                    style="width:18px;height:18px;">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </span>
+                Tiruchirappalli, Tamil Nadu 620020
               </div>
-              <span class="logo-text">JMC Placement</span>
-            </a>
-            <p>
-              Jamal Mohamed College (Autonomous). Accredited with A++ Grade by NAAC. Empowering students since 1951.
-            </p>
-            <div class="footer-social">
-              <a href="#" class="social-link tooltip" data-tooltip="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-                  />
+            </div>
+          </div>
+          <div
+            style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.5rem;">
+            <h4 style="color: #fff; font-size: 0.95rem; font-weight: 600; margin: 0 0 1rem;">Follow Us</h4>
+            <div style="display: flex; gap: 12px;">
+              <a href="https://www.linkedin.com/school/jamal-mohamed-college/" target="_blank" rel="noopener noreferrer"
+                style="width: 42px; height: 42px; background: rgba(102,126,234,0.1); border: 1px solid rgba(102,126,234,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #667eea; transition: all 0.3s; text-decoration: none;"
+                title="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;">
+                  <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z" />
                   <rect x="2" y="9" width="4" height="12" />
                   <circle cx="4" cy="4" r="2" />
                 </svg>
               </a>
-              <a href="#" class="social-link tooltip" data-tooltip="Twitter">
-                <svg viewBox="0 0 24 24" fill="currentColor">
+              <a href="https://www.youtube.com/@JamalMohamedCollegeTrichy" target="_blank" rel="noopener noreferrer"
+                style="width: 42px; height: 42px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #ef4444; transition: all 0.3s; text-decoration: none;"
+                title="YouTube">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;">
                   <path
-                    d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
-                  />
+                    d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z" />
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
                 </svg>
               </a>
-              <a href="#" class="social-link tooltip" data-tooltip="Instagram">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
+              <a href="https://www.instagram.com/jaborofficial/?hl=en" target="_blank" rel="noopener noreferrer"
+                style="width: 42px; height: 42px; background: rgba(236,72,153,0.1); border: 1px solid rgba(236,72,153,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #ec4899; transition: all 0.3s; text-decoration: none;"
+                title="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  style="width:18px;height:18px;">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
-              <a href="#" class="social-link tooltip" data-tooltip="YouTube">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"
-                  />
-                  <polygon
-                    points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"
-                  />
+              <a href="https://jmc.edu" target="_blank" rel="noopener noreferrer"
+                style="width: 42px; height: 42px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #10b981; transition: all 0.3s; text-decoration: none;"
+                title="Official Website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  style="width:18px;height:18px;">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
                 </svg>
               </a>
             </div>
           </div>
-          <div class="footer-column-pro">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="login.html">→ Student Login</a></li>
-              <li><a href="login.html">→ Staff Login</a></li>
-              <li><a href="register.html">→ Register Now</a></li>
-              <li><a href="#features">→ Features</a></li>
-            </ul>
-          </div>
-          <div class="footer-column-pro">
-            <h4>Resources</h4>
-            <ul>
-              <li><a href="#">→ Help Center</a></li>
-              <li><a href="#">→ Documentation</a></li>
-              <li><a href="#">→ API Reference</a></li>
-              <li><a href="#">→ Blog</a></li>
-            </ul>
-          </div>
-          <div class="footer-column-pro">
-            <h4>Contact Us</h4>
-            <ul>
-              <li>
-                <a href="mailto:cdc@jmc.edu">📧 cdc@jmc.edu</a>
-              </li>
-              <li><a href="tel:+914312331535">📞 +91 431 233 1535</a></li>
-              <li><a href="#">📍 Tiruchirappalli, Tamil Nadu</a></li>
-            </ul>
-            <div class="footer-newsletter">
-              <form class="newsletter-form">
-                <input
-                  type="email"
-                  class="newsletter-input"
-                  placeholder="Your email"
-                />
-                <button type="submit" class="newsletter-btn">→</button>
-              </form>
+        </div>
+        <!-- Right: Contact Form -->
+        <div
+          style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem;">
+          <h3 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin: 0 0 1.5rem;">Send a Message</h3>
+          <form id="contactForm" onsubmit="return handleContactSubmit(event)"
+            style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+              <label
+                style="display: block; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">Full
+                Name *</label>
+              <input type="text" id="contactName" required placeholder="Your full name"
+                style="width: 100%; padding: 0.75rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-size: 0.9rem; outline: none; transition: border 0.3s; box-sizing: border-box;"
+                onfocus="this.style.borderColor='rgba(102,126,234,0.5)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.1)'" />
             </div>
+            <div>
+              <label
+                style="display: block; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">Email
+                *</label>
+              <input type="email" id="contactEmail" required placeholder="your@email.com"
+                style="width: 100%; padding: 0.75rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-size: 0.9rem; outline: none; transition: border 0.3s; box-sizing: border-box;"
+                onfocus="this.style.borderColor='rgba(102,126,234,0.5)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.1)'" />
+            </div>
+            <div>
+              <label
+                style="display: block; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">Subject
+                *</label>
+              <input type="text" id="contactSubject" required placeholder="Subject of your message"
+                style="width: 100%; padding: 0.75rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-size: 0.9rem; outline: none; transition: border 0.3s; box-sizing: border-box;"
+                onfocus="this.style.borderColor='rgba(102,126,234,0.5)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.1)'" />
+            </div>
+            <div>
+              <label
+                style="display: block; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">Message
+                *</label>
+              <textarea id="contactMessage" required rows="4" placeholder="Write your message here..."
+                style="width: 100%; padding: 0.75rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-size: 0.9rem; outline: none; resize: vertical; transition: border 0.3s; font-family: inherit; box-sizing: border-box;"
+                onfocus="this.style.borderColor='rgba(102,126,234,0.5)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.1)'"></textarea>
+            </div>
+            <button type="submit" id="contactSubmitBtn"
+              style="padding: 0.85rem 2rem; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(102,126,234,0.3); margin-top: 0.5rem;">
+              Send Message
+            </button>
+            <div id="contactSuccess"
+              style="display:none; padding: 1rem; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 10px; color: #10b981; font-weight: 600; text-align: center; font-size: 0.9rem;">
+              ✓ Message sent successfully! We'll get back to you soon.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer footer-professional" id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-pro">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <img src="logo.png" class="brand-logo" alt="JMC-Test Logo" />
+            </div>
+            <span class="logo-text">JMC Placement</span>
+          </a>
+          <p>
+            Jamal Mohamed College (Autonomous). Accredited with A++ Grade by NAAC. Empowering students since 1951.
+          </p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/school/jamal-mohamed-college/" target="_blank" rel="noopener noreferrer"
+              class="social-link tooltip" data-tooltip="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" />
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@JamalMohamedCollegeTrichy" target="_blank" rel="noopener noreferrer"
+              class="social-link tooltip" data-tooltip="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/jaborofficial/?hl=en" target="_blank" rel="noopener noreferrer"
+              class="social-link tooltip" data-tooltip="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+            <a href="https://jmc.edu" target="_blank" rel="noopener noreferrer" class="social-link tooltip"
+              data-tooltip="Official Website">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+              </svg>
+            </a>
           </div>
         </div>
-        <div class="footer-bottom-pro">
-          <p>© 2026 Jamal Mohamed College. All rights reserved.</p>
-          <div class="footer-legal">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Cookie Policy</a>
+        <div class="footer-column-pro">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="login.html">→ Student Login</a></li>
+            <li><a href="login.html">→ Staff Login</a></li>
+            <li><a href="register.html">→ Register Now</a></li>
+            <li><a href="#features">→ Features</a></li>
+          </ul>
+        </div>
+        <div class="footer-column-pro">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">→ Help Center</a></li>
+            <li><a href="#">→ Documentation</a></li>
+            <li><a href="#">→ API Reference</a></li>
+            <li><a href="#">→ Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-column-pro">
+          <h4>Contact Us</h4>
+          <ul>
+            <li>
+              <a href="mailto:cdc@jmc.edu">📧 cdc@jmc.edu</a>
+            </li>
+            <li><a href="tel:+914312331535">📞 +91 431 233 1535</a></li>
+            <li><a href="#">📍 Tiruchirappalli, Tamil Nadu</a></li>
+          </ul>
+          <div class="footer-newsletter">
+            <form class="newsletter-form">
+              <input type="email" class="newsletter-input" placeholder="Your email" />
+              <button type="submit" class="newsletter-btn">→</button>
+            </form>
           </div>
         </div>
       </div>
-    </footer>
+      <div class="footer-bottom-pro">
+        <p>© 2026 Jamal Mohamed College. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Toast Container -->
-    <div class="toast-container"></div>
+  <!-- Toast Container -->
+  <div class="toast-container"></div>
 
-    <!-- Scripts -->
-    <script src="js/landing.js"></script>
-    <script src="js/professional.js"></script>
-  </body>
+  <!-- Scripts -->
+  <script src="js/landing.js"></script>
+</body>
+
 </html>

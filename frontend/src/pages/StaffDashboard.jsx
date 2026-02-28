@@ -156,8 +156,8 @@ const StaffDashboard = () => {
       <aside className={`sidebar ${isMobileSidebarOpen ? 'active' : ''} ${isSidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           <Link to="/" className="logo">
-            <img src="/logo.png" className="brand-logo" alt="JMC-TEST Logo" style={{ marginRight: '10px' }} />
-            <span>JMC-TEST</span>
+            <img src="/logo.png" className="brand-logo" alt="JMC-Test Logo" style={{ marginRight: '10px' }} />
+            <span>JMC-Test</span>
           </Link>
           <button className="sidebar-toggle-btn" onClick={() => {
             const next = !isSidebarCollapsed;

@@ -1,880 +1,988 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Staff Dashboard | JMC-TEST</title>
-    <link rel="icon" type="image/png" href="logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/dashboard.css" />
-    <link rel="stylesheet" href="css/ai-buddy.css" />
-  </head>
-  <body>
-    <div class="app-layout">
-      <!-- Sidebar -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <div class="logo" style="cursor: default;">
-            <img
-              src="logo.png"
-              class="brand-logo"
-              alt="JMC-TEST Logo"
-            />
-            <span>JMC-TEST</span>
-          </div>
-          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Toggle Sidebar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-        </div>
-        <nav class="sidebar-nav">
-          <a href="#" class="nav-item active" data-section="create-test">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="16" /><line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
-            <span>Create Test</span>
-          </a>
-          <a href="#" class="nav-item" data-section="manage-tests">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14,2 14,8 20,8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />
-            </svg>
-            <span>Manage Tests</span>
-          </a>
-          <a href="#" class="nav-item" data-section="students">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" />
-            </svg>
-            <span>Students</span>
-          </a>
-          <a href="#" class="nav-item" data-section="student-lookup">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
-            </svg>
-            <span>Student Lookup</span>
-          </a>
-          <a href="#" class="nav-item" data-section="ai-generator">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-              <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" />
-            </svg>
-            <span>AI Gen (Upload)</span>
-          </a>
-          <button class="nav-item ai-buddy-btn" id="aiBuddyBtn" style="background: none; border: none; font: inherit; cursor: pointer; width: calc(100% - 1.5rem);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M12 7v6M9 10h6"/>
-            </svg>
-            <span>Smart Assistant</span>
-          </button>
-          <a href="#" class="nav-item" data-section="profile">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" />
-            </svg>
-            <span>My Profile</span>
-          </a>
-        </nav>
-        <div class="sidebar-footer">
-          <button class="logout-btn" id="logoutBtn">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
-              <polyline points="16,17 21,12 16,7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-            <span>Logout</span>
-          </button>
-        </div>
-      </aside>
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <header class="dashboard-header">
-          <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-            <div class="hamburger-box">
-              <div class="hamburger-inner"></div>
-            </div>
-          </button>
-          <div class="header-left">
-            <h1 id="sectionTitle">Create Test</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Dashboard | JMC-Test</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/ai-buddy.css" />
+</head>
+
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo" style="cursor: default; display: flex; align-items: center; gap: 0.85rem;">
+          <img src="logo.png" class="brand-logo" alt="JMC-Test Logo"
+            style="width: 52px; height: 52px; transition: all 0.3s ease;" />
+          <h3 class="logo-text-h3"
+            style="font-size: 1.4rem; font-weight: 800; color: #fff; margin: 0; white-space: nowrap; letter-spacing: -0.5px;">
+            JMC-Test</h3>
+        </div>
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Toggle Sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-section="create-test">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+          </svg>
+          <span>Create Test</span>
+        </a>
+        <a href="#" class="nav-item" data-section="manage-tests">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+            <polyline points="14,2 14,8 20,8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+          <span>Manage Tests</span>
+        </a>
+        <a href="#" class="nav-item" data-section="students">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 00-3-3.87" />
+            <path d="M16 3.13a4 4 0 010 7.75" />
+          </svg>
+          <span>Students</span>
+        </a>
+        <a href="#" class="nav-item" data-section="student-lookup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <span>Student Lookup</span>
+        </a>
+        <a href="#" class="nav-item" data-section="ai-generator">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+          <span>AI Gen (Upload)</span>
+        </a>
+        <button class="nav-item ai-buddy-btn" id="aiBuddyBtn"
+          style="background: none; border: none; font: inherit; cursor: pointer; width: calc(100% - 1.5rem);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+            <path d="M12 7v6M9 10h6" />
+          </svg>
+          <span>Smart Assistant</span>
+        </button>
+        <a href="#" class="nav-item" data-section="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span>My Profile</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+            <polyline points="16,17 21,12 16,7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="dashboard-header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+          <div class="hamburger-box">
+            <div class="hamburger-inner"></div>
           </div>
-          <div class="header-right">
-            <div class="user-info">
-              <div class="user-avatar staff" id="userAvatar">AU</div>
-              <div class="user-details" style="justify-content: center;">
-                <span class="user-name" id="userName">User</span>
+        </button>
+        <div class="header-left">
+          <h1 id="sectionTitle">Create Test</h1>
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-avatar staff" id="userAvatar">AU</div>
+            <div class="user-details" style="justify-content: center;">
+              <span class="user-name" id="userName">User</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        <!-- Create Test Section -->
+        <section class="content-section active" id="create-test-section">
+          <div class="section-intro">
+            <h2>Create New Test</h2>
+          </div>
+          <div class="create-test-container">
+            <form id="createTestForm" class="test-form" autocomplete="off">
+              <!-- Test Details Row -->
+              <div class="form-card test-details-card">
+                <h3>Test Information</h3>
+                <div class="details-grid">
+                  <div class="form-group">
+                    <label class="form-label">Test Name *</label>
+                    <input type="text" class="form-input" id="testName" placeholder="e.g., Technical Round 1"
+                      required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Company *</label>
+                    <input type="text" class="form-input" id="testCompany" placeholder="e.g., Google" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Schedule Date *</label>
+                    <input type="date" class="form-input" id="testDate" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Duration (mins) *</label>
+                    <input type="number" class="form-input" id="testDuration" placeholder="60" required />
+                  </div>
+                  <div class="form-group full-width">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input" id="testDescription" rows="2"
+                      placeholder="Brief description of the test"></textarea>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </header>
+              <!-- Target Audience (Shortlisting) -->
+              <div class="form-card target-audience-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                  <h3 style="margin-bottom: 0;">Target Audience (Shortlisting)</h3>
+                  <span style="color: var(--gray-400); font-size: 0.9rem; font-weight: 500;">Live Targeting</span>
+                </div>
+                <p class="form-hint"
+                  style="margin-top: -1rem; margin-bottom: 1.5rem; color: var(--gray-400); font-size: 0.85rem;">Select
+                  specific criteria to precisely target your candidates. Leave all unchecked to target the entire
+                  student population.</p>
 
-        <div class="dashboard-content">
-          <!-- Create Test Section -->
-          <section class="content-section active" id="create-test-section">
-            <div class="section-intro">
-              <h2>Create New Test</h2>
-              <p>Design and configure Placement tests for students</p>
-            </div>
-            <div class="create-test-container">
-              <form id="createTestForm" class="test-form" autocomplete="off">
-                <!-- Test Details Row -->
-                <div class="form-card test-details-card">
-                  <h3>Test Information</h3>
-                  <div class="details-grid">
-                    <div class="form-group">
-                      <label class="form-label">Test Name *</label>
-                      <input
-                        type="text"
-                        class="form-input"
-                        id="testName"
-                        placeholder="e.g., Technical Round 1"
-                        required
-                      />
+                <div class="shortlist-grid">
+                  <!-- Departments -->
+                  <div class="shortlist-category">
+                    <div
+                      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                      <div class="shortlist-category-title" style="margin-bottom: 0;">Departments</div>
+                      <label class="checkbox-item" style="margin-bottom: 0;"><input type="checkbox"
+                          id="selectAllDepts"><span class="checkbox-label"
+                          style="font-weight: 700; color: var(--blue-400);">All</span></label>
                     </div>
-                    <div class="form-group">
-                      <label class="form-label">Company *</label>
-                      <input
-                        type="text"
-                        class="form-input"
-                        id="testCompany"
-                        placeholder="e.g., Google"
-                        required
-                      />
+                    <div class="checkbox-list" id="targetDepartmentsGrid">
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Arabic"><span
+                          class="checkbox-label">Arabic</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept"
+                          value="Business Administration"><span class="checkbox-label">Business
+                          Administration</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Bio Technology"><span
+                          class="checkbox-label">Bio Technology</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Botany"><span
+                          class="checkbox-label">Botany</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Chemistry"><span
+                          class="checkbox-label">Chemistry</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Commerce"><span
+                          class="checkbox-label">Commerce</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Computer Science"><span
+                          class="checkbox-label">Computer Science</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Economics"><span
+                          class="checkbox-label">Economics</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="English"><span
+                          class="checkbox-label">English</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Fashion Technology"><span
+                          class="checkbox-label">Fashion Technology</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="French"><span
+                          class="checkbox-label">French</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Hindi"><span
+                          class="checkbox-label">Hindi</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="History"><span
+                          class="checkbox-label">History</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Hotel Management"><span
+                          class="checkbox-label">Hotel Management</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept"
+                          value="Information Technology"><span class="checkbox-label">Information
+                          Technology</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Mathematics"><span
+                          class="checkbox-label">Mathematics</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Microbiology"><span
+                          class="checkbox-label">Microbiology</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept"
+                          value="Nutrition & Dietetics"><span class="checkbox-label">Nutrition &
+                          Dietetics</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Physics"><span
+                          class="checkbox-label">Physics</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Social Work"><span
+                          class="checkbox-label">Social Work</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Tamil"><span
+                          class="checkbox-label">Tamil</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Urdu"><span
+                          class="checkbox-label">Urdu</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Zoology"><span
+                          class="checkbox-label">Zoology</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Physical Education"><span
+                          class="checkbox-label">Physical Education</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="dept" value="Visual Communication"><span
+                          class="checkbox-label">Visual Communication</span></label>
                     </div>
-                    <div class="form-group">
-                      <label class="form-label">Schedule Date *</label>
-                      <input
-                        type="date"
-                        class="form-input"
-                        id="testDate"
-                        required
-                      />
+                  </div>
+
+                  <!-- Year Selection -->
+                  <div class="shortlist-category">
+                    <div
+                      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                      <div class="shortlist-category-title" style="margin-bottom: 0;">Years</div>
+                      <label class="checkbox-item" style="margin-bottom: 0;"><input type="checkbox"
+                          id="selectAllYears"><span class="checkbox-label"
+                          style="font-weight: 700; color: var(--blue-400);">All</span></label>
                     </div>
-                    <div class="form-group">
-                      <label class="form-label">Duration (mins) *</label>
-                      <input
-                        type="number"
-                        class="form-input"
-                        id="testDuration"
-                        placeholder="60"
-                        required
-                      />
+                    <div class="checkbox-list" id="targetYearsGrid">
+                      <label class="checkbox-item"><input type="checkbox" name="year" value="1"><span
+                          class="checkbox-label">1</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="year" value="2"><span
+                          class="checkbox-label">2</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="year" value="3"><span
+                          class="checkbox-label">3</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="year" value="4"><span
+                          class="checkbox-label">4</span></label>
                     </div>
-                    <div class="form-group full-width">
-                      <label class="form-label">Description</label>
-                      <textarea
-                        class="form-input"
-                        id="testDescription"
-                        rows="2"
-                        placeholder="Brief description of the test"
-                      ></textarea>
+                  </div>
+
+                  <!-- Batch Selection -->
+                  <div class="shortlist-category">
+                    <div class="shortlist-category-title">Batch</div>
+                    <div class="checkbox-list scrollable-list" id="targetBatchesGrid"
+                      style="max-height: 150px; overflow-y: auto; padding-right: 5px;">
+                      <!-- Batches will be dynamically injected here -->
+                    </div>
+                  </div>
+
+                  <!-- Sections -->
+                  <div class="shortlist-category">
+                    <div
+                      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                      <div class="shortlist-category-title" style="margin-bottom: 0;">Sections</div>
+                      <label class="checkbox-item" style="margin-bottom: 0;"><input type="checkbox"
+                          id="selectAllSections"><span class="checkbox-label"
+                          style="font-weight: 700; color: var(--blue-400);">All</span></label>
+                    </div>
+                    <div class="checkbox-list" id="targetSectionsGrid">
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="A"><span
+                          class="checkbox-label">A</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="B"><span
+                          class="checkbox-label">B</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="C"><span
+                          class="checkbox-label">C</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="D"><span
+                          class="checkbox-label">D</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="E"><span
+                          class="checkbox-label">E</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="F"><span
+                          class="checkbox-label">F</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="G"><span
+                          class="checkbox-label">G</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="section" value="H"><span
+                          class="checkbox-label">H</span></label>
+                    </div>
+                  </div>
+
+                  <!-- Gender -->
+                  <div class="shortlist-category">
+                    <div
+                      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                      <div class="shortlist-category-title" style="margin-bottom: 0;">Gender</div>
+                      <label class="checkbox-item" style="margin-bottom: 0;"><input type="checkbox"
+                          id="selectAllGenders"><span class="checkbox-label"
+                          style="font-weight: 700; color: var(--blue-400);">All</span></label>
+                    </div>
+                    <div class="checkbox-list" id="targetGendersGrid">
+                      <label class="checkbox-item"><input type="checkbox" name="gender" value="Male"><span
+                          class="checkbox-label">Male</span></label>
+                      <label class="checkbox-item"><input type="checkbox" name="gender" value="Female"><span
+                          class="checkbox-label">Female</span></label>
                     </div>
                   </div>
                 </div>
-                <!-- Target Audience (Shortlisting) -->
-                <div class="form-card target-audience-card">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h3 style="margin-bottom: 0;">Target Audience (Shortlisting)</h3>
-                    <span class="badge" style="background: var(--blue-600); color: white; border: none;">Live Targeting</span>
-                  </div>
-                  <p class="form-hint" style="margin-top: -1rem; margin-bottom: 1.5rem; color: var(--gray-400); font-size: 0.85rem;">Select specific criteria to precisely target your candidates. Leave all unchecked to target the entire student population.</p>
-                  
-                  <div class="shortlist-grid">
-                    <!-- Departments -->
-                    <div class="shortlist-category">
-                      <div class="shortlist-category-title">Departments</div>
-                      <div class="checkbox-list" id="targetDepartmentsGrid">
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Arabic"><span class="checkbox-label">Arabic</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Business Administration"><span class="checkbox-label">Business Administration</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Bio Technology"><span class="checkbox-label">Bio Technology</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Botany"><span class="checkbox-label">Botany</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Chemistry"><span class="checkbox-label">Chemistry</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Commerce"><span class="checkbox-label">Commerce</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Computer Science"><span class="checkbox-label">Computer Science</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Economics"><span class="checkbox-label">Economics</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="English"><span class="checkbox-label">English</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Fashion Technology"><span class="checkbox-label">Fashion Technology</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="French"><span class="checkbox-label">French</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Hindi"><span class="checkbox-label">Hindi</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="History"><span class="checkbox-label">History</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Hotel Management"><span class="checkbox-label">Hotel Management</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Information Technology"><span class="checkbox-label">Information Technology</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Mathematics"><span class="checkbox-label">Mathematics</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Microbiology"><span class="checkbox-label">Microbiology</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Nutrition & Dietetics"><span class="checkbox-label">Nutrition & Dietetics</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Physics"><span class="checkbox-label">Physics</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Social Work"><span class="checkbox-label">Social Work</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Tamil"><span class="checkbox-label">Tamil</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Urdu"><span class="checkbox-label">Urdu</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Zoology"><span class="checkbox-label">Zoology</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Physical Education"><span class="checkbox-label">Physical Education</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="dept" value="Visual Communication"><span class="checkbox-label">Visual Communication</span></label>
+              </div>
+
+              <!-- Questions Section -->
+              <div class="form-card questions-card">
+                <h3>Questions</h3>
+                <div id="questionsContainer">
+                  <div class="question-item bounce-in" data-question="1">
+                    <div class="question-header">
+                      <span class="question-number">Question 1</span>
+                      <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <select class="form-input type-selector" style="display: none;">
+                          <option value="mcq">MCQ</option>
+                        </select>
+                        <button type="button" class="remove-question-btn" title="Remove Question">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            style="width: 18px; height: 18px;">
+                            <path
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
                       </div>
                     </div>
-
-                    <!-- Years / Batches -->
-                    <div class="shortlist-category">
-                      <div class="shortlist-category-title">Year / Batch</div>
-                      <div class="checkbox-list" id="targetYearsGrid">
-                        <label class="checkbox-item"><input type="checkbox" name="year" value="1"><span class="checkbox-label">1st Year</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="year" value="2"><span class="checkbox-label">2nd Year</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="year" value="3"><span class="checkbox-label">3rd Year</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="year" value="4"><span class="checkbox-label">4th Year</span></label>
+                    <div class="question-body">
+                      <div class="form-group">
+                        <label class="form-label">Question Text *</label>
+                        <textarea class="form-input" rows="2" placeholder="Enter your question or problem statement..."
+                          required></textarea>
                       </div>
-                    </div>
 
-                    <!-- Sections -->
-                    <div class="shortlist-category">
-                      <div class="shortlist-category-title">Sections</div>
-                      <div class="checkbox-list" id="targetSectionsGrid">
-                        <label class="checkbox-item"><input type="checkbox" name="section" value="A"><span class="checkbox-label">Section A</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="section" value="B"><span class="checkbox-label">Section B</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="section" value="C"><span class="checkbox-label">Section C</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="section" value="D"><span class="checkbox-label">Section D</span></label>
-                      </div>
-                    </div>
-
-                    <!-- Gender -->
-                    <div class="shortlist-category">
-                      <div class="shortlist-category-title">Gender</div>
-                      <div class="checkbox-list" id="targetGendersGrid">
-                        <label class="checkbox-item"><input type="checkbox" name="gender" value="Male"><span class="checkbox-label">Male</span></label>
-                        <label class="checkbox-item"><input type="checkbox" name="gender" value="Female"><span class="checkbox-label">Female</span></label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Questions Section -->
-                <div class="form-card questions-card">
-                  <h3>Questions</h3>
-                  <div id="questionsContainer">
-                    <div class="question-item bounce-in" data-question="1">
-                      <div class="question-header">
-                        <span class="question-number">Question 1</span>
-                        <div style="display: flex; gap: 0.5rem; align-items: center;">
-                          <select class="form-input type-selector" style="display: none;">
-                            <option value="mcq">MCQ</option>
-                          </select>
-                          <button type="button" class="remove-question-btn" title="Remove Question">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                          </button>
+                      <!-- MCQ Options -->
+                      <div class="mcq-options">
+                        <div class="options-grid">
+                          <div class="option-group"><input type="text" class="form-input" placeholder="Option A"></div>
+                          <div class="option-group"><input type="text" class="form-input" placeholder="Option B"></div>
+                          <div class="option-group"><input type="text" class="form-input" placeholder="Option C"></div>
+                          <div class="option-group"><input type="text" class="form-input" placeholder="Option D"></div>
                         </div>
-                      </div>
-                      <div class="question-body">
                         <div class="form-group">
-                          <label class="form-label">Question Text *</label>
-                          <textarea class="form-input" rows="2" placeholder="Enter your question or problem statement..." required></textarea>
+                          <label class="form-label">Correct Option</label>
+                          <select class="form-input mcq-answer">
+                            <option value="A">Option A</option>
+                            <option value="B">Option B</option>
+                            <option value="C">Option C</option>
+                            <option value="D">Option D</option>
+                          </select>
                         </div>
-                        
-                        <!-- MCQ Options -->
-                        <div class="mcq-options">
-                          <div class="options-grid">
-                            <div class="option-group"><input type="text" class="form-input" placeholder="Option A"></div>
-                            <div class="option-group"><input type="text" class="form-input" placeholder="Option B"></div>
-                            <div class="option-group"><input type="text" class="form-input" placeholder="Option C"></div>
-                            <div class="option-group"><input type="text" class="form-input" placeholder="Option D"></div>
-                          </div>
-                          <div class="form-group">
-                            <label class="form-label">Correct Option</label>
-                            <select class="form-input mcq-answer">
-                              <option value="A">Option A</option>
-                              <option value="B">Option B</option>
-                              <option value="C">Option C</option>
-                              <option value="D">Option D</option>
-                            </select>
-                          </div>
-                        </div>
-
                       </div>
+
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    class="btn btn-glass add-question-btn"
-                    id="addQuestionBtn"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <line x1="12" y1="5" x2="12" y2="19" />
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                    </svg>
-                    Add Question
-                  </button>
                 </div>
-
-                <div class="form-actions">
-                  <button type="button" class="btn btn-ghost">
-                    Save as Draft
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Create Test
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-
-          <!-- Manage Tests Section (STMAI) -->
-          <section class="content-section" id="manage-tests-section">
-            <div id="stmai-list-view">
-              <div class="section-intro">
-                <h2>Manage Tests</h2>
-                <p>View and manage all created tests</p>
-              </div>
-              
-              <div class="stats-grid">
-                <div class="stat-card">
-                  <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
-                  <div class="stat-info"><span class="stat-value" id="staffTotalTests">0</span><span class="stat-label">Total Tests</span></div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
-                  <div class="stat-info"><span class="stat-value" id="staffActiveTests">0</span><span class="stat-label">Active</span></div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-                  <div class="stat-info"><span class="stat-value" id="staffParticipants">0</span><span class="stat-label">Participants</span></div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/></svg></div>
-                  <div class="stat-info"><span class="stat-value" id="staffPassRate">0%</span><span class="stat-label">Pass Rate</span></div>
-                </div>
+                <button type="button" class="btn btn-glass add-question-btn" id="addQuestionBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  Add Question
+                </button>
               </div>
 
-              <div class="tests-table-container">
-                <div class="table-header">
-                  <input type="text" class="form-input search-input" id="stmai-test-search" placeholder="Search tests..." autocomplete="off">
-                </div>
-                <div class="table-scroll">
-                  <table class="data-table">
-                    <thead>
-                      <tr>
-                        <th>Test Information</th>
-                        <th>Company</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="testsTableBody">
-                      <!-- Loaded via JS -->
-                    </tbody>
-                  </table>
-                </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-ghost">
+                  Save as Draft
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Create Test
+                </button>
               </div>
-            </div>
+            </form>
+          </div>
+        </section>
 
-            <!-- Single Test Detailed Dashboard (STMAI) -->
-            <div id="stmai-detail-view" style="display: none;">
-              <button class="btn btn-ghost" onclick="closeSTMAIDetails()" style="margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; padding-left: 0;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Back to All Tests
-              </button>
-
-              <div class="form-card" style="margin-bottom: 2rem; border-left: 4px solid var(--blue-600);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                  <div style="flex: 1;">
-                    
-                    <h2 id="stmai-test-name" style="margin: 0; font-size: 2rem; font-weight: 800;">Test Name</h2>
-                    <p id="stmai-test-company" style="margin: 0.5rem 0 0; color: var(--gray-400); font-size: 1.1rem;">Company Name</p>
-                  </div>
-                  <div id="stmai-test-status-badge" style="display: flex; gap: 0.75rem; align-items: center;">
-                    <button class="btn btn-ghost btn-sm" id="stmai-delete-test-trigger" style="color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.5rem 1rem;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px; margin-right: 6px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path></svg>
-                        Delete Test
-                    </button>
-                  </div>
-                </div>
-
-                <!-- STMAI Tab Navigation -->
-                <div class="stmai-tabs" style="margin-top: 2.5rem;">
-                  <button class="stmai-tab active" data-stmai-tab="overview" onclick="switchSTMAITab('overview')">Overview</button>
-                  <button class="stmai-tab" data-stmai-tab="analytics" onclick="switchSTMAITab('analytics')">Participants</button>
-                  <button class="stmai-tab" data-stmai-tab="results" onclick="switchSTMAITab('results')">Detailed Results</button>
-                </div>
-
-                <!-- Tab Contents -->
-                <div id="stmai-tab-overview" class="stmai-tab-content active" style="padding: 1.5rem 0;">
-                  <div class="details-grid" style="margin-bottom: 2rem;">
-                    <div class="form-group"><label class="form-label">Total Questions</label><div class="form-input" id="stmai-ov-questions" style="background: rgba(255,255,255,0.03);">--</div></div>
-                    <div class="form-group"><label class="form-label">Time Duration</label><div class="form-input" id="stmai-ov-duration" style="background: rgba(255,255,255,0.03);">--</div></div>
-                    <div class="form-group"><label class="form-label">Publish Date</label><div class="form-input" id="stmai-ov-date" style="background: rgba(255,255,255,0.03);">--</div></div>
-                  </div>
-
-                  <div class="stats-grid" id="stmai-overview-stats" style="margin-top: 2rem; gap: 1.5rem;">
-                    <!-- Essential stats injected here -->
-                  </div>
-                </div>
-
-                <div id="stmai-tab-analytics" class="stmai-tab-content" style="padding: 1.5rem 0;">
-                   <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                      <h3 style="margin: 0;">Participants</h3>
-                      <div class="badge" id="stmai-attendance-badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; font-weight: 600;">-- Students</div>
-                   </div>
-                   <div class="table-scroll">
-                    <table class="data-table">
-                      <thead>
-                        <tr>
-                          <th>Student Name</th>
-                          <th>Status</th>
-                          <th>Score</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody id="stmai-analytics-tbody">
-                        <!-- Injected via JS -->
-                      </tbody>
-                    </table>
-                   </div>
-                </div>
-
-                <div id="stmai-tab-results" class="stmai-tab-content" style="padding: 1.5rem 0;">
-                  <div id="stmai-results-placeholder" class="form-card" style="text-align: center; padding: 4rem 2rem; background: rgba(0,0,0,0.1); border: 2px dashed rgba(255,255,255,0.05);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.3;"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    <p style="color: var(--gray-400); font-weight: 500;">Select a student from the <strong>Student Analytics</strong> tab<br>to view their detailed performance breakdown.</p>
-                  </div>
-                  <div id="stmai-detailed-report-view" style="display: none;">
-                     <!-- Reports injected here -->
-                  </div>
-                </div>
-
-                <div id="stmai-tab-settings" class="stmai-tab-content" style="padding: 1.5rem 0;">
-                   <div class="danger-zone">
-                      <h3 style="color: #ef4444; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                        Critical Actions
-                      </h3>
-                      <p style="color: var(--gray-400); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">
-                        Deleting this test will permanently erase all metadata, associated student assignments, and recorded scores. 
-                        <strong>This operation is irreversible.</strong>
-                      </p>
-                      <button class="btn btn-outline" id="stmai-delete-test-trigger" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3); font-weight: 700;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 8px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-                        Permanently Delete Test
-                      </button>
-                   </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Students Management Section -->
-          <section class="content-section" id="students-section">
+        <!-- Manage Tests Section (STMAI) -->
+        <section class="content-section" id="manage-tests-section">
+          <div id="stmai-list-view">
             <div class="section-intro">
-              <h2>Students Management</h2>
-              <p>View and manage all registered students</p>
+              <h2>Manage Tests</h2>
+              <p>View and manage all created tests</p>
             </div>
+
             <div class="stats-grid">
               <div class="stat-card">
-                <div class="stat-icon blue">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                  </svg>
-                </div>
-                <div class="stat-info">
-                  <span class="stat-value" id="totalStudents">0</span
-                  ><span class="stat-label">Total Students</span>
-                </div>
+                <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                  </svg></div>
+                <div class="stat-info"><span class="stat-value" id="staffTotalTests">0</span><span
+                    class="stat-label">Total Tests</span></div>
               </div>
               <div class="stat-card">
-                <div class="stat-icon green">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                  </svg>
-                </div>
-                <div class="stat-info">
-                  <span class="stat-value" id="totalDepartments">0</span
-                  ><span class="stat-label">Departments</span>
-                </div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-icon orange">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
+                <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12,6 12,12 16,14" />
-                  </svg>
-                </div>
-                <div class="stat-info">
-                  <span class="stat-value" id="activeStudents">0</span
-                  ><span class="stat-label">Active</span>
-                </div>
+                  </svg></div>
+                <div class="stat-info"><span class="stat-value" id="staffActiveTests">0</span><span
+                    class="stat-label">Active</span></div>
               </div>
               <div class="stat-card">
-                <div class="stat-icon purple">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
+                <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                  </svg></div>
+                <div class="stat-info"><span class="stat-value" id="staffParticipants">0</span><span
+                    class="stat-label">Participants</span></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
                     <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                  </svg>
-                </div>
-                <div class="stat-info">
-                  <span class="stat-value" id="placedStudents">0</span
-                  ><span class="stat-label">Placed</span>
-                </div>
+                  </svg></div>
+                <div class="stat-info"><span class="stat-value" id="staffPassRate">0%</span><span
+                    class="stat-label">Pass Rate</span></div>
               </div>
             </div>
+
             <div class="tests-table-container">
               <div class="table-header">
-                <input
-                  type="text"
-                  class="form-input search-input"
-                  id="studentSearch"
-                  placeholder="Search by name, register number..."
-                  autocomplete="off"
-                />
-                <select class="form-input filter-select" id="departmentFilter">
-                  <option value="">All Departments</option>
-                  <option value="Arabic">Arabic</option>
-                  <option value="Business Administration">Business Administration</option>
-                  <option value="Bio Technology">Bio Technology</option>
-                  <option value="Botany">Botany</option>
-                  <option value="Chemistry">Chemistry</option>
-                  <option value="Commerce">Commerce</option>
-                  <option value="Computer Science">Computer Science</option>
-                  <option value="Economics">Economics</option>
-                  <option value="English">English</option>
-                  <option value="Fashion Technology">Fashion Technology</option>
-                  <option value="French">French</option>
-                  <option value="Hindi">Hindi</option>
-                  <option value="History">History</option>
-                  <option value="Hotel Management">Hotel Management</option>
-                  <option value="Information Technology">Information Technology</option>
-                  <option value="Mathematics">Mathematics</option>
-                  <option value="Microbiology">Microbiology</option>
-                  <option value="Nutrition & Dietetics">Nutrition & Dietetics</option>
-                  <option value="Physics">Physics</option>
-                  <option value="Social Work">Social Work</option>
-                  <option value="Tamil">Tamil</option>
-                  <option value="Urdu">Urdu</option>
-                  <option value="Zoology">Zoology</option>
-                  <option value="Physical Education">Physical Education</option>
-                  <option value="Visual Communication">Visual Communication</option>
-                </select>
-                <select class="form-input filter-select" id="classFilter">
-                  <option value="">All Classes</option>
-                </select>
-                <select class="form-input filter-select" id="yearFilter">
-                  <option value="">All Years</option>
-                  <option value="1">1st Year</option>
-                  <option value="2">2nd Year</option>
-                  <option value="3">3rd Year</option>
-                  <option value="4">4th Year</option>
-                </select>
-                <select class="form-input filter-select" id="batchFilter">
-                  <option value="">All Batches</option>
-                  <option value="2023-2026">2023-2026</option>
-                  <option value="2024-2027">2024-2027</option>
-                  <option value="2025-2028">2025-2028</option>
-                  <option value="2026-2029">2026-2029</option>
-                  <option value="2027-2030">2027-2030</option>
-                </select>
+                <input type="text" class="form-input search-input" id="stmai-test-search" placeholder="Search tests..."
+                  autocomplete="off">
               </div>
               <div class="table-scroll">
                 <table class="data-table">
                   <thead>
                     <tr>
-                      <th>Register No</th>
-                      <th>Name</th>
-                      <th>Dept</th>
-                      <th>Year</th>
-                      <th>Section</th>
-                      <th>Batch</th>
-                      <th>Type</th>
-                      <th>Tests Taken</th>
+                      <th>Test Information</th>
+                      <th>Company</th>
+                      <th>Date</th>
+                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody id="studentsTableBody">
-                    <tr>
-                      <td colspan="9">
-                        <div
-                          style="
-                            text-align: center;
-                            padding: 3rem;
-                            color: var(--gray-500);
-                          "
-                        >
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            style="
-                              width: 48px;
-                              height: 48px;
-                              margin-bottom: 1rem;
-                              opacity: 0.5;
-                            "
-                          >
-                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 00-3-3.87" />
-                            <path d="M16 3.13a4 4 0 010 7.75" />
-                          </svg>
-                          <p style="font-size: 1.1rem; font-weight: 500">
-                            No Students Found
-                          </p>
-                          <p style="font-size: 0.9rem; opacity: 0.8">
-                            No students have registered in this category yet.
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
+                  <tbody id="testsTableBody">
+                    <!-- Loaded via JS -->
                   </tbody>
                 </table>
               </div>
             </div>
-          </section>
+          </div>
 
+          <!-- Single Test Detailed Dashboard (STMAI) -->
+          <div id="stmai-detail-view" style="display: none;">
+            <button class="btn" onclick="closeSTMAIDetails()"
+              style="margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 10px; padding: 0.7rem 1.75rem; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.35); transition: all 0.3s ease;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                style="width: 18px; height: 18px;">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Back to All Tests
+            </button>
 
+            <div class="form-card" style="margin-bottom: 2rem; border-left: 4px solid var(--blue-600);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
 
-          <!-- ========== STUDENT LOOKUP SECTION ========== -->
-          <section class="content-section" id="student-lookup-section">
-            <div class="section-intro">
-              <h2>Student Lookup</h2>
-              <p>Search for any student by register number to view their complete test history and performance</p>
+                  <h2 id="stmai-test-name" style="margin: 0; font-size: 2rem; font-weight: 800;">Test Name</h2>
+                  <p id="stmai-test-company" style="margin: 0.5rem 0 0; color: var(--gray-400); font-size: 1.1rem;">
+                    Company Name</p>
+                </div>
+                <div id="stmai-test-status-badge" style="display: flex; gap: 0.75rem; align-items: center;">
+                  <button class="btn btn-ghost btn-sm" id="stmai-delete-test-trigger"
+                    style="color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.5rem 1rem;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      style="width: 14px; height: 14px; margin-right: 6px;">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                    </svg>
+                    Delete Test
+                  </button>
+                </div>
+              </div>
+
+              <!-- STMAI Tab Navigation -->
+              <div class="stmai-tabs" style="margin-top: 2.5rem;">
+                <button class="stmai-tab active" data-stmai-tab="overview"
+                  onclick="switchSTMAITab('overview')">Overview</button>
+                <button class="stmai-tab" data-stmai-tab="analytics"
+                  onclick="switchSTMAITab('analytics')">Participants</button>
+                <button class="stmai-tab" data-stmai-tab="results" onclick="switchSTMAITab('results')">Detailed
+                  Results</button>
+              </div>
+
+              <!-- Tab Contents -->
+              <div id="stmai-tab-overview" class="stmai-tab-content active" style="padding: 1.5rem 0;">
+                <div class="details-grid" style="margin-bottom: 2rem;">
+                  <div class="form-group"><label class="form-label">Total Questions</label>
+                    <div class="form-input" id="stmai-ov-questions" style="background: rgba(255,255,255,0.03);">--</div>
+                  </div>
+                  <div class="form-group"><label class="form-label">Time Duration</label>
+                    <div class="form-input" id="stmai-ov-duration" style="background: rgba(255,255,255,0.03);">--</div>
+                  </div>
+                  <div class="form-group"><label class="form-label">Publish Date</label>
+                    <div class="form-input" id="stmai-ov-date" style="background: rgba(255,255,255,0.03);">--</div>
+                  </div>
+                </div>
+
+                <div class="stats-grid" id="stmai-overview-stats" style="margin-top: 2rem; gap: 1.5rem;">
+                  <!-- Essential stats injected here -->
+                </div>
+              </div>
+
+              <div id="stmai-tab-analytics" class="stmai-tab-content" style="padding: 1.5rem 0;">
+                <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                  <h3 style="margin: 0;">Participants</h3>
+                  <div class="badge" id="stmai-attendance-badge"
+                    style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; font-weight: 600;">-- Students</div>
+                </div>
+                <div class="table-scroll">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Student Name</th>
+                        <th>Status</th>
+                        <th>Score</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="stmai-analytics-tbody">
+                      <!-- Injected via JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div id="stmai-tab-results" class="stmai-tab-content" style="padding: 1.5rem 0;">
+                <div id="stmai-results-placeholder" class="form-card"
+                  style="text-align: center; padding: 4rem 2rem; background: rgba(0,0,0,0.1); border: 2px dashed rgba(255,255,255,0.05);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.3;">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                  </svg>
+                  <p style="color: var(--gray-400); font-weight: 500;">Select a student from the <strong>Student
+                      Analytics</strong> tab<br>to view their detailed performance breakdown.</p>
+                </div>
+                <div id="stmai-detailed-report-view" style="display: none;">
+                  <!-- Reports injected here -->
+                </div>
+              </div>
+
+              <div id="stmai-tab-settings" class="stmai-tab-content" style="padding: 1.5rem 0;">
+                <div class="danger-zone">
+                  <h3 style="color: #ef4444; margin-top: 0; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      style="width: 20px; height: 20px;">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                      <line x1="12" y1="9" x2="12" y2="13" />
+                      <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    Critical Actions
+                  </h3>
+                  <p style="color: var(--gray-400); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">
+                    Deleting this test will permanently erase all metadata, associated student assignments, and recorded
+                    scores.
+                    <strong>This operation is irreversible.</strong>
+                  </p>
+                  <button class="btn btn-outline" id="stmai-delete-test-trigger"
+                    style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3); font-weight: 700;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      style="width: 18px; height: 18px; margin-right: 8px;">
+                      <polyline points="3 6 5 6 21 6" />
+                      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                    </svg>
+                    Permanently Delete Test
+                  </button>
+                </div>
+              </div>
             </div>
-            <div style="display: flex; gap: 0.75rem; max-width: 500px; margin-bottom: 2rem;">
-              <input type="text" class="form-input" id="studentLookupInput" placeholder="Enter register number or username..." autocomplete="off" style="flex: 1;">
-              <button type="button" class="btn btn-primary" id="studentLookupBtn" style="padding: 0.65rem 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                Search
+          </div>
+        </section>
+
+        <!-- Students Management Section -->
+        <section class="content-section" id="students-section">
+          <div class="section-intro">
+            <h2>Students Management</h2>
+            <p>View and manage all registered students</p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="totalStudents">0</span><span class="stat-label">Total Students</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="totalDepartments">0</span><span class="stat-label">Departments</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12,6 12,12 16,14" />
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="activeStudents">0</span><span class="stat-label">Active</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                </svg>
+              </div>
+              <div class="stat-info">
+                <span class="stat-value" id="placedStudents">0</span><span class="stat-label">Placed</span>
+              </div>
+            </div>
+          </div>
+          <div class="tests-table-container">
+            <div class="table-header">
+              <input type="text" class="form-input search-input" id="studentSearch"
+                placeholder="Search by name, register number..." autocomplete="off" />
+              <select class="form-input filter-select" id="departmentFilter">
+                <option value="">All Departments</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Business Administration">Business Administration</option>
+                <option value="Bio Technology">Bio Technology</option>
+                <option value="Botany">Botany</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Economics">Economics</option>
+                <option value="English">English</option>
+                <option value="Fashion Technology">Fashion Technology</option>
+                <option value="French">French</option>
+                <option value="Hindi">Hindi</option>
+                <option value="History">History</option>
+                <option value="Hotel Management">Hotel Management</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Microbiology">Microbiology</option>
+                <option value="Nutrition & Dietetics">Nutrition & Dietetics</option>
+                <option value="Physics">Physics</option>
+                <option value="Social Work">Social Work</option>
+                <option value="Tamil">Tamil</option>
+                <option value="Urdu">Urdu</option>
+                <option value="Zoology">Zoology</option>
+                <option value="Physical Education">Physical Education</option>
+                <option value="Visual Communication">Visual Communication</option>
+              </select>
+              <select class="form-input filter-select" id="classFilter">
+                <option value="">All Classes</option>
+              </select>
+              <select class="form-input filter-select" id="yearFilter">
+                <option value="">All Years</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              <select class="form-input filter-select" id="batchFilter">
+                <option value="">All Batches</option>
+                <option value="2022-2025">2022-2025</option>
+                <option value="2023-2026">2023-2026</option>
+                <option value="2024-2027">2024-2027</option>
+                <option value="2025-2028">2025-2028</option>
+              </select>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Register No</th>
+                    <th>Name</th>
+                    <th>Dept</th>
+                    <th>Year</th>
+                    <th>Section</th>
+                    <th>Batch</th>
+                    <th>Type</th>
+                    <th>Tests Taken</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                  <tr>
+                    <td colspan="9">
+                      <div style="
+                            text-align: center;
+                            padding: 3rem;
+                            color: var(--gray-500);
+                          ">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="
+                              width: 48px;
+                              height: 48px;
+                              margin-bottom: 1rem;
+                              opacity: 0.5;
+                            ">
+                          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                          <circle cx="9" cy="7" r="4" />
+                          <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                          <path d="M16 3.13a4 4 0 010 7.75" />
+                        </svg>
+                        <p style="font-size: 1.1rem; font-weight: 500">
+                          No Students Found
+                        </p>
+                        <p style="font-size: 0.9rem; opacity: 0.8">
+                          No students have registered in this category yet.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
+
+        <!-- ========== STUDENT LOOKUP SECTION ========== -->
+        <section class="content-section" id="student-lookup-section">
+          <div class="section-intro">
+            <h2>Student Lookup</h2>
+            <p>Search for any student by register number to view their complete test history and performance</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; max-width: 500px; margin-bottom: 2rem;">
+            <input type="text" class="form-input" id="studentLookupInput"
+              placeholder="Enter register number or username..." autocomplete="off" style="flex: 1;">
+            <button type="button" class="btn btn-primary" id="studentLookupBtn"
+              style="padding: 0.65rem 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                style="width: 18px; height: 18px;">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              Search
+            </button>
+          </div>
+          <div id="studentLookupResult">
+            <div style="text-align: center; padding: 4rem; color: var(--gray-500);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                style="width: 64px; height: 64px; margin-bottom: 1rem; opacity: 0.3;">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              <p style="font-size: 1.1rem; font-weight: 500;">Enter a Register Number</p>
+              <p style="font-size: 0.9rem; opacity: 0.7;">Search for a student to view their detailed profile and test
+                history.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== FULL-PAGE PUBLISH REVIEW SECTION ========== -->
+        <section class="content-section" id="publish-review-section">
+          <div class="publish-review-page">
+            <!-- Professional Header -->
+            <div class="publish-header">
+              <div class="publish-header-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  style="width: 32px; height: 32px;">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+              <div>
+                <h2 style="margin: 0; font-size: 1.75rem; font-weight: 700;">Ready to Publish</h2>
+                <p style="margin: 0.25rem 0 0; color: var(--gray-400); font-size: 0.9rem;">Review the test configuration
+                  before making it live for students</p>
+              </div>
+            </div>
+
+            <!-- Review Content -->
+            <div id="publishReviewBody" class="publish-review-body">
+              <!-- Dynamically populated by JS -->
+            </div>
+
+            <!-- Action Bar -->
+            <div class="publish-action-bar">
+              <button type="button" class="btn btn-ghost publish-back-btn" id="publishBackBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  style="width: 18px; height: 18px; margin-right: 6px;">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+                Back to Editing
+              </button>
+              <button type="button" class="btn btn-primary" id="confirmPublishBtn"
+                style="padding: 0.75rem 2.5rem; font-weight: 600; box-shadow: 0 8px 24px rgba(102,126,234,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  style="width: 18px; height: 18px; margin-right: 8px;">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                Confirm &amp; Publish
               </button>
             </div>
-            <div id="studentLookupResult">
-              <div style="text-align: center; padding: 4rem; color: var(--gray-500);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 64px; height: 64px; margin-bottom: 1rem; opacity: 0.3;">
-                  <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </div>
+        </section>
+
+        <!-- AI Question Generator Section -->
+        <section class="content-section" id="ai-generator-section">
+          <div class="section-intro">
+            <h2>AI Question Generator</h2>
+            <p>Upload a Word document (.docx) to automatically extract MCQ questions</p>
+          </div>
+
+          <div class="ai-gen-container">
+            <!-- Upload Area -->
+            <div class="upload-zone" id="uploadZone">
+              <div class="upload-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
                 </svg>
-                <p style="font-size: 1.1rem; font-weight: 500;">Enter a Register Number</p>
-                <p style="font-size: 0.9rem; opacity: 0.7;">Search for a student to view their detailed profile and test history.</p>
+              </div>
+              <h3>Click or drag a Word file here</h3>
+              <p>Supports <strong>.docx</strong> format &bull; Maximum 10MB</p>
+              <p style="color: var(--gray-500); font-size: 0.8rem; margin-top: 0.5rem;">
+                Questions should be numbered (e.g., 1. / Q1.) with options labeled A–D and answers marked
+              </p>
+              <input type="file" id="aiFileInput" accept=".docx" style="display: none;" />
+              <button class="btn btn-secondary" onclick="document.getElementById('aiFileInput').click()">Choose
+                File</button>
+            </div>
+
+            <!-- Processing State (Hidden by default) -->
+            <div class="processing-state" id="processingState" style="display: none;">
+              <div class="ai-spinner"></div>
+              <h3 id="processingTitle">Reading Document...</h3>
+              <p id="processingSubtitle">Extracting text content from your Word file.</p>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="extractionProgress"></div>
               </div>
             </div>
-          </section>
 
-          <!-- ========== FULL-PAGE PUBLISH REVIEW SECTION ========== -->
-          <section class="content-section" id="publish-review-section">
-            <div class="publish-review-page">
-              <!-- Professional Header -->
-              <div class="publish-header">
-                <div class="publish-header-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 32px; height: 32px;">
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                </div>
+            <!-- Extraction Results (Review Interface) -->
+            <div class="extraction-results" id="extractionResults" style="display: none;">
+              <div class="results-header">
                 <div>
-                  <h2 style="margin: 0; font-size: 1.75rem; font-weight: 700;">Ready to Publish</h2>
-                  <p style="margin: 0.25rem 0 0; color: var(--gray-400); font-size: 0.9rem;">Review the test configuration before making it live for students</p>
+                  <h3>Extracted Questions (<span id="extractedCount">0</span>)</h3>
+                  <p style="color: var(--gray-500); font-size: 0.85rem; margin-top: 0.25rem;" id="extractionSummary">
+                  </p>
+                </div>
+                <div style="display: flex; gap: 0.75rem;">
+                  <button class="btn btn-ghost" id="reUploadBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      style="width: 16px; height: 16px; margin-right: 4px;">
+                      <polyline points="1 4 1 10 7 10" />
+                      <path d="M3.51 15a9 9 0 102.13-9.36L1 10" />
+                    </svg>
+                    Re-upload
+                  </button>
+                  <button class="btn btn-primary" id="finalizeExtractionBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      style="width: 18px; height: 18px; margin-right: 8px;">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Create Quiz
+                  </button>
                 </div>
               </div>
-
-              <!-- Review Content -->
-              <div id="publishReviewBody" class="publish-review-body">
-                <!-- Dynamically populated by JS -->
+              <div class="results-list" id="extractedQuestionsList">
+                <!-- Extracted items will be injected here -->
               </div>
+            </div>
+          </div>
+        </section>
+        <section class="content-section" id="profile-section">
+          <div class="section-intro" style="margin-bottom: 3rem;">
+            <h2 style="font-size: 2.25rem; font-weight: 800; color: #fff; letter-spacing: -0.02em;">Digital Identity
+            </h2>
+            <p style="color: var(--gray-400); font-size: 1.1rem; margin-top: 0.5rem;">Your official platform credentials
+              and administrative profile</p>
+          </div>
 
-              <!-- Action Bar -->
-              <div class="publish-action-bar">
-                <button type="button" class="btn btn-ghost publish-back-btn" id="publishBackBtn">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 6px;">
-                    <polyline points="15 18 9 12 15 6" />
+          <div class="profile-card-premium">
+            <div class="profile-header-main" style="gap: 2rem;">
+              <div class="profile-avatar-container" style="position: relative;">
+                <div class="profile-avatar-large staff" id="profileAvatarLarge"
+                  style="width: 72px; height: 72px; font-size: 1.8rem; border-radius: 1rem; overflow: hidden; position: relative;">
+                  <img id="profilePictureDisplay" src=""
+                    style="width: 100%; height: 100%; object-fit: cover; display: none;" />
+                  <span id="profileInitials">AU</span>
+                </div>
+                <label for="profilePhotoInput" class="photo-upload-btn"
+                  style="position: absolute; bottom: -5px; right: -5px; background: #f59e0b; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid #1a1b2e; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    style="width: 14px; height: 14px; color: white;">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
                   </svg>
-                  Back to Editing
-                </button>
-                <button type="button" class="btn btn-primary" id="confirmPublishBtn" style="padding: 0.75rem 2.5rem; font-weight: 600; box-shadow: 0 8px 24px rgba(102,126,234,0.3);">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 18px; height: 18px; margin-right: 8px;">
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                  Confirm &amp; Publish
-                </button>
+                  <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;"
+                    onchange="handleProfilePhotoUpload(event)" />
+                </label>
+              </div>
+              <div class="profile-identity">
+                <span class="profile-label"
+                  style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; color: #f59e0b; font-weight: 700;">Verified
+                  Staff Profile</span>
+                <div class="profile-username-main" id="profileUsername">Staff Name</div>
               </div>
             </div>
-          </section>
 
-          <!-- AI Question Generator Section -->
-          <section class="content-section" id="ai-generator-section">
-            <div class="section-intro">
-              <h2>AI Question Generator</h2>
-              <p>Upload a Word document (.docx) to automatically extract MCQ questions</p>
-            </div>
-
-            <div class="ai-gen-container">
-              <!-- Upload Area -->
-              <div class="upload-zone" id="uploadZone">
-                <div class="upload-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                    <polyline points="17 8 12 3 7 8" />
-                    <line x1="12" y1="3" x2="12" y2="15" />
-                  </svg>
-                </div>
-                <h3>Click or drag a Word file here</h3>
-                <p>Supports <strong>.docx</strong> format &bull; Maximum 10MB</p>
-                <p style="color: var(--gray-500); font-size: 0.8rem; margin-top: 0.5rem;">
-                  Questions should be numbered (e.g., 1. / Q1.) with options labeled A–D and answers marked
-                </p>
-                <input type="file" id="aiFileInput" accept=".docx" style="display: none;" />
-                <button class="btn btn-secondary" onclick="document.getElementById('aiFileInput').click()">Choose File</button>
+            <div class="profile-details-grid">
+              <div class="profile-info-block">
+                <span class="block-label">Staff Code / ID</span>
+                <h1 class="profile-h1" id="profileRegNo">---</h1>
               </div>
 
-              <!-- Processing State (Hidden by default) -->
-              <div class="processing-state" id="processingState" style="display: none;">
-                <div class="ai-spinner"></div>
-                <h3 id="processingTitle">Reading Document...</h3>
-                <p id="processingSubtitle">Extracting text content from your Word file.</p>
-                <div class="progress-bar-container">
-                  <div class="progress-bar-fill" id="extractionProgress"></div>
-                </div>
+              <div class="profile-info-block">
+                <span class="block-label">Official Designation</span>
+                <h1 class="profile-h1" id="profileStaffRole">---</h1>
               </div>
 
-              <!-- Extraction Results (Review Interface) -->
-              <div class="extraction-results" id="extractionResults" style="display: none;">
-                <div class="results-header">
-                  <div>
-                    <h3>Extracted Questions (<span id="extractedCount">0</span>)</h3>
-                    <p style="color: var(--gray-500); font-size: 0.85rem; margin-top: 0.25rem;" id="extractionSummary"></p>
-                  </div>
-                  <div style="display: flex; gap: 0.75rem;">
-                    <button class="btn btn-ghost" id="reUploadBtn">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;">
-                        <polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 102.13-9.36L1 10" />
-                      </svg>
-                      Re-upload
-                    </button>
-                    <button class="btn btn-primary" id="finalizeExtractionBtn">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 8px;">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      Create Quiz
-                    </button>
-                  </div>
-                </div>
-                <div class="results-list" id="extractedQuestionsList">
-                  <!-- Extracted items will be injected here -->
-                </div>
+              <div class="profile-info-block">
+                <span class="block-label">Primary Department</span>
+                <h1 class="profile-h1" id="profileStaffDeptFull">---</h1>
+              </div>
+
+              <div class="profile-info-block">
+                <span class="block-label">Employment Status</span>
+                <h1 class="profile-h1">Active Permanent</h1>
               </div>
             </div>
-          </section>
-          <section class="content-section" id="profile-section">
-            <div class="section-intro">
-              <h2>My Profile</h2>
-              <p>Your official registration details and credentials</p>
-            </div>
-            
-            <div class="profile-card-premium">
-              <div class="profile-header-main">
-                <div class="profile-avatar-large staff" id="profileAvatarLarge">AU</div>
-                <div class="profile-identity">
-                  <span class="profile-label">Registered Username</span>
-                  <div class="profile-username-main" id="profileUsername">username</div>
-                </div>
-              </div>
-              
-              <div class="profile-details-grid">
-                <div class="profile-info-block">
-                  <span class="block-label">Staff Code / ID</span>
-                  <h1 class="profile-h1" id="profileRegNo">STF001</h1>
-                </div>
-                
-                <div class="profile-info-block">
-                  <span class="block-label">Official Designation</span>
-                  <h1 class="profile-h1" id="profileStaffRole">Assistant Professor</h1>
-                </div>
 
-                <div class="profile-info-block">
-                  <span class="block-label">Primary Department</span>
-                  <h1 class="profile-h1" id="profileStaffDeptFull">Department of Computer Science</h1>
-                </div>
-
-                <div class="profile-info-block">
-                  <span class="block-label">Employment Status</span>
-                  <h1 class="profile-h1">Active Permanent</h1>
-                </div>
+            <div class="profile-meta-info">
+              <div class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                <span id="profileDept">---</span>
               </div>
-              
-              <div class="profile-section-divider">
-                <span>Academic & Professional Qualifications</span>
+              <div class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span id="profileJoined">Joined Jan 2024</span>
               </div>
-
-              <div class="qualifications-grid">
-                <div class="qual-item">
-                  <div class="qual-icon">🎓</div>
-                  <div class="qual-text">
-                    <strong>Doctorate of Philosophy (Ph.D)</strong>
-                    <span>Regstered Qualification</span>
-                  </div>
-                </div>
-                <div class="qual-item">
-                  <div class="qual-icon">📝</div>
-                  <div class="qual-text">
-                    <strong>Master of Computer Applications</strong>
-                    <span>Registered Qualification</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="profile-meta-info">
-                  <div class="meta-item">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                      <span id="profileDept">Department of Computer Science</span>
-                  </div>
-                  <div class="meta-item">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                      <span id="profileJoined">Joined: Jan 2024</span>
-                  </div>
-                  <div class="meta-item">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                      <span id="profileEmail">staff@jmc.edu</span>
-                  </div>
+              <div class="meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                <span id="profileEmail">staff@jmc.edu</span>
               </div>
             </div>
-          </section>
-        </div>
-      </main>
+          </div>
+        </section>
+      </div>
+    </main>
 
-      <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/db.js"></script>
-    <script src="js/dashboard.js?v=2.0"></script>
-    <script src="js/staff-dashboard.js"></script>
-    <script src="js/ai-buddy.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/dashboard.js?v=2.0"></script>
+  <script src="js/staff-dashboard.js"></script>
+  <script src="js/ai-buddy.js"></script>
+</body>
+
 </html>

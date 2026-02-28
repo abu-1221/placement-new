@@ -24,7 +24,49 @@ document.addEventListener('DOMContentLoaded', () => {
     initStudentsManagement();
     initStudentLookup();
     initAiGenerator();
+    generateTargetBatches();
+    initTargetingShortcuts();
 });
+
+function generateTargetBatches() {
+    const grid = document.getElementById('targetBatchesGrid');
+    if (!grid) return;
+
+    const currentYear = new Date().getFullYear() - 1; // Start from last year for safety
+    const batches = [];
+
+    // Rolling Pattern: Each batch consists of 4 consecutive years.
+    // Create 10 such batches.
+    for (let i = 0; i < 10; i++) {
+        const startYear = currentYear + i;
+        const endYear = startYear + 3;
+        const label = `${startYear}-${endYear}`;
+        batches.push({ label: label, value: label });
+    }
+
+    grid.innerHTML = batches.map(b => `
+        <label class="checkbox-item"><input type="checkbox" name="batch" value="${b.value}"><span class="checkbox-label">${b.label}</span></label>
+    `).join('');
+}
+
+function initTargetingShortcuts() {
+    const setups = [
+        { master: 'selectAllDepts', grid: 'targetDepartmentsGrid' },
+        { master: 'selectAllYears', grid: 'targetYearsGrid' },
+        { master: 'selectAllSections', grid: 'targetSectionsGrid' },
+        { master: 'selectAllGenders', grid: 'targetGendersGrid' }
+    ];
+
+    setups.forEach(setup => {
+        const masterCb = document.getElementById(setup.master);
+        if (masterCb) {
+            masterCb.addEventListener('change', (e) => {
+                const checked = e.target.checked;
+                document.querySelectorAll(`#${setup.grid} input[type="checkbox"]`).forEach(cb => cb.checked = checked);
+            });
+        }
+    });
+}
 
 // Create Test Form with Confirmation Workflow
 function initCreateTestForm() {
@@ -45,6 +87,7 @@ function initCreateTestForm() {
         // Collect Audience Targeting from grid checkboxes
         const targetDepartments = Array.from(document.querySelectorAll('#targetDepartmentsGrid input:checked')).map(cb => cb.value);
         const targetYears = Array.from(document.querySelectorAll('#targetYearsGrid input:checked')).map(cb => cb.value);
+        const targetBatches = Array.from(document.querySelectorAll('#targetBatchesGrid input:checked')).map(cb => cb.value);
         const targetSections = Array.from(document.querySelectorAll('#targetSectionsGrid input:checked')).map(cb => cb.value);
         const targetGenders = Array.from(document.querySelectorAll('#targetGendersGrid input:checked')).map(cb => cb.value);
 
@@ -132,6 +175,7 @@ function initCreateTestForm() {
             targetAudience: {
                 departments: targetDepartments,
                 years: targetYears,
+                batches: targetBatches,
                 sections: targetSections,
                 genders: targetGenders
             }
@@ -581,17 +625,19 @@ async function loadTests() {
                 <td>${formattedDate}</td>
                 <td><span class="status-badge ${test.status}">${test.status.toUpperCase()}</span></td>
                 <td class="actions-cell">
-                    <button class="action-btn view" onclick="viewTestAnalytics(${test.id})" title="View Analytics Dashboard" style="color: #60a5fa; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); border-radius: 8px; padding: 8px; cursor: pointer;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;">
-                            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-                        </svg>
-                    </button>
-                    <button class="action-btn delete" onclick="triggerSTMAIDelete(${test.id}, '${test.name.replace(/'/g, "\\'")}')" title="Delete Test">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="3,6 5,6 21,6"/>
-                            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                        </svg>
-                    </button>
+                    <div class="action-icons">
+                        <button class="action-btn" onclick="viewTestAnalytics(${test.id})" title="View Analytics">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </button>
+                        <button class="action-btn delete" onclick="triggerSTMAIDelete(${test.id}, '${test.name.replace(/'/g, "\\\\'")}')" title="Delete Test">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                                <polyline points="3,6 5,6 21,6"/>
+                                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -716,13 +762,16 @@ async function loadStudents() {
                 <td>${details.year || '-'}</td>
                 <td>${details.section || '-'}</td>
                 <td>${details.batch || '-'}</td>
-                <td>${details.streamType || '-'}</td>
-                <td><span style="display: inline-flex; align-items: center; gap: 4px; font-weight: 500; color: ${studentResults.length > 0 ? '#10b981' : 'var(--gray-500)'};">${studentResults.length}</span></td>
+                <td>${details.stream || details.type || '-'}</td>
+                <td>${studentResults.length}</td>
                 <td class="actions-cell">
-                    <button class="action-btn view" onclick="lookupStudent('${student.username}')" title="View Details">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                        <span>View</span>
-                    </button>
+                    <div class="action-icons">
+                        <button class="action-btn" onclick="lookupStudent('${student.username}')" title="View Details">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -827,18 +876,37 @@ async function lookupStudent(usernameOrRegNo) {
         container.innerHTML = `
             <div class="lookup-profile-card" style="animation: fadeInUp 0.4s ease;">
                 <!-- Student Info Header -->
-                <div style="display:flex;align-items:center;gap:1.5rem;padding:1.5rem;background:rgba(255,255,255,0.03);border-radius:1rem;border:1px solid rgba(255,255,255,0.08);margin-bottom:1.5rem;">
-                    <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:white;flex-shrink:0;">
-                        ${(student.name || 'S').charAt(0).toUpperCase()}
+                <div style="display:flex; flex-wrap: wrap; gap:1.5rem; justify-content:space-between; margin-bottom:1.5rem;">
+                    <div style="flex:1; min-width: 300px; display:flex; align-items:center; gap:1.25rem; padding:1.5rem; background:rgba(255,255,255,0.03); border-radius:1rem; border:1px solid rgba(255,255,255,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                        <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#667eea,#764ba2); display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:700; color:white; flex-shrink:0;">
+                            ${(student.name || 'S').charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <h3 style="margin:0 0 0.25rem; font-size:1.4rem; font-weight:700; color:#fff;">${student.name || 'N/A'}</h3>
+                            <div style="color:var(--gray-400); font-size:0.95rem; font-weight:500; display:flex; align-items:center; gap: 6px;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                                ${details.registerNumber || student.username}
+                            </div>
+                        </div>
                     </div>
-                    <div style="flex:1;">
-                        <h3 style="margin:0;font-size:1.25rem;font-weight:600;">${student.name || 'N/A'}</h3>
-                        <p style="margin:0.25rem 0 0;color:var(--gray-400);font-size:0.9rem;">${details.registerNumber || student.username}</p>
-                    </div>
-                    <div style="text-align:right;color:var(--gray-400);font-size:0.85rem;">
-                        <div>${details.department || '-'}</div>
-                        <div>Year ${details.year || '-'} · Section ${details.section || '-'}</div>
-                        <div>Batch ${details.batch || '-'}</div>
+                    
+                    <div style="flex:1; min-width: 300px; padding:1.5rem; background:rgba(255,255,255,0.03); border-radius:1rem; border:1px solid rgba(255,255,255,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem;">
+                        <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                            <span style="color:var(--gray-500); font-size:0.85rem; font-weight:600; text-transform:uppercase;">Department</span>
+                            <span style="color:#fff; font-weight:600; font-size:0.95rem;">${details.department || '-'}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                            <span style="color:var(--gray-500); font-size:0.85rem; font-weight:600; text-transform:uppercase;">Year</span>
+                            <span style="color:#fff; font-weight:600; font-size:0.95rem;">${details.year || '-'}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                            <span style="color:var(--gray-500); font-size:0.85rem; font-weight:600; text-transform:uppercase;">Section</span>
+                            <span style="color:#fff; font-weight:600; font-size:0.95rem;">${details.section || '-'}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="color:var(--gray-500); font-size:0.85rem; font-weight:600; text-transform:uppercase;">Batch</span>
+                            <span style="color:#fff; font-weight:600; font-size:0.95rem;">${details.batch || '-'}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -846,7 +914,7 @@ async function lookupStudent(usernameOrRegNo) {
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.5rem;">
                     <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:0.75rem;padding:1rem;text-align:center;">
                         <div style="font-size:1.75rem;font-weight:700;color:#3b82f6;">${totalTests}</div>
-                        <div style="font-size:0.8rem;color:var(--gray-400);margin-top:4px;">Tests Taken</div>
+                        <div style="font-size:0.8rem;color:var(--gray-400);margin-top:4px;">Test Attended</div>
                     </div>
                     <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:0.75rem;padding:1rem;text-align:center;">
                         <div style="font-size:1.75rem;font-weight:700;color:#10b981;">${passedTests}</div>
@@ -878,26 +946,26 @@ async function lookupStudent(usernameOrRegNo) {
                         </div>
                     ` : `
                         <div class="table-scroll">
-                            <table class="data-table" style="margin:0;">
-                                <thead>
+                            <table class="data-table" style="margin:0; width: 100%; word-break: break-word;">
+                                <thead style="font-size: 0.9rem;">
                                     <tr>
-                                        <th>Test Name</th>
-                                        <th>Company</th>
-                                        <th>Score</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
+                                        <th style="padding: 1rem;">Test Name</th>
+                                        <th style="padding: 1rem;">Company</th>
+                                        <th style="padding: 1rem;">Score</th>
+                                        <th style="padding: 1rem;">Status</th>
+                                        <th style="padding: 1rem;">Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     ${studentResults.map(r => {
             const testInfo = tests.find(t => String(t.id) === String(r.testId));
             return `
-                                            <tr>
-                                                <td>${r.testName || (testInfo ? testInfo.name : '-')}</td>
-                                                <td>${r.company || (testInfo ? testInfo.company : '-')}</td>
-                                                <td style="font-weight:600;color:${r.score >= 50 ? '#10b981' : '#ef4444'};">${r.score}%</td>
-                                                <td><span class="status-badge ${r.status === 'passed' ? 'active' : 'inactive'}">${r.status ? r.status.toUpperCase() : '-'}</span></td>
-                                                <td>${r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}</td>
+                                            <tr style="font-size: 0.95rem;">
+                                                <td style="padding: 1rem; white-space: normal; line-height: 1.5;">${r.testName || (testInfo ? testInfo.name : '-')}</td>
+                                                <td style="padding: 1rem; white-space: normal;">${r.company || (testInfo ? testInfo.company : '-')}</td>
+                                                <td style="padding: 1rem; font-weight: 700; color: ${r.score >= 50 ? '#10b981' : '#ef4444'};">${r.score}%</td>
+                                                <td style="padding: 1rem;"><span class="status-badge ${r.status === 'passed' ? 'active' : 'inactive'}" style="font-size: 0.75rem; padding: 0.3rem 0.8rem;">${r.status ? r.status.toUpperCase() : '-'}</span></td>
+                                                <td style="padding: 1rem; white-space: normal;">${r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}</td>
                                             </tr>`;
         }).join('')}
                                 </tbody>
@@ -1024,22 +1092,24 @@ async function loadSTMAIParticipation(testId) {
                     </span>
                     <div style="font-size: 0.65rem; color: var(--gray-500); margin-top: 4px; padding-left: 2px;">${s.department} • ${s.section}</div>
                 </td>
-                <td style="font-weight:800; font-size: 1.1rem; color: ${s.attended ? (s.score >= 50 ? '#10b981' : '#ef4444') : 'var(--gray-600)'};">
-                    ${s.attended ? `
-                        <div style="display:flex; flex-direction:column; align-items:flex-start;">
-                            <span>${s.score !== null ? s.score + '%' : '--'}</span>
-                            <span style="font-size: 0.65rem; color: ${s.score >= 50 ? '#10b981' : '#ef4444'}; opacity: 0.8; font-weight: 700;">
-                                ${s.assignmentStatus.toUpperCase()}
-                            </span>
-                        </div>
-                    ` : '<span style="font-size: 0.8rem; color: var(--gray-600); font-weight: 400;">NOT STARTED</span>'}
+                <td style="font-weight:700; color: ${s.attended ? (s.score >= 50 ? '#10b981' : '#ef4444') : 'var(--gray-600)'};">
+                    ${s.attended ? `${s.score !== null ? s.score + '%' : '--'}` : '<span style="font-size: 0.8rem; color: var(--gray-600); font-weight: 400;">NOT STARTED</span>'}
                 </td>
-                <td>
-                    ${s.assignmentStatus === 'submitted' || !!s.score || s.score === 0 ? `
-                        <button class="btn btn-sm btn-ghost" onclick="inspectSTMAIStudent('${s.username}')" style="border: 1px solid rgba(255,255,255,0.1); font-weight: 600;">
-                            View Details
-                        </button>
-                    ` : '<span style="color:var(--gray-600); font-size:0.8rem;">Waiting...</span>'}
+                <td class="actions-cell">
+                    ${s.attended ? `
+                        <div class="action-icons">
+                            <button class="action-btn" onclick="inspectSTMAIStudent('${s.username}')" title="View Details">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="action-btn" onclick="window.PDFEngine.downloadSingleReport('${s.username}', '${testId}')" title="Download Report">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    ` : '<span style="color:var(--gray-600); font-size:0.8rem; font-weight:600;">PENDING</span>'}
                 </td>
             </tr>
         `;
@@ -1102,43 +1172,58 @@ async function inspectSTMAIStudent(username) {
         const questions = typeof studentResult.questions === 'string' ? JSON.parse(studentResult.questions) : (studentResult.questions || []);
 
         reportView.innerHTML = `
-            <div class="form-card" style="background: rgba(255,255,255,0.02); margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.05);">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1.5rem;">
                     <div>
-                        <h4 style="margin:0;">Performance Breakdown: ${studentResult.name || username}</h4>
-                        <div style="font-size:0.85rem; color:var(--gray-500); margin-top:4px;">Recorded on ${new Date(studentResult.date).toLocaleString()}</div>
+                        <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: #fff;">${studentResult.name || username}</h3>
+                        <div style="color: var(--gray-400); font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            ${studentResult.testName || 'Assessment'}
+                        </div>
+                        <div style="color: var(--gray-500); font-size: 0.85rem; margin-top: 6px;">Recorded: ${new Date(studentResult.date).toLocaleString()}</div>
                     </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:1.5rem; font-weight:800; color: ${studentResult.score >= 50 ? '#10b981' : '#ef4444'};">${studentResult.score}%</div>
-                        <div style="font-size:0.75rem; color:var(--gray-500); font-weight:600;">QUALIFIED</div>
+                    <div style="text-align: right; background: rgba(0,0,0,0.2); padding: 1rem 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="font-size: 2rem; font-weight: 800; color: ${studentResult.score >= 50 ? '#10b981' : '#ef4444'}; margin-bottom: 4px; line-height: 1;">${studentResult.score}%</div>
+                        <div style="font-size: 0.8rem; font-weight: 700; color: ${studentResult.score >= 50 ? '#10b981' : '#ef4444'}; text-transform: uppercase; letter-spacing: 1px;">
+                            ${studentResult.score >= 50 ? 'QUALIFIED' : 'NOT QUALIFIED'}
+                        </div>
                     </div>
                 </div>
 
-                <div style="display:flex; flex-direction:column; gap: 1rem;">
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: #fff; margin: 0 0 1rem; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        Question Breakdown
+                    </h4>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap: 1.25rem;">
                     ${questions.map((q, idx) => {
             const studentChoice = answers[idx];
             const isCorrect = studentChoice === q.answer;
             return `
-                        <div style="padding: 1.25rem; background: rgba(0,0,0,0.2); border-radius: 10px; border-left: 4px solid ${isCorrect ? '#10b981' : '#ef4444'};">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
-                                <div style="font-weight:500;">Q${idx + 1}: ${q.question}</div>
-                                <div style="font-weight: 800; font-size: 0.75rem; color: ${isCorrect ? '#10b981' : '#ef4444'}; text-transform: uppercase;">
-                                    ${isCorrect ? '✅ Correct' : '❌ Wrong'}
+                        <div class="review-item" style="padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 12px; border-left: 4px solid ${isCorrect ? '#10b981' : '#ef4444'}; border-top: 1px solid rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.02);">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem;">
+                                <div style="font-weight: 600; color: #fff; line-height: 1.5;"><span style="color: var(--gray-400); margin-right: 4px;">Q${idx + 1}.</span> ${q.question}</div>
+                                <div class="review-status ${isCorrect ? 'status-correct' : 'status-incorrect'}" style="padding: 0.35rem 0.8rem; font-size: 0.75rem; white-space: nowrap; flex-shrink: 0;">
+                                    ${isCorrect ? '✅ Correct' : '❌ Incorrect'}
                                 </div>
                             </div>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
-                                <div><span style="color:var(--gray-500);">Student Answer:</span> <strong style="color: ${isCorrect ? '#10b981' : '#ef4444'}">${studentChoice || 'None'}</strong></div>
-                                <div><span style="color:var(--gray-500);">Correct Answer:</span> <strong style="color: #10b981;">${q.answer}</strong></div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px;">
+                                <div>
+                                    <div style="color:var(--gray-500); font-size: 0.8rem; margin-bottom: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Student Selected</div>
+                                    <div style="color: ${isCorrect ? '#10b981' : '#ef4444'}; font-weight: 600; font-size: 0.95rem;">${studentChoice || 'Not answered'}</div>
+                                </div>
+                                <div>
+                                    <div style="color:var(--gray-500); font-size: 0.8rem; margin-bottom: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Correct Answer</div>
+                                    <div style="color: #10b981; font-weight: 600; font-size: 0.95rem;">${q.answer}</div>
+                                </div>
                             </div>
                         </div>
-                        `;
+                    `;
         }).join('')}
                 </div>
             </div>
-            
-            <button class="btn btn-primary" onclick="window.PDFEngine.downloadSingleReport('${username}', '${currentSTMAITestId}')">
-                Download PDF Report
-            </button>
         `;
 
     } catch (err) {

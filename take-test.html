@@ -1,401 +1,426 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Take Test | JMC-TEST</title>
-    <link rel="icon" type="image/png" href="logo.png" />
-    <link rel="icon" type="image/png" href="logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/dashboard.css" />
-    
 
-    <script src="js/db.js" defer></script>
-    <style>
-      body {
-        background: linear-gradient(
-          135deg,
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Take Test | JMC-Test</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+
+  <script src="js/db.js" defer></script>
+  <style>
+    body {
+      background: linear-gradient(135deg,
           #0f0f23 0%,
           #1a1a2e 50%,
-          #16213e 100%
-        );
-        min-height: 100vh;
-      }
-      .test-container {
-        max-width: 900px;
-        margin: 2rem auto;
-        padding: 2rem;
-      }
-      .test-header {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1rem;
-        padding: 2rem;
-        margin-bottom: 2rem;
-      }
-      .test-header h1 {
-        font-family: var(--font-display);
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-      }
-      .test-info {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 1.5rem;
-      }
-      .info-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--gray-400);
-      }
-      .info-item svg {
-        width: 20px;
-        height: 20px;
-        stroke: var(--primary-400);
-      }
-      .timer-bar {
-        width: 100%;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-        overflow: hidden;
-        margin-top: 1rem;
-      }
-      .timer-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
-        transition: width 1s linear;
-      }
-      .question-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1.25rem;
-        padding: 2.5rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        animation: slideUp 0.6s ease-out;
-      }
-      @keyframes slideUp {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-      }
-      .question-number {
-        font-family: var(--font-display);
-        color: var(--primary-400);
-        font-weight: 700;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .q-type-badge {
-        padding: 4px 12px;
-        border-radius: 20px;
-        background: rgba(102, 126, 234, 0.1);
-        color: #667eea;
-        font-size: 0.7rem;
-        border: 1px solid rgba(102, 126, 234, 0.2);
-      }
-      .question-text {
-        font-size: 1.35rem;
-        margin-bottom: 2rem;
-        line-height: 1.5;
-        font-weight: 500;
-        color: #fff;
-      }
-      
-      /* MCQ Layout Fix */
-      .options-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 1.5rem;
-      }
-      .option-label {
-        display: flex;
-        align-items: center;
-        padding: 1.5rem 2rem;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1.25rem;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-weight: 600;
-        color: var(--gray-300);
-        font-size: 1.1rem;
-      }
-      .option-label:hover {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(102, 126, 234, 0.4);
-        transform: translateY(-2px);
-        color: #fff;
-      }
-      .option-item input[type="radio"]:checked + .option-label {
-        background: rgba(102, 126, 234, 0.15);
-        border-color: var(--primary-500);
-        box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
-        color: #fff;
-      }
-      .option-letter {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        margin-right: 1.5rem;
-        font-size: 1rem;
-        transition: all 0.25s;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .option-item input[type="radio"]:checked + .option-label .option-letter {
-        background: var(--primary-500);
-        color: #fff;
-        border-color: var(--primary-400);
-      }
-      
-      .pulse-animation {
-        animation: pulse 1.5s infinite;
-      }
-      @keyframes pulse {
-        0% { opacity: 0.6; }
-        50% { opacity: 1; }
-        100% { opacity: 0.6; }
-      }
-      
-      .hidden { display: none; }
-    </style>
-  </head>
-  <body>
-    <div class="test-container">
-      <a href="student-dashboard.html" class="back-link" id="backLink">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        Back to Dashboard
-      </a>
+          #16213e 100%);
+      min-height: 100vh;
+    }
 
-      <!-- Test Header -->
-      <div class="test-header" id="testHeader">
-        <h1 id="testTitle">Loading Test...</h1>
-        <p
-          id="testDescription"
-          style="color: var(--gray-400); margin-top: 0.5rem"
-        ></p>
-        <div class="test-info">
-          <div class="info-item">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12,6 12,12 16,14" />
-            </svg>
-            <span id="testDuration">0 minutes</span>
-          </div>
-          <div class="info-item">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M9 11l3 3L22 4" />
-              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
-            </svg>
-            <span id="testQuestions">0 questions</span>
-          </div>
-          <div class="info-item">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            <span id="testCompany">Company</span>
-          </div>
+    .test-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+    }
+
+    .test-header {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .test-header h1 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .test-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gray-400);
+    }
+
+    .info-item svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--primary-400);
+    }
+
+    .timer-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .timer-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+      transition: width 1s linear;
+    }
+
+    .question-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .question-number {
+      font-family: var(--font-display);
+      color: var(--primary-400);
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .q-type-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+      font-size: 0.7rem;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+
+    .question-text {
+      font-size: 1.35rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    /* MCQ Layout Fix */
+    .options-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 600;
+      color: var(--gray-300);
+      font-size: 1.1rem;
+    }
+
+    .option-label:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(102, 126, 234, 0.4);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+
+    .option-item input[type="radio"]:checked+.option-label {
+      background: rgba(102, 126, 234, 0.15);
+      border-color: var(--primary-500);
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+      color: #fff;
+    }
+
+    .option-letter {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-right: 1.5rem;
+      font-size: 1rem;
+      transition: all 0.25s;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .option-item input[type="radio"]:checked+.option-label .option-letter {
+      background: var(--primary-500);
+      color: #fff;
+      border-color: var(--primary-400);
+    }
+
+    .pulse-animation {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.6;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.6;
+      }
+    }
+
+    .btn-dashboard-highlight {
+      background: var(--gradient-primary);
+      color: #fff !important;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-dashboard-highlight:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+      filter: brightness(1.1);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="test-container">
+    <a href="student-dashboard.html" class="back-link" id="backLink">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Back to Dashboard
+    </a>
+
+    <!-- Test Header -->
+    <div class="test-header" id="testHeader">
+      <h1 id="testTitle">Loading Test...</h1>
+      <p id="testDescription" style="color: var(--gray-400); margin-top: 0.5rem"></p>
+      <div class="test-info">
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12,6 12,12 16,14" />
+          </svg>
+          <span id="testDuration">0 minutes</span>
         </div>
-        <div class="timer-bar">
-          <div class="timer-fill" id="timerFill" style="width: 100%"></div>
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4" />
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+          </svg>
+          <span id="testQuestions">0 questions</span>
         </div>
-        <div
-          style="
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span id="testCompany">Company</span>
+        </div>
+      </div>
+      <div class="timer-bar">
+        <div class="timer-fill" id="timerFill" style="width: 100%"></div>
+      </div>
+      <div style="
             text-align: right;
             margin-top: 0.5rem;
             color: var(--gray-400);
             font-size: 0.875rem;
-          "
-        >
-          <span id="timeRemaining">Time Remaining: --:--</span>
-        </div>
-      </div>
-
-      <!-- Questions Container -->
-      <div id="questionsContainer">
-        <!-- Questions will be loaded here -->
-      </div>
-
-      <!-- Results Container -->
-      <div id="resultsContainer" class="results-container hidden">
-        <h1
-          style="
-            font-family: var(--font-display);
-            font-size: 2rem;
-            margin-bottom: 1rem;
-          "
-        >
-          Test Completed!
-        </h1>
-        <div class="score-circle" id="scoreCircle">
-          <div class="score-inner">
-            <div class="score-value" id="scoreValue">0%</div>
-            <div class="score-label">Your Score</div>
-          </div>
-        </div>
-        <div class="results-stats">
-          <div class="stat-box correct">
-            <h3>Correct Answers</h3>
-            <p id="correctCount">0</p>
-          </div>
-          <div class="stat-box wrong">
-            <h3>Wrong Answers</h3>
-            <p id="wrongCount">0</p>
-          </div>
-          <div class="stat-box percentage">
-            <h3>Percentage</h3>
-            <p id="percentageValue">0%</p>
-          </div>
-        </div>
-        <p
-          style="color: var(--gray-400); margin-bottom: 2rem"
-          id="resultMessage"
-        ></p>
-        <button
-          class="btn btn-primary"
-          onclick="window.location.href = 'student-dashboard.html'"
-        >
-          Back to Dashboard
-        </button>
+          ">
+        <span id="timeRemaining">Time Remaining: --:--</span>
       </div>
     </div>
 
-    <script>
-      let currentTest = null;
-      let currentQuestionIndex = 0;
-      let answers = {};
-      let startTime = null;
-      let timerInterval = null;
-      let cmInstances = {};
+    <!-- Questions Container -->
+    <div id="questionsContainer">
+      <!-- Questions will be loaded here -->
+    </div>
 
-      // Load test from URL parameter
-      window.addEventListener("DOMContentLoaded", () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const testId = urlParams.get("testId");
+    <!-- Results Container -->
+    <div id="resultsContainer" class="results-container hidden">
+      <h1 style="
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+          ">
+        Test Completed!
+      </h1>
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <div class="score-value" id="scoreValue">0%</div>
+          <div class="score-label">Your Score</div>
+        </div>
+      </div>
+      <div class="results-stats">
+        <div class="stat-box correct">
+          <h3>Correct Answers</h3>
+          <p id="correctCount">0</p>
+        </div>
+        <div class="stat-box wrong">
+          <h3>Wrong Answers</h3>
+          <p id="wrongCount">0</p>
+        </div>
+        <div class="stat-box percentage">
+          <h3>Percentage</h3>
+          <p id="percentageValue">0%</p>
+        </div>
+      </div>
+      <p style="color: var(--gray-400); margin-bottom: 2rem" id="resultMessage"></p>
+      <button class="btn btn-primary btn-dashboard-highlight" onclick="window.location.href = 'student-dashboard.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          style="width: 18px; height: 18px; margin-right: 8px;">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        Back to Dashboard
+      </button>
+    </div>
+  </div>
 
-        if (!testId) {
-          alert("No test specified!");
+  <script>
+    let currentTest = null;
+    let currentQuestionIndex = 0;
+    let answers = {};
+    let startTime = null;
+    let timerInterval = null;
+    let cmInstances = {};
+
+    // Load test from URL parameter
+    window.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const testId = urlParams.get("testId");
+
+      if (!testId) {
+        alert("No test specified!");
+        window.location.href = "student-dashboard.html";
+        return;
+      }
+
+      loadTest(testId);
+    });
+
+    async function loadTest(testId) {
+      try {
+        // Wait for DB to be initialized
+        if (!window.DB) {
+          await new Promise(r => setTimeout(r, 500));
+        }
+
+        currentTest = await window.DB.getTestById(testId);
+
+        if (!currentTest) {
+          alert("Test not found!");
           window.location.href = "student-dashboard.html";
           return;
         }
 
-        loadTest(testId);
-      });
+        // Display test info
+        document.getElementById("testTitle").textContent = currentTest.name;
+        document.getElementById("testDescription").textContent = currentTest.description || "";
+        document.getElementById("testDuration").textContent = `${currentTest.duration} minutes`;
 
-      async function loadTest(testId) {
-        try {
-            // Wait for DB to be initialized
-            if (!window.DB) {
-                await new Promise(r => setTimeout(r, 500));
-            }
-            
-            currentTest = await window.DB.getTestById(testId);
-            
-            if (!currentTest) {
-              alert("Test not found!");
-              window.location.href = "student-dashboard.html";
-              return;
-            }
+        const questions = typeof currentTest.questions === 'string' ? JSON.parse(currentTest.questions) : (currentTest.questions || []);
+        currentTest.questions = questions;
 
-            // Display test info
-            document.getElementById("testTitle").textContent = currentTest.name;
-            document.getElementById("testDescription").textContent = currentTest.description || "";
-            document.getElementById("testDuration").textContent = `${currentTest.duration} minutes`;
-            
-            const questions = typeof currentTest.questions === 'string' ? JSON.parse(currentTest.questions) : (currentTest.questions || []);
-            currentTest.questions = questions; 
-            
-            document.getElementById("testQuestions").textContent = `${questions.length} questions`;
-            document.getElementById("testCompany").textContent = currentTest.company;
+        document.getElementById("testQuestions").textContent = `${questions.length} questions`;
+        document.getElementById("testCompany").textContent = currentTest.company;
 
-            // Start timer
-            startTime = Date.now();
-            startTimer(currentTest.duration * 60);
+        // Start timer
+        startTime = Date.now();
+        startTimer(currentTest.duration * 60);
 
-            // Load first question
-            showQuestion(0);
-        } catch (err) {
-            console.error(err);
-            alert("Error loading test data");
+        // Load first question
+        showQuestion(0);
+      } catch (err) {
+        console.error(err);
+        alert("Error loading test data");
+      }
+    }
+
+    function startTimer(durationSeconds) {
+      const endTime = startTime + durationSeconds * 1000;
+
+      timerInterval = setInterval(() => {
+        const now = Date.now();
+        const remaining = Math.max(0, endTime - now);
+        const remainingSeconds = Math.floor(remaining / 1000);
+
+        const minutes = Math.floor(remainingSeconds / 60);
+        const seconds = remainingSeconds % 60;
+
+        document.getElementById("timeRemaining").textContent =
+          `Time Remaining: ${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+        const progress = (remaining / (durationSeconds * 1000)) * 100;
+        document.getElementById("timerFill").style.width = progress + "%";
+
+        if (remaining === 0) {
+          clearInterval(timerInterval);
+          submitTest();
         }
-      }
+      }, 1000);
+    }
 
-      function startTimer(durationSeconds) {
-        const endTime = startTime + durationSeconds * 1000;
+    function showQuestion(index) {
+      currentQuestionIndex = index;
+      const q = currentTest.questions[index];
+      if (!q) return;
 
-        timerInterval = setInterval(() => {
-          const now = Date.now();
-          const remaining = Math.max(0, endTime - now);
-          const remainingSeconds = Math.floor(remaining / 1000);
-
-          const minutes = Math.floor(remainingSeconds / 60);
-          const seconds = remainingSeconds % 60;
-
-          document.getElementById("timeRemaining").textContent =
-            `Time Remaining: ${minutes}:${seconds.toString().padStart(2, "0")}`;
-
-          const progress = (remaining / (durationSeconds * 1000)) * 100;
-          document.getElementById("timerFill").style.width = progress + "%";
-
-          if (remaining === 0) {
-            clearInterval(timerInterval);
-            submitTest();
-          }
-        }, 1000);
-      }
-
-      function showQuestion(index) {
-        currentQuestionIndex = index;
-        const q = currentTest.questions[index];
-        if (!q) return;
-        
-        const html = `
+      const html = `
                 <div class="question-card">
                     <div class="question-number">
                         <span>Question ${index + 1} of ${currentTest.questions.length}</span>
@@ -420,129 +445,128 @@
                         <div style="width: 100%; margin-bottom: 1.5rem;">
                             <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--gray-400); margin-bottom: 0.5rem;">
                                 <span>Completion Progress</span>
-                                <span>${Math.round((Object.keys(answers).filter(k=>!isNaN(k)).length / currentTest.questions.length) * 100)}%</span>
+                                <span>${Math.round((Object.keys(answers).filter(k => !isNaN(k)).length / currentTest.questions.length) * 100)}%</span>
                             </div>
                             <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
-                                <div style="width: ${(Object.keys(answers).filter(k=>!isNaN(k)).length / currentTest.questions.length) * 100}%; height: 100%; background: linear-gradient(90deg, var(--primary-500), #805ad5); transition: width 0.3s ease;"></div>
+                                <div style="width: ${(Object.keys(answers).filter(k => !isNaN(k)).length / currentTest.questions.length) * 100}%; height: 100%; background: linear-gradient(90deg, var(--primary-500), #805ad5); transition: width 0.3s ease;"></div>
                             </div>
                         </div>
                         <div class="nav-buttons">
-                            ${index > 0 ? `<button class="btn btn-ghost" onclick="showQuestion(${index - 1})" style="color: var(--gray-400);">Previous</button>` : ""}
+                            ${index > 0 ? `<button class="btn btn-secondary btn-sm" onclick="showQuestion(${index - 1})" style="border-radius: 8px; font-size: 0.85rem; padding: 0.5rem 1.25rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Previous</button>` : ""}
                             ${index < currentTest.questions.length - 1
-                                ? `<button class="btn btn-primary" onclick="showQuestion(${index + 1})">Next Question</button>`
-                                : `<button class="btn btn-primary" onclick="confirmSubmit()" style="background: linear-gradient(135deg, #10b981, #059669); border: none;">Submit Final Results</button>`
-                            }
+          ? `<button class="btn btn-primary" onclick="showQuestion(${index + 1})">Next Question</button>`
+          : `<button class="btn btn-primary" onclick="confirmSubmit()" style="background: linear-gradient(135deg, #10b981, #059669); border: none;">Submit Final Results</button>`
+        }
                         </div>
                     </div>
                 </div>`;
 
-        document.getElementById("questionsContainer").innerHTML = html;
-      }
+      document.getElementById("questionsContainer").innerHTML = html;
+    }
 
 
-      function saveAnswer(questionIndex, answer) {
-        answers[questionIndex] = answer;
-      }
+    function saveAnswer(questionIndex, answer) {
+      answers[questionIndex] = answer;
+    }
 
-      function confirmSubmit() {
-        const answeredCount = Object.keys(answers).filter(k => !isNaN(k)).length;
-        const total = currentTest.questions.length;
+    function confirmSubmit() {
+      const answeredCount = Object.keys(answers).filter(k => !isNaN(k)).length;
+      const total = currentTest.questions.length;
 
-        if (answeredCount < total) {
-          if (!confirm(`You have only addressed ${answeredCount} out of ${total} items. Do you want to submit anyway?`)) {
-            return;
-          }
-        }
-        submitTest();
-      }
-
-      async function submitTest() {
-        clearInterval(timerInterval);
-        const submitBtn = document.querySelector('button[onclick="confirmSubmit()"]');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Processing Result...";
-        }
-
-
-        // Calculate results
-        let correct = 0;
-        currentTest.questions.forEach((q, i) => {
-          const studentAnswer = answers[i] || "";
-          if (studentAnswer === q.answer) correct++;
-        });
-
-        const total = currentTest.questions.length;
-        const percentage = Math.round((correct / total) * 100);
-        const timeTaken = Math.round((Date.now() - startTime) / 1000 / 60);
-
-        const user = JSON.parse(sessionStorage.getItem("user") || "{}");
-        const result = {
-          testId: currentTest.id,
-          username: user.username,
-          testName: currentTest.name,
-          company: currentTest.company,
-          score: percentage,
-          correct: correct,
-          total: total,
-          timeTaken: timeTaken,
-          status: percentage >= 50 ? "passed" : "failed",
-        };
-
-        try {
-            await window.DB.submitTest(result);
-            showNotification("Test Submitted!", `Score: ${percentage}% (${correct}/${total} correct)`, percentage >= 50 ? "success" : "error");
-            showResults(correct, total, percentage);
-        } catch (err) {
-            console.error(err);
-            alert("Failed to submit result to server. Please check your connection.");
+      if (answeredCount < total) {
+        if (!confirm(`You have only addressed ${answeredCount} out of ${total} items. Do you want to submit anyway?`)) {
+          return;
         }
       }
+      submitTest();
+    }
 
-      function showResults(correct, total, percentage) {
-        document.getElementById("testHeader").classList.add("hidden");
-        document.getElementById("questionsContainer").classList.add("hidden");
-        document.getElementById("resultsContainer").classList.remove("hidden");
-        document.getElementById("backLink").classList.add("hidden");
-
-        // Animate score circle
-        const degrees = (percentage / 100) * 360;
-        document.getElementById("scoreCircle").style.background =
-          `conic-gradient(${percentage >= 60 ? "#10b981" : "#ef4444"} ${degrees}deg, rgba(255,255,255,0.1) ${degrees}deg)`;
-
-        document.getElementById("scoreValue").textContent = percentage + "%";
-        document.getElementById("correctCount").textContent = correct;
-        document.getElementById("wrongCount").textContent = total - correct;
-        document.getElementById("percentageValue").textContent =
-          percentage + "%";
-
-        const message =
-          percentage >= 90
-            ? "Excellent! Outstanding performance!"
-            : percentage >= 75
-              ? "Great job! Well done!"
-              : percentage >= 60
-                ? "Good effort! You passed!"
-                : "Keep practicing! You can do better!";
-
-        document.getElementById("resultMessage").textContent = message;
+    async function submitTest() {
+      clearInterval(timerInterval);
+      const submitBtn = document.querySelector('button[onclick="confirmSubmit()"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Processing Result...";
       }
 
-      // Show notification function
-      function showNotification(title, message, type = "info") {
-        const notification = document.createElement("div");
-        notification.className = `notification notification-${type}`;
-        notification.style.cssText = `
+
+      // Calculate results
+      let correct = 0;
+      currentTest.questions.forEach((q, i) => {
+        const studentAnswer = answers[i] || "";
+        if (studentAnswer === q.answer) correct++;
+      });
+
+      const total = currentTest.questions.length;
+      const percentage = Math.round((correct / total) * 100);
+      const timeTaken = Math.round((Date.now() - startTime) / 1000 / 60);
+
+      const user = JSON.parse(sessionStorage.getItem("user") || "{}");
+      const result = {
+        testId: currentTest.id,
+        username: user.username,
+        testName: currentTest.name,
+        company: currentTest.company,
+        score: percentage,
+        correct: correct,
+        total: total,
+        timeTaken: timeTaken,
+        status: percentage >= 50 ? "passed" : "failed",
+      };
+
+      try {
+        await window.DB.submitTest(result);
+        showNotification("Test Submitted!", `Score: ${percentage}% (${correct}/${total} correct)`, percentage >= 50 ? "success" : "error");
+        showResults(correct, total, percentage);
+      } catch (err) {
+        console.error(err);
+        alert("Failed to submit result to server. Please check your connection.");
+      }
+    }
+
+    function showResults(correct, total, percentage) {
+      document.getElementById("testHeader").classList.add("hidden");
+      document.getElementById("questionsContainer").classList.add("hidden");
+      document.getElementById("resultsContainer").classList.remove("hidden");
+      document.getElementById("backLink").classList.add("hidden");
+
+      // Animate score circle
+      const degrees = (percentage / 100) * 360;
+      document.getElementById("scoreCircle").style.background =
+        `conic-gradient(${percentage >= 60 ? "#10b981" : "#ef4444"} ${degrees}deg, rgba(255,255,255,0.1) ${degrees}deg)`;
+
+      document.getElementById("scoreValue").textContent = percentage + "%";
+      document.getElementById("correctCount").textContent = correct;
+      document.getElementById("wrongCount").textContent = total - correct;
+      document.getElementById("percentageValue").textContent =
+        percentage + "%";
+
+      const message =
+        percentage >= 90
+          ? "Excellent! Outstanding performance!"
+          : percentage >= 75
+            ? "Great job! Well done!"
+            : percentage >= 60
+              ? "Good effort! You passed!"
+              : "Keep practicing! You can do better!";
+
+      document.getElementById("resultMessage").textContent = message;
+    }
+
+    // Show notification function
+    function showNotification(title, message, type = "info") {
+      const notification = document.createElement("div");
+      notification.className = `notification notification-${type}`;
+      notification.style.cssText = `
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: ${
-                  type === "success"
-                    ? "linear-gradient(135deg, #10b981, #059669)"
-                    : type === "error"
-                      ? "linear-gradient(135deg, #ef4444, #dc2626)"
-                      : "linear-gradient(135deg, #667eea, #764ba2)"
-                };
+                background: ${type === "success"
+          ? "linear-gradient(135deg, #10b981, #059669)"
+          : type === "error"
+            ? "linear-gradient(135deg, #ef4444, #dc2626)"
+            : "linear-gradient(135deg, #667eea, #764ba2)"
+        };
                 color: white;
                 padding: 1rem 1.5rem;
                 border-radius: 0.75rem;
@@ -552,7 +576,7 @@
                 animation: slideIn 0.3s ease-out;
             `;
 
-        notification.innerHTML = `
+      notification.innerHTML = `
                 <div style="display: flex; align-items: flex-start; gap: 1rem;">
                     <div style="font-size: 1.5rem;">
                         ${type === "success" ? "✓" : type === "error" ? "✕" : "📧"}
@@ -565,19 +589,19 @@
                 </div>
             `;
 
-        document.body.appendChild(notification);
+      document.body.appendChild(notification);
 
-        setTimeout(() => {
-          notification.style.animation = "slideOut 0.3s ease-out";
-          setTimeout(() => notification.remove(), 300);
-        }, 5000);
-      }
+      setTimeout(() => {
+        notification.style.animation = "slideOut 0.3s ease-out";
+        setTimeout(() => notification.remove(), 300);
+      }, 5000);
+    }
 
-      // Add animation styles
-      if (!document.getElementById("notificationStyles")) {
-        const style = document.createElement("style");
-        style.id = "notificationStyles";
-        style.textContent = `
+    // Add animation styles
+    if (!document.getElementById("notificationStyles")) {
+      const style = document.createElement("style");
+      style.id = "notificationStyles";
+      style.textContent = `
                 @keyframes slideIn {
                     from {
                         transform: translateX(400px);
@@ -599,8 +623,9 @@
                     }
                 }
             `;
-        document.head.appendChild(style);
-      }
-    </script>
-  </body>
+      document.head.appendChild(style);
+    }
+  </script>
+</body>
+
 </html>

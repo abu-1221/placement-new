@@ -72,6 +72,30 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+// === USER PROFILE ROUTES ===
+app.put('/api/users/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { name, email, profileImage, details } = req.body;
+
+    const user = await User.findOne({ where: { username } });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const updates = {};
+    if (name) updates.name = name;
+    if (email) updates.email = email;
+    if (profileImage) updates.profilePic = profileImage;
+    if (details) updates.details = details;
+
+    await user.update(updates);
+    await logActivity('profile_update', username, user.type, { updatedFields: Object.keys(updates) }, req);
+
+    res.json({ success: true, user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // === TEST ROUTES (STUDENT) ===
 app.get('/api/tests/available', async (req, res) => {
   try {
@@ -361,10 +385,11 @@ app.post('/api/staff/create-test', async (req, res) => {
     } else {
       // Filter students matching the criteria
       targetStudents = allStudents.filter(student => {
-        const d = student.details || {};
+        let d = student.details || {};
+        if (typeof d === 'string') {
+          try { d = JSON.parse(d); } catch (e) { d = {}; }
+        }
 
-        // Each criterion: if the filter array is non-empty, the student field must match
-        // If the filter array is empty, that criterion is not applied (matches all)
         const deptMatch = departments.length === 0 || departments.includes(d.department);
         const yearMatch = years.length === 0 || years.includes(d.year) || years.includes(String(d.year));
         const sectionMatch = sections.length === 0 || sections.includes(d.section);

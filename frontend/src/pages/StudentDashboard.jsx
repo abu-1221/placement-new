@@ -23,7 +23,7 @@ const StudentDashboard = () => {
   const [testTimeRemaining, setTestTimeRemaining] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedResult, setSelectedResult] = useState(null);
-  
+
   const chartRefs = {
     bar: useRef(null),
     pie: useRef(null),
@@ -42,7 +42,7 @@ const StudentDashboard = () => {
       return;
     }
     setUser(userData);
-    
+
     const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
     setIsSidebarCollapsed(collapsed);
 
@@ -59,7 +59,7 @@ const StudentDashboard = () => {
     try {
       const results = await studentService.getStudentResults(username);
       setCompletedTests(results);
-      
+
       const tests = await studentService.getAvailableTests();
       const completedTestIds = results.map(r => r.testId);
       setAvailableTests(tests.filter(t => !completedTestIds.includes(t.id)));
@@ -107,7 +107,7 @@ const StudentDashboard = () => {
   const submitTest = async (test, currentAnswers) => {
     clearInterval(timerInterval.current);
     const finalAnswers = { ...answers, ...currentAnswers };
-    
+
     let correct = 0;
     const questions = typeof test.questions === 'string' ? JSON.parse(test.questions) : test.questions;
     questions.forEach((q, i) => {
@@ -142,10 +142,10 @@ const StudentDashboard = () => {
   const renderCharts = () => {
     // Destroy existing
     Object.values(chartInstances.current).forEach(c => c && c.destroy());
-    
+
     const colors = ["#667eea", "#764ba2", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
     const hasData = completedTests.length > 0;
-    
+
     const chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -202,8 +202,8 @@ const StudentDashboard = () => {
       <aside className={`sidebar ${isMobileSidebarOpen ? 'active' : ''} ${isSidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           <Link to="/" className="logo">
-            <img src="/logo.png" className="brand-logo" alt="JMC-TEST Logo" style={{ marginRight: '10px' }} />
-            <span>JMC-TEST</span>
+            <img src="/logo.png" className="brand-logo" alt="JMC-Test Logo" style={{ marginRight: '10px' }} />
+            <span>JMC-Test</span>
           </Link>
           <button className="sidebar-toggle-btn" onClick={() => {
             const next = !isSidebarCollapsed;
@@ -257,7 +257,7 @@ const StudentDashboard = () => {
                 <div className="test-header">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h1 style={{ margin: 0 }}>{currentTest.name}</h1>
-                    <button className="btn btn-ghost btn-sm" onClick={() => { if(confirm("Cancel test?")) setIsTakingTest(false); }} style={{ color: '#ef4444' }}>Cancel</button>
+                    <button className="btn btn-ghost btn-sm" onClick={() => { if (confirm("Cancel test?")) setIsTakingTest(false); }} style={{ color: '#ef4444' }}>Cancel</button>
                   </div>
                   <div className="test-info">
                     <span>⏱ {currentTest.duration} mins</span>
@@ -369,7 +369,15 @@ const StudentDashboard = () => {
                               <td>{res.company}</td>
                               <td>{res.score}%</td>
                               <td><span className={`status-badge ${res.status}`}>{res.status.toUpperCase()}</span></td>
-                              <td><button className="btn btn-sm btn-ghost" onClick={() => viewDetails(res)}>View Details</button></td>
+                              <td className="actions-cell">
+                                <div className="action-icons">
+                                  <button className="action-btn" onClick={() => viewDetails(res)} title="View Analytics">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: '16px', height: '16px' }}>
+                                      <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </td>
                             </tr>
                           ))
                         )}
@@ -382,8 +390,8 @@ const StudentDashboard = () => {
               {activeSection === 'analytics' && (
                 <section className="content-section active">
                   <div className="analytics-grid-simple">
-                     <div className="chart-card"><h3>📊 Performance Chart</h3><div className="chart-container"><canvas ref={chartRefs.bar}></canvas></div></div>
-                     <div className="chart-card"><h3>🍕 Success Rate</h3><div className="chart-container"><canvas ref={chartRefs.pie}></canvas></div></div>
+                    <div className="chart-card"><h3>📊 Performance Chart</h3><div className="chart-container"><canvas ref={chartRefs.bar}></canvas></div></div>
+                    <div className="chart-card"><h3>🍕 Success Rate</h3><div className="chart-container"><canvas ref={chartRefs.pie}></canvas></div></div>
                   </div>
                 </section>
               )}
@@ -391,25 +399,73 @@ const StudentDashboard = () => {
               {activeSection === 'reports' && (
                 <section className="content-section active">
                   <div className="section-intro">
-                    <h2>Reports & Documents</h2>
-                    <p>Download your Placement reports and certificates</p>
+                    <h2>Results & Certificates</h2>
+                    <p>Access your verified academic transcripts and merit certificates</p>
                   </div>
                   <div className="reports-grid">
+                    {/* 1. Performance Transcript */}
                     <div className="report-card">
                       <div className="report-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14,2 14,8 20,8" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                          <polyline points="14,2 14,8 20,8" />
+                        </svg>
                       </div>
-                      <h3>Performance Report</h3>
-                      <p>Complete analysis of your test performances</p>
-                      <button className="btn btn-primary btn-sm" onClick={() => generatePerformanceReport(user, completedTests)}>Download PDF</button>
+                      <h3>Performance Transcript</h3>
+                      <p>A consolidated record of all attempted assessments, including scores and percentile rankings.</p>
+                      <div style={{ marginTop: 'auto', display: 'flex', gap: '10px' }}>
+                        <button className="btn btn-primary btn-sm" onClick={() => generatePerformanceReport(user, completedTests)}>
+                          Download PDF
+                        </button>
+                        <button className="btn btn-ghost btn-sm" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+                          Excel Report
+                        </button>
+                      </div>
                     </div>
+
+                    {/* 2. Merit Certificate */}
                     <div className="report-card">
-                      <div className="report-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
+                      <div className="report-icon" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="8" r="7" />
+                          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+                        </svg>
                       </div>
-                      <h3>Analytics Summary</h3>
-                      <p>Detailed analytics and insights report</p>
-                      <button className="btn btn-primary btn-sm" onClick={() => generateAnalyticsReport(user, completedTests)}>Download PDF</button>
+                      <h3>Merit Certificate</h3>
+                      <p>Generate a verified certificate of completion for assessments with qualifying scores.</p>
+                      <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto' }}>
+                        Issue Certificate
+                      </button>
+                    </div>
+
+                    {/* 3. Readiness Profile */}
+                    <div className="report-card">
+                      <div className="report-icon" style={{ background: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6' }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M12 20h9" />
+                          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg>
+                      </div>
+                      <h3>Readiness Profile</h3>
+                      <p>A comprehensive overview evaluating your skills for upcoming corporate interviews.</p>
+                      <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto' }}>
+                        Download Profile
+                      </button>
+                    </div>
+
+                    {/* 4. Analytics Breakdown */}
+                    <div className="report-card">
+                      <div className="report-icon" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                          <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                        </svg>
+                      </div>
+                      <h3>Analytics Breakdown</h3>
+                      <p>An in-depth statistical analysis indicating strong and weak areas tested.</p>
+                      <button className="btn btn-primary btn-sm" style={{ marginTop: 'auto' }}>
+                        Download Analytics
+                      </button>
                     </div>
                   </div>
                 </section>
@@ -429,22 +485,22 @@ const StudentDashboard = () => {
               <button onClick={() => setIsModalOpen(false)} className="btn-ghost" style={{ padding: '0.5rem' }}>✕</button>
             </div>
             <div className="modal-body">
-               <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '0.5rem' }}>
-                  <div>
-                    <h3 style={{ margin: 0 }}>{selectedResult.testName}</h3>
-                    <p style={{ color: 'var(--gray-400)', margin: 0 }}>{selectedResult.company}</p>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: selectedResult.score >= 60 ? '#10b981' : '#ef4444' }}>{selectedResult.score}%</div>
-                    <div style={{ fontSize: '0.8rem', textTransform: 'uppercase' }}>{selectedResult.status}</div>
-                  </div>
-               </div>
-               <div className="questions-review">
-                 {(() => {
-                   // For now, assume results might have questions or we show placeholder
-                   return <p>Detailed question review is available after staff publishes official keys.</p>;
-                 })()}
-               </div>
+              <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '0.5rem' }}>
+                <div>
+                  <h3 style={{ margin: 0 }}>{selectedResult.testName}</h3>
+                  <p style={{ color: 'var(--gray-400)', margin: 0 }}>{selectedResult.company}</p>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: selectedResult.score >= 60 ? '#10b981' : '#ef4444' }}>{selectedResult.score}%</div>
+                  <div style={{ fontSize: '0.8rem', textTransform: 'uppercase' }}>{selectedResult.status}</div>
+                </div>
+              </div>
+              <div className="questions-review">
+                {(() => {
+                  // For now, assume results might have questions or we show placeholder
+                  return <p>Detailed question review is available after staff publishes official keys.</p>;
+                })()}
+              </div>
             </div>
           </div>
         </div>

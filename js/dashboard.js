@@ -183,7 +183,7 @@ function initLogout() {
           </svg>
         </div>
         <h3 class="logout-modal-title">Sign Out</h3>
-        <p class="logout-modal-text">Are you sure you want to log out of the JMC-TEST Portal? Your current session will be ended.</p>
+        <p class="logout-modal-text">Are you sure you want to log out of the JMC-Test Portal? Your current session will be ended.</p>
         <div class="logout-modal-actions">
           <button type="button" class="logout-modal-btn cancel" id="logoutCancelBtn">Cancel</button>
           <button type="button" class="logout-modal-btn confirm" id="logoutConfirmBtn">
@@ -253,13 +253,13 @@ function performLogout() {
     });
 
     // 3. Replace history to prevent back-button re-entry
-    window.history.replaceState(null, "", "login.html");
+    window.history.replaceState(null, "", "index.html");
 
-    // 4. Set flag for login page toast
+    // 4. Set flag for logout awareness (optional)
     sessionStorage.setItem("loggedOut", "true");
 
-    // 5. Redirect (no history entry)
-    window.location.replace("login.html");
+    // 5. Redirect to Landing Page (original theme)
+    window.location.replace("index.html");
   }, 300);
 }
 
@@ -406,8 +406,47 @@ function initUserInfo() {
     }
 
     if (profDept) profDept.textContent = user.details?.department ? `Department of ${user.details.department}` : "";
+
+    // Restoration of Profile Picture if exists
+    const savedPhoto = localStorage.getItem(`profile_photo_${user.username}`);
+    if (savedPhoto) {
+      const displayImg = document.getElementById("profilePictureDisplay");
+      const initials = document.getElementById("profileInitials");
+      if (displayImg) {
+        displayImg.src = savedPhoto;
+        displayImg.style.display = "block";
+      }
+      if (initials) initials.style.display = "none";
+    }
   }
 }
+
+// Handle Profile Photo Upload
+window.handleProfilePhotoUpload = function (event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const base64Image = e.target.result;
+    const user = JSON.parse(sessionStorage.getItem("user") || localStorage.getItem("user") || "{}");
+
+    if (user.username) {
+      // Save to local storage for persistence (demo)
+      localStorage.setItem(`profile_photo_${user.username}`, base64Image);
+
+      // Update UI
+      const displayImg = document.getElementById("profilePictureDisplay");
+      const initials = document.getElementById("profileInitials");
+      if (displayImg) {
+        displayImg.src = base64Image;
+        displayImg.style.display = "block";
+      }
+      if (initials) initials.style.display = "none";
+    }
+  };
+  reader.readAsDataURL(file);
+};
 
 // Helper: Get ordinal suffix
 function getOrdinal(n) {
@@ -476,10 +515,7 @@ async function loadAvailableTests() {
   try {
     const user = JSON.parse(sessionStorage.getItem("user") || "{}");
     // PRECISE FILTER: Only show the "Availability" test as requested
-    const availableTests = (await window.DB.getTests(user.username)).filter(t =>
-      t.name.toLowerCase().includes('availability') ||
-      t.company.toLowerCase().includes('jmc')
-    );
+    const availableTests = (await window.DB.getTests(user.username));
 
     if (!availableTests || availableTests.length === 0) {
       container.innerHTML = `
@@ -487,8 +523,8 @@ async function loadAvailableTests() {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.3;">
                       <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
-                    <p style="font-size: 1.1rem; font-weight: 500; color: rgba(255,255,255,0.7);">All Caught Up!</p>
-                    <p style="font-size: 0.9rem; opacity: 0.5;">No pending assessments in your queue at the moment.</p>
+                    <p style="font-size: 1.1rem; font-weight: 500; color: rgba(255,255,255,0.7);">No Tests Available</p>
+                    <p style="font-size: 0.9rem; opacity: 0.5;">There are no tests scheduled for you at this time. Check back later.</p>
                 </div>
             `;
       return;
@@ -1130,12 +1166,18 @@ function renderCompletedTests(results) {
                 <td>${formattedDate}</td>
                 <td>${test.isIncomplete ? 'N/A' : test.score + '%'}</td>
                 <td><span class="status-badge ${statusClass}">${statusClass.toUpperCase()}</span></td>
-                <td>
-                    <button class="btn btn-sm ${isRecordViewable ? 'btn-ghost' : 'btn-disabled'}" 
-                            onclick="${isRecordViewable ? `openTestDetailsRecord('${test.id}')` : 'void(0)'}"
-                            ${!isRecordViewable ? 'title="Analysis unavailable for incomplete tests"' : ''}>
-                        ${isRecordViewable ? 'View Details' : 'No Analysis'}
-                    </button>
+                <td class="actions-cell">
+                    <div class="action-icons">
+                        <button class="action-btn" 
+                                onclick="${isRecordViewable ? `openTestDetailsRecord('${test.id}')` : 'void(0)'}"
+                                title="${isRecordViewable ? 'View Analytics' : 'Unavailable'}"
+                                ${!isRecordViewable ? 'disabled' : ''}
+                                style="opacity: ${isRecordViewable ? '1' : '0.4'}; cursor: ${isRecordViewable ? 'pointer' : 'not-allowed'};">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
@@ -1163,8 +1205,8 @@ async function viewTestDetails(result) {
   overlay.innerHTML = `
         <div style="max-width: 900px; margin: 0 auto; background: var(--bg-card); border-radius: 20px; padding: 2.5rem; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
-                <button class="btn btn-ghost" onclick="closePerformanceReview()" style="color: var(--gray-400);">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px; margin-right:8px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> 
+                <button class="btn" onclick="closePerformanceReview()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; padding: 0.65rem 1.75rem; border-radius: 10px; display: inline-flex; align-items: center; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.3px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.35); cursor: pointer; transition: all 0.3s ease;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px; height:16px; margin-right:8px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> 
                   Dashboard
                 </button>
                 <div style="text-align: center;">
@@ -1187,6 +1229,26 @@ async function viewTestDetails(result) {
                           ${result.status === 'passed' ? 'QUALIFIED' : 'NOT QUALIFIED'}
                       </span>
                   </div>
+                </div>
+            </div>
+
+            <!-- Single Line Layout Sections -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; background: rgba(255,255,255,0.02); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 0.7rem; color: var(--gray-500); text-transform: uppercase; margin-bottom: 4px;">Performance Transcript</div>
+                    <div style="color: var(--blue-400); font-weight: 700; font-size: 0.9rem;">#${Math.floor(Math.random() * 9000) + 1000}</div>
+                </div>
+                <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 0.7rem; color: var(--gray-500); text-transform: uppercase; margin-bottom: 4px;">Merit Certificate</div>
+                    <div style="color: #10b981; font-weight: 700; font-size: 0.9rem;">${result.status === 'passed' ? 'Eligible' : 'Not Generated'}</div>
+                </div>
+                <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 0.7rem; color: var(--gray-500); text-transform: uppercase; margin-bottom: 4px;">Detailed Profile</div>
+                    <div style="color: #fff; font-weight: 700; font-size: 0.9rem;">Complete</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 0.7rem; color: var(--gray-500); text-transform: uppercase; margin-bottom: 4px;">Analytics Breakdown</div>
+                    <div style="color: #8b5cf6; font-weight: 700; font-size: 0.9rem;">Processed</div>
                 </div>
             </div>
 
@@ -1213,7 +1275,7 @@ async function viewTestDetails(result) {
                             </div>
                         </div>
                         <div class="review-question" style="font-size: 1rem; margin-bottom: 1.25rem; line-height: 1.5; color: rgba(255,255,255,0.9);">${q.question}</div>
-                        <div class="review-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                        <div class="review-options" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem;">
                             ${q.options.map((opt, optIdx) => {
       const letter = String.fromCharCode(65 + optIdx);
       let type = '';
@@ -1221,12 +1283,10 @@ async function viewTestDetails(result) {
       else if (letter === userAns && !isCorrect) type = 'user-incorrect';
 
       return `
-                                <div class="review-option ${type}" style="padding: 10px 14px; font-size: 0.85rem; border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <div style="width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem;">${letter}</div>
-                                        <span>${opt}</span>
-                                    </div>
-                                    ${letter === userAns ? `<span style="font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; background: ${isCorrect ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}; color: ${isCorrect ? '#10b981' : '#ef4444'}; font-weight: 700;">YOU</span>` : ''}
+                                <div class="review-option ${type}" style="padding: 10px 14px; font-size: 0.8rem; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center;">
+                                    <div style="width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.7rem; margin-bottom: 2px;">${letter}</div>
+                                    <span style="display: block; width: 100%; overflow: hidden; text-overflow: ellipsis;">${opt}</span>
+                                    ${letter === userAns ? `<span style="font-size: 0.6rem; padding: 1px 6px; border-radius: 4px; background: ${isCorrect ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}; color: ${isCorrect ? '#10b981' : '#ef4444'}; font-weight: 700; margin-top: 2px;">YOU</span>` : ''}
                                 </div>
                                 `;
     }).join('')}
@@ -1236,8 +1296,12 @@ async function viewTestDetails(result) {
   }).join('')}
             </div>
 
-            <div class="review-footer" style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);">
-                <button class="btn btn-primary" onclick="closePerformanceReview()" style="width: 100%; border-radius: 12px; padding: 1rem;">Complete Review</button>
+            <div class="review-footer" style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 1rem;">
+                <button class="btn" onclick="if(window.PDFEngine) window.PDFEngine.downloadSingleReport('${result.username}', '${result.testId}')" style="flex: 1; border-radius: 12px; padding: 1rem; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.5px; background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download PDF Report
+                </button>
+                <button class="btn btn-primary" onclick="closePerformanceReview()" style="flex: 1; border-radius: 12px; padding: 1rem; font-weight: 800; font-size: 0.95rem; letter-spacing: 1px; background: linear-gradient(135deg, var(--blue-600), #764ba2); color: #fff; border: none; box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4); text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;">Dashboard</button>
             </div>
         </div>
     `;
@@ -1256,6 +1320,59 @@ function closeTestDetails() {
   if (modal) modal.style.display = 'none';
 }
 
+async function handleProfilePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Validation
+  const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  if (!validTypes.includes(file.type)) {
+    showNotification('Invalid File', 'Please upload a JPEG, PNG or WEBP image.', 'error');
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) { // 2MB
+    showNotification('File Too Large', 'Maximum image size is 2MB.', 'error');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function (e) {
+    const photoUrl = e.target.result;
+
+    // Update all relevant avatars and profile pics in UI
+    const avatars = document.querySelectorAll('.user-avatar, #profilePic, #profilePictureDisplay, #sidebarProfilePic');
+    avatars.forEach(av => {
+      if (av.tagName === 'IMG') {
+        av.src = photoUrl;
+      } else {
+        av.textContent = '';
+        av.style.backgroundImage = `url(${photoUrl})`;
+        av.style.backgroundSize = 'cover';
+        av.style.backgroundPosition = 'center';
+      }
+    });
+
+    // Save to DB and Local Storage
+    const userData = JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{}');
+    if (userData.username) {
+      try {
+        if (window.DB && window.DB.updateUser) {
+          await window.DB.updateUser(userData.username, { profileImage: photoUrl });
+        }
+        userData.profileImage = photoUrl;
+        userData.profilePic = photoUrl; // Redundancy for compatibility
+        sessionStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('user', JSON.stringify(userData));
+        showNotification('Profile Updated', 'Your profile picture has been updated successfully.', 'success');
+      } catch (err) {
+        console.error('Error updating profile photo:', err);
+        showNotification('Update Error', 'Could not save profile photo to database.', 'error');
+      }
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
 // Global Exports
 window.confirmStartTest = confirmStartTest;
 window.renderProfessionalQuestion = renderProfessionalQuestion;
@@ -1268,3 +1385,5 @@ window.viewTestDetails = viewTestDetails;
 window.closePerformanceReview = closePerformanceReview;
 window.closeTestDetails = closeTestDetails;
 window.initCharts = initCharts;
+window.handleProfilePhotoUpload = handleProfilePhotoUpload;
+

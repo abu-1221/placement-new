@@ -12,7 +12,7 @@ export const generatePerformanceReport = (user, tests) => {
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(24);
     doc.setFont(undefined, 'bold');
-    doc.text('JMC-TEST', 15, 20);
+    doc.text('JMC-Test', 15, 20);
     doc.setFontSize(14);
     doc.setFont(undefined, 'normal');
     doc.text('Performance Report', 15, 30);
@@ -89,7 +89,7 @@ export const generatePerformanceReport = (user, tests) => {
         });
     }
     
-    doc.save(`JMC-TEST_Report_${user.name || 'Student'}.pdf`);
+    doc.save(`JMC-Test_Report_${user.name || 'Student'}.pdf`);
 };
 
 export const generateAnalyticsReport = (user, tests) => {
@@ -98,5 +98,5 @@ export const generateAnalyticsReport = (user, tests) => {
     doc.text('Analytics Report', 105, 40, { align: 'center' });
     doc.setFontSize(14);
     doc.text(user.name || 'Student', 105, 55, { align: 'center' });
-    doc.save(`JMC-TEST_Analytics_${user.name || 'Student'}.pdf`);
+    doc.save(`JMC-Test_Analytics_${user.name || 'Student'}.pdf`);
 };
