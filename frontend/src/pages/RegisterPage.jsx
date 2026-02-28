@@ -51,7 +51,7 @@ const RegisterPage = () => {
 
     if (userType === 'student') {
       newUser.username = formData.registerNumber;
-      
+
       // DOB to password conversion (DDMMYYYY)
       if (formData.dob) {
         const parts = formData.dob.split("-");
@@ -88,10 +88,10 @@ const RegisterPage = () => {
         }, 2000);
       }
     } catch (err) {
-      setAlert({ 
-        show: true, 
-        message: err.response?.data?.error || 'Registration failed. Try again.', 
-        type: 'error' 
+      setAlert({
+        show: true,
+        message: err.response?.data?.error || 'Registration failed. Try again.',
+        type: 'error'
       });
       setIsLoading(false);
     }
@@ -109,7 +109,7 @@ const RegisterPage = () => {
         </div>
 
         <div className="auth-tabs">
-          <button 
+          <button
             className={`tab-btn ${userType === 'student' ? 'active' : ''}`}
             onClick={() => setUserType('student')}
           >
@@ -119,7 +119,7 @@ const RegisterPage = () => {
             </svg>
             <span>Student</span>
           </button>
-          <button 
+          <button
             className={`tab-btn ${userType === 'staff' ? 'active' : ''}`}
             onClick={() => setUserType('staff')}
           >
@@ -205,13 +205,31 @@ const RegisterPage = () => {
                     </svg>
                     <select id="department" className="form-input" value={formData.department} onChange={handleInputChange} required>
                       <option value="">Select Department</option>
-                      <option value="CSE">Computer Science</option>
-                      <option value="ECE">Electronics & Communication</option>
-                      <option value="EEE">Electrical & Electronics</option>
-                      <option value="MECH">Mechanical Engineering</option>
-                      <option value="CIVIL">Civil Engineering</option>
-                      <option value="IT">Information Technology</option>
-                      <option value="AIDS">AI & Data Science</option>
+                      <option value="Arabic">Arabic</option>
+                      <option value="Business Administration">Business Administration</option>
+                      <option value="Bio Technology">Bio Technology</option>
+                      <option value="Botany">Botany</option>
+                      <option value="Chemistry">Chemistry</option>
+                      <option value="Commerce">Commerce</option>
+                      <option value="Computer Science">Computer Science</option>
+                      <option value="Economics">Economics</option>
+                      <option value="English">English</option>
+                      <option value="Fashion Technology">Fashion Technology</option>
+                      <option value="French">French</option>
+                      <option value="Hindi">Hindi</option>
+                      <option value="History">History</option>
+                      <option value="Hotel Management">Hotel Management</option>
+                      <option value="Information Technology">Information Technology</option>
+                      <option value="Mathematics">Mathematics</option>
+                      <option value="Microbiology">Microbiology</option>
+                      <option value="Nutrition & Dietetics">Nutrition & Dietetics</option>
+                      <option value="Physical Education">Physical Education</option>
+                      <option value="Physics">Physics</option>
+                      <option value="Social Work">Social Work</option>
+                      <option value="Tamil">Tamil</option>
+                      <option value="Urdu">Urdu</option>
+                      <option value="Visual Communication">Visual Communication</option>
+                      <option value="Zoology">Zoology</option>
                     </select>
                   </div>
                 </div>
@@ -279,11 +297,31 @@ const RegisterPage = () => {
                   <div className="input-wrapper">
                     <select id="staffDepartment" className="form-input" value={formData.staffDepartment} onChange={handleInputChange} required>
                       <option value="">Select Department</option>
-                      <option value="CSE">Computer Science</option>
-                      <option value="ECE">Electronics & Communication</option>
-                      <option value="EEE">Electrical & Electronics</option>
-                      <option value="MECH">Mechanical Engineering</option>
-                      <option value="ADMIN">Administration</option>
+                      <option value="Arabic">Arabic</option>
+                      <option value="Business Administration">Business Administration</option>
+                      <option value="Bio Technology">Bio Technology</option>
+                      <option value="Botany">Botany</option>
+                      <option value="Chemistry">Chemistry</option>
+                      <option value="Commerce">Commerce</option>
+                      <option value="Computer Science">Computer Science</option>
+                      <option value="Economics">Economics</option>
+                      <option value="English">English</option>
+                      <option value="Fashion Technology">Fashion Technology</option>
+                      <option value="French">French</option>
+                      <option value="Hindi">Hindi</option>
+                      <option value="History">History</option>
+                      <option value="Hotel Management">Hotel Management</option>
+                      <option value="Information Technology">Information Technology</option>
+                      <option value="Mathematics">Mathematics</option>
+                      <option value="Microbiology">Microbiology</option>
+                      <option value="Nutrition & Dietetics">Nutrition & Dietetics</option>
+                      <option value="Physical Education">Physical Education</option>
+                      <option value="Physics">Physics</option>
+                      <option value="Social Work">Social Work</option>
+                      <option value="Tamil">Tamil</option>
+                      <option value="Urdu">Urdu</option>
+                      <option value="Visual Communication">Visual Communication</option>
+                      <option value="Zoology">Zoology</option>
                     </select>
                   </div>
                 </div>
@@ -315,9 +353,9 @@ const RegisterPage = () => {
                     onChange={handleInputChange}
                     required
                   />
-                  <button 
-                    type="button" 
-                    className="toggle-password" 
+                  <button
+                    type="button"
+                    className="toggle-password"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
