@@ -14,6 +14,8 @@ const RegisterPage = () => {
     year: '',
     batch: '',
     dob: '',
+    section: '',
+    gender: '',
     staffCode: '',
     staffDepartment: '',
     designation: '',
@@ -29,13 +31,34 @@ const RegisterPage = () => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
+
+    // Clear alerts when user starts typing again
+    if (alert.show) setAlert({ show: false, message: '', type: '' });
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    // Basic Validation
     if (!agreeTerms) {
-      setAlert({ show: true, message: 'You must agree to the terms', type: 'error' });
+      setAlert({ show: true, message: 'Please accept the terms and conditions', type: 'error' });
       return;
+    }
+
+    if (userType === 'student') {
+      if (!formData.registerNumber.match(/^[0-9A-Z]+$/i)) {
+        setAlert({ show: true, message: 'Invalid Register Number format', type: 'error' });
+        return;
+      }
+      if (!formData.department) {
+        setAlert({ show: true, message: 'Please select your department', type: 'error' });
+        return;
+      }
+    } else {
+      if (!formData.staffPassword || formData.staffPassword.length < 6) {
+        setAlert({ show: true, message: 'Password must be at least 6 characters', type: 'error' });
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -55,6 +78,7 @@ const RegisterPage = () => {
       // DOB to password conversion (DDMMYYYY)
       if (formData.dob) {
         const parts = formData.dob.split("-");
+        // parts = [YYYY, MM, DD] -> password = DDMMYYYY
         newUser.password = parts.length === 3 ? `${parts[2]}${parts[1]}${parts[0]}` : "12345678";
       } else {
         newUser.password = "12345678";
@@ -66,6 +90,8 @@ const RegisterPage = () => {
         year: formData.year,
         batch: formData.batch,
         dob: formData.dob,
+        section: formData.section,
+        gender: formData.gender,
         email: formData.email
       };
     } else {
@@ -82,15 +108,20 @@ const RegisterPage = () => {
     try {
       const data = await authService.register(newUser);
       if (data.success) {
-        setAlert({ show: true, message: `Account created! Username: ${newUser.username}`, type: 'success' });
+        setAlert({
+          show: true,
+          message: `Account created successfully! Redirecting to login...`,
+          type: 'success'
+        });
+
         setTimeout(() => {
-          navigate(`/login?type=${userType}`);
+          navigate(`/login?type=${userType}&registered=true`);
         }, 2000);
       }
     } catch (err) {
       setAlert({
         show: true,
-        message: err.response?.data?.error || 'Registration failed. Try again.',
+        message: err.response?.data?.error || 'Registration failed. This account may already exist.',
         type: 'error'
       });
       setIsLoading(false);
@@ -223,13 +254,13 @@ const RegisterPage = () => {
                       <option value="Mathematics">Mathematics</option>
                       <option value="Microbiology">Microbiology</option>
                       <option value="Nutrition & Dietetics">Nutrition & Dietetics</option>
-                      <option value="Physical Education">Physical Education</option>
                       <option value="Physics">Physics</option>
                       <option value="Social Work">Social Work</option>
                       <option value="Tamil">Tamil</option>
                       <option value="Urdu">Urdu</option>
-                      <option value="Visual Communication">Visual Communication</option>
                       <option value="Zoology">Zoology</option>
+                      <option value="Physical Education">Physical Education</option>
+                      <option value="Visual Communication">Visual Communication</option>
                     </select>
                   </div>
                 </div>
@@ -258,6 +289,31 @@ const RegisterPage = () => {
                       <option value="2023-2027">2023-2027</option>
                       <option value="2024-2028">2024-2028</option>
                       <option value="2025-2029">2025-2029</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="section">Section *</label>
+                  <div className="input-wrapper">
+                    <select id="section" className="form-input" value={formData.section} onChange={handleInputChange} required>
+                      <option value="">Select Section</option>
+                      <option value="A">Section A</option>
+                      <option value="B">Section B</option>
+                      <option value="C">Section C</option>
+                      <option value="D">Section D</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="gender">Gender *</label>
+                  <div className="input-wrapper">
+                    <select id="gender" className="form-input" value={formData.gender} onChange={handleInputChange} required>
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
                     </select>
                   </div>
                 </div>
@@ -315,13 +371,13 @@ const RegisterPage = () => {
                       <option value="Mathematics">Mathematics</option>
                       <option value="Microbiology">Microbiology</option>
                       <option value="Nutrition & Dietetics">Nutrition & Dietetics</option>
-                      <option value="Physical Education">Physical Education</option>
                       <option value="Physics">Physics</option>
                       <option value="Social Work">Social Work</option>
                       <option value="Tamil">Tamil</option>
                       <option value="Urdu">Urdu</option>
-                      <option value="Visual Communication">Visual Communication</option>
                       <option value="Zoology">Zoology</option>
+                      <option value="Physical Education">Physical Education</option>
+                      <option value="Visual Communication">Visual Communication</option>
                     </select>
                   </div>
                 </div>

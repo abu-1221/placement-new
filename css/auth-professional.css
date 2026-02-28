@@ -3,15 +3,15 @@
    ================================================ */
 
 :root {
-  --primary-gradient: var(--primary-600);
-  --bg-gradient: var(--gray-50);
-  --card-bg: var(--bg-card);
-  --card-border: var(--gray-200);
-  --text-main: var(--gray-900);
-  --text-muted: var(--gray-600);
-  --input-bg: var(--bg-card);
-  --input-border: var(--gray-300);
-  --input-focus: var(--primary-500);
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --bg-gradient: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --input-bg: rgba(0, 0, 0, 0.2);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-focus: #667eea;
   --success: #10b981;
   --error: #ef4444;
 }
@@ -80,11 +80,11 @@ body {
 /* Tabs */
 .auth-tabs {
   display: flex;
-  background: var(--gray-100);
+  background: rgba(255, 255, 255, 0.05);
   padding: 4px;
   border-radius: 12px;
   margin-bottom: 2rem;
-  border: 1px solid var(--gray-200);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tab-btn {
@@ -110,9 +110,9 @@ body {
 }
 
 .tab-btn.active {
-  background: white;
-  color: var(--primary-600);
-  box-shadow: var(--shadow-sm);
+  background: #667eea;
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
   font-weight: 600;
 }
 
@@ -172,6 +172,7 @@ input:-webkit-autofill:active {
 
 select.form-input {
   appearance: none;
+  background-color: #0f0f23;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.5)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
@@ -179,14 +180,14 @@ select.form-input {
 }
 
 select.form-input option {
-  background-color: white;
-  color: var(--text-main);
+  background-color: #0f0f23 !important;
+  color: #ffffff !important;
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--input-focus);
-  background: white;
+  background: rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
 }
 
@@ -274,9 +275,9 @@ select.form-input option {
   display: block;
   width: 100%;
   padding: 0.875rem;
-  background: white;
-  border: 1px solid var(--gray-300);
-  color: var(--gray-800);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
   text-align: center;
   border-radius: 10px;
   text-decoration: none;

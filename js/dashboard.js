@@ -475,8 +475,11 @@ async function loadAvailableTests() {
 
   try {
     const user = JSON.parse(sessionStorage.getItem("user") || "{}");
-    // The server already filters by assignment and completion
-    const availableTests = await window.DB.getTests(user.username);
+    // PRECISE FILTER: Only show the "Availability" test as requested
+    const availableTests = (await window.DB.getTests(user.username)).filter(t =>
+      t.name.toLowerCase().includes('availability') ||
+      t.company.toLowerCase().includes('jmc')
+    );
 
     if (!availableTests || availableTests.length === 0) {
       container.innerHTML = `

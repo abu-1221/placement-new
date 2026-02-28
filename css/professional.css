@@ -6,7 +6,7 @@
 .loading-screen {
   position: fixed;
   inset: 0;
-  background: white;
+  background: #0f172a;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,7 +88,7 @@
   z-index: -2;
   overflow: hidden;
   pointer-events: none;
-  display: none;
+  display: block;
 }
 
 .particle {
@@ -142,9 +142,10 @@
    ENHANCED GLASSMORPHISM
    ============================================ */
 .glass-panel {
-  background: white;
-  border: 1px solid var(--gray-200);
-  box-shadow: var(--shadow-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .glass-panel-hover {
@@ -198,14 +199,17 @@
    PROFESSIONAL NAVIGATION
    ============================================ */
 .navbar-professional {
-  background: white;
-  border-bottom: 1px solid var(--gray-200);
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
 }
 
 .navbar-professional.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: var(--shadow-sm);
+  background: #0f172a;
+  /* Consistent dark theme */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .nav-link-pro {
@@ -263,9 +267,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-card);
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
-  border: 1px solid var(--gray-200);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .trust-badge-icon svg {
@@ -399,6 +403,22 @@
   gap: 1rem;
 }
 
+.test-taking-overlay .option-label {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: 0.15s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  flex-shrink: 0;
+}
+
 .testimonial-avatar {
   width: 48px;
   height: 48px;
@@ -466,6 +486,19 @@
   border-radius: 10px;
   color: var(--gray-600);
   transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  transform: translateX(4px);
+}
+
+.nav-item.active {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  box-shadow: none;
+  border-right: 3px solid #667eea;
 }
 
 .social-link:hover {

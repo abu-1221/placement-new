@@ -20,7 +20,7 @@ const LandingPage = () => {
         const duration = 2000;
         const step = target / (duration / 16);
         let current = 0;
-        
+
         const updateCounter = () => {
           current += step;
           if (current < target) {
@@ -81,6 +81,7 @@ const LandingPage = () => {
           ))}
         </div>
         <div className="grid-overlay"></div>
+        <div className="dark-overlay"></div>
         <div className="gradient-orbs">
           <div className="orb orb-1"></div>
           <div className="orb orb-2"></div>
@@ -93,9 +94,9 @@ const LandingPage = () => {
         <div className="nav-container">
           <Link to="/" className="logo">
             <div className="logo-icon">
-              <img src="/logo.png" className="brand-logo" alt="JMC-TEST Logo" />
+              <img src="/logo.png" className="brand-logo" alt="JMC Logo" />
             </div>
-            <span className="logo-text">JMC-TEST</span>
+            <span className="logo-text">JMC Placement</span>
           </Link>
           <div className="nav-links">
             <a href="#features" className="nav-link-pro">Features</a>
@@ -107,8 +108,8 @@ const LandingPage = () => {
             <Link to="/login" className="btn btn-ghost">Login</Link>
             <Link to="/register" className="btn btn-primary btn-premium">Get Started Free</Link>
           </div>
-          <button 
-            className={`mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`} 
+          <button
+            className={`mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span></span>
@@ -136,17 +137,17 @@ const LandingPage = () => {
       <section className="hero">
         <div className="hero-content">
           <div className="hero-badge reveal">
-            <span className="badge-icon">🚀</span>
-            <span>Trusted by 200+ Colleges Across India</span>
+            <span className="badge-icon">🏛️</span>
+            <span>Career Development Centre | Jamal Mohamed College</span>
           </div>
           <h1 className="hero-title">
-            <span className="title-line reveal reveal-delay-1">Transform Your Career with</span>
-            <span className="title-gradient reveal reveal-delay-2">India's #1 Placement Portal</span>
+            <span className="title-line reveal reveal-delay-1">Excellence in Placements at</span>
+            <span className="title-gradient reveal reveal-delay-2">JMC Career Portal</span>
           </h1>
           <p className="hero-description reveal reveal-delay-3">
-            Connect with Fortune 500 companies, track your Placement journey, and
-            land your dream job. The most trusted platform for students, colleges,
-            and recruiters.
+            The official Career Development Centre (CDC) portal for JMC students.
+            Connect with top recruiters, track your placement journey, and
+            access exclusive training resources to land your dream job.
           </p>
           <div className="hero-buttons reveal reveal-delay-4">
             <Link to="/register" className="btn btn-primary btn-lg btn-premium btn-magnetic">
@@ -161,18 +162,18 @@ const LandingPage = () => {
           </div>
           <div className="hero-stats reveal reveal-delay-4">
             <div className="stat-item">
-              <span className="stat-number" data-count="15000">0</span><span className="stat-number">+</span>
-              <span className="stat-label">Students Placed</span>
+              <span className="stat-number" data-count="12000">0</span><span className="stat-number">+</span>
+              <span className="stat-label">Successful Alumni</span>
             </div>
             <div className="stat-divider"></div>
             <div className="stat-item">
-              <span className="stat-number" data-count="500">0</span><span className="stat-number">+</span>
-              <span className="stat-label">Partner Companies</span>
+              <span className="stat-number" data-count="300">0</span><span className="stat-number">+</span>
+              <span className="stat-label">Recruitment Partners</span>
             </div>
             <div className="stat-divider"></div>
             <div className="stat-item">
-              <span className="stat-number" data-count="98">0</span><span className="stat-number">%</span>
-              <span className="stat-label">Success Rate</span>
+              <span className="stat-number" data-count="95">0</span><span className="stat-number">%</span>
+              <span className="stat-label">Placement Record</span>
             </div>
           </div>
         </div>
@@ -253,30 +254,48 @@ const LandingPage = () => {
       <section className="features" id="features">
         <div className="container">
           <div className="section-header reveal">
-            <span className="section-badge">Powerful Features</span>
-            <h2 className="section-title">Everything You Need to Succeed</h2>
+            <span className="section-badge">JMC CDC Features</span>
+            <h2 className="section-title">Empowering Your Career Journey</h2>
             <p className="section-description">
-              Comprehensive tools designed to streamline your Placement journey from start to finish
+              The Jamal Mohamed College CDC provides comprehensive tools to streamline your transition from campus to corporate
             </p>
           </div>
           <div className="features-grid">
-            <FeatureCard 
+            <FeatureCard
               icon={<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />}
               title="Smart Dashboard"
               description="AI-powered personalized dashboards with real-time insights, progress tracking, and actionable recommendations."
               delay="1"
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></>}
               title="Advanced Test Engine"
               description="Create and manage skill assessments with MCQ, coding challenges, and automated proctoring features."
               delay="2"
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></>}
               title="Deep Analytics"
               description="Comprehensive reports with Placement trends, performance metrics, and predictive insights."
               delay="3"
+            />
+            <FeatureCard
+              icon={<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2 M9 7a4 4 0 11-8 0 4 4 0 018 0z" />}
+              title="Profile Builder"
+              description="Automated resume generation and portfolio building tools tailored for modern recruitment standards."
+              delay="4"
+            />
+            <FeatureCard
+              icon={<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4 M17 8l-5-5-5 5 M12 3v12" />}
+              title="Materials Hub"
+              description="Access exclusive study materials, mock papers, and company-specific preparation guides."
+              delay="5"
+            />
+            <FeatureCard
+              icon={<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01 9 11.01" />}
+              title="Placement Tracking"
+              description="End-to-end tracking of job applications, interview schedules, and offer letter management."
+              delay="6"
             />
           </div>
         </div>
@@ -289,18 +308,18 @@ const LandingPage = () => {
             <div className="footer-brand-pro">
               <Link to="/" className="logo">
                 <div className="logo-icon">
-                  <img src="/logo.png" className="brand-logo" alt="JMC-TEST Logo" />
+                  <img src="/logo.png" className="brand-logo" alt="JMC Logo" />
                 </div>
-                <span className="logo-text">JMC-TEST</span>
+                <span className="logo-text">JMC Placement</span>
               </Link>
-              <p>India's most trusted Placement management platform. Connecting talent with opportunities since 2020.</p>
+              <p>Career Development Centre (CDC)<br />Jamal Mohamed College (Autonomous)<br />Tiruchirappalli - 620 020</p>
             </div>
             <div className="footer-column-pro">
               <h4>Quick Links</h4>
               <ul>
-                <li><Link to="/login">→ Student Login</Link></li>
-                <li><Link to="/login">→ Staff Login</Link></li>
-                <li><Link to="/register">→ Register Now</Link></li>
+                <li><Link to="/login?type=student">→ Student Login</Link></li>
+                <li><Link to="/login?type=staff">→ Staff Login</Link></li>
+                <li><Link to="/register">→ Create Account</Link></li>
               </ul>
             </div>
           </div>
@@ -309,7 +328,7 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </div >
   );
 };
 

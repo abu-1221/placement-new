@@ -17,7 +17,7 @@ const StaffDashboard = () => {
   const [testForm, setTestForm] = useState({ name: '', company: '', date: '', duration: '', description: '' });
   const [analyticsTestId, setAnalyticsTestId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const chartRefs = {
     dist: useRef(null),
     attendance: useRef(null),
@@ -96,6 +96,7 @@ const StaffDashboard = () => {
         options: q.options,
         answer: q.answer
       })),
+      targetAudience: { departments: testForm.targetDepartments || [] },
       status: 'active',
       createdBy: user.username
     };
@@ -120,27 +121,27 @@ const StaffDashboard = () => {
 
     // Simulated data for demo (matches staff-dashboard.js logic)
     const chartOptions = { responsive: true, maintainAspectRatio: false };
-    
+
     if (chartRefs.dist.current) {
-        chartInstances.current.dist = new Chart(chartRefs.dist.current, {
-            type: 'bar',
-            data: {
-                labels: ['90-100', '75-89', '60-74', 'Below 60'],
-                datasets: [{ label: 'Students', data: [5, 12, 8, 3], backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'] }]
-            },
-            options: chartOptions
-        });
+      chartInstances.current.dist = new Chart(chartRefs.dist.current, {
+        type: 'bar',
+        data: {
+          labels: ['90-100', '75-89', '60-74', 'Below 60'],
+          datasets: [{ label: 'Students', data: [5, 12, 8, 3], backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'] }]
+        },
+        options: chartOptions
+      });
     }
 
     if (chartRefs.passFail.current) {
-        chartInstances.current.passFail = new Chart(chartRefs.passFail.current, {
-            type: 'pie',
-            data: {
-                labels: ['Passed', 'Failed'],
-                datasets: [{ data: [25, 3], backgroundColor: ['#10b981', '#ef4444'] }]
-            },
-            options: chartOptions
-        });
+      chartInstances.current.passFail = new Chart(chartRefs.passFail.current, {
+        type: 'pie',
+        data: {
+          labels: ['Passed', 'Failed'],
+          datasets: [{ data: [25, 3], backgroundColor: ['#10b981', '#ef4444'] }]
+        },
+        options: chartOptions
+      });
     }
   };
 
@@ -159,9 +160,9 @@ const StaffDashboard = () => {
             <span>JMC-TEST</span>
           </Link>
           <button className="sidebar-toggle-btn" onClick={() => {
-             const next = !isSidebarCollapsed;
-             setIsSidebarCollapsed(next);
-             localStorage.setItem('sidebarCollapsed', next);
+            const next = !isSidebarCollapsed;
+            setIsSidebarCollapsed(next);
+            localStorage.setItem('sidebarCollapsed', next);
           }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isSidebarCollapsed ? 'rotate(180deg)' : 'none' }}>
               <path d="M15 18l-6-6 6-6" />
@@ -184,16 +185,16 @@ const StaffDashboard = () => {
 
       <main className="main-content">
         <header className="dashboard-header">
-           <button className="menu-toggle" onClick={() => setIsMobileSidebarOpen(true)}>
-             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="12" x2="21" y2="12" /></svg>
-           </button>
-           <div className="header-left"><h1>{activeSection.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</h1></div>
-           <div className="header-right">
-              <div className="user-info">
-                 <div className="user-avatar staff">{user?.name ? user.name[0] : 'S'}</div>
-                 <div className="user-details"><span className="user-name">{user?.name || 'Staff User'}</span><span className="user-role">Staff</span></div>
-              </div>
-           </div>
+          <button className="menu-toggle" onClick={() => setIsMobileSidebarOpen(true)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="12" x2="21" y2="12" /></svg>
+          </button>
+          <div className="header-left"><h1>{activeSection.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</h1></div>
+          <div className="header-right">
+            <div className="user-info">
+              <div className="user-avatar staff">{user?.name ? user.name[0] : 'S'}</div>
+              <div className="user-details"><span className="user-name">{user?.name || 'Staff User'}</span><span className="user-role">Staff</span></div>
+            </div>
+          </div>
         </header>
 
         <div className="dashboard-content">
@@ -205,19 +206,46 @@ const StaffDashboard = () => {
                   <div className="details-grid">
                     <div className="form-group">
                       <label className="form-label">Test Name *</label>
-                      <input type="text" className="form-input" value={testForm.name} onChange={(e) => setTestForm({...testForm, name: e.target.value})} required />
+                      <input type="text" className="form-input" value={testForm.name} onChange={(e) => setTestForm({ ...testForm, name: e.target.value })} required />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Company *</label>
-                      <input type="text" className="form-input" value={testForm.company} onChange={(e) => setTestForm({...testForm, company: e.target.value})} required />
+                      <input type="text" className="form-input" value={testForm.company} onChange={(e) => setTestForm({ ...testForm, company: e.target.value })} required />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Date *</label>
-                      <input type="date" className="form-input" value={testForm.date} onChange={(e) => setTestForm({...testForm, date: e.target.value})} required />
+                      <input type="date" className="form-input" value={testForm.date} onChange={(e) => setTestForm({ ...testForm, date: e.target.value })} required />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Duration (mins) *</label>
-                      <input type="number" className="form-input" value={testForm.duration} onChange={(e) => setTestForm({...testForm, duration: e.target.value})} required />
+                      <input type="number" className="form-input" value={testForm.duration} onChange={(e) => setTestForm({ ...testForm, duration: e.target.value })} required />
+                    </div>
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label className="section-title-divider">Target Audience (Departments) *</label>
+                    <div className="dept-selection-pool">
+                      {[
+                        "Arabic", "Business Administration", "Bio Technology", "Botany", "Chemistry", "Commerce", "Computer Science", "Economics", "English", "Fashion Technology", "French", "Hindi", "History", "Hotel Management", "Information Technology", "Mathematics", "Microbiology", "Nutrition & Dietetics", "Physics", "Social Work", "Tamil", "Urdu", "Zoology", "Physical Education", "Visual Communication"
+                      ].map(dept => (
+                        <label key={dept} className="dept-checkbox-label">
+                          <input
+                            type="checkbox"
+                            name="targetDepartments"
+                            value={dept}
+                            className="dept-checkbox"
+                            onChange={(e) => {
+                              const depts = testForm.targetDepartments || [];
+                              if (e.target.checked) {
+                                setTestForm({ ...testForm, targetDepartments: [...depts, dept] });
+                              } else {
+                                setTestForm({ ...testForm, targetDepartments: depts.filter(d => d !== dept) });
+                              }
+                            }}
+                          />
+                          <span className="dept-name">{dept}</span>
+                        </label>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -230,7 +258,7 @@ const StaffDashboard = () => {
                       <input type="text" className="form-input" placeholder="Question text" value={q.text} onChange={(e) => handleQuestionChange(q.id, 'text', e.target.value)} required />
                       <div className="options-grid">
                         {q.options.map((opt, i) => (
-                           <input key={i} type="text" className="form-input" placeholder={`Option ${String.fromCharCode(65+i)}`} value={opt} onChange={(e) => handleQuestionChange(q.id, 'options', e.target.value, i)} required />
+                          <input key={i} type="text" className="form-input" placeholder={`Option ${String.fromCharCode(65 + i)}`} value={opt} onChange={(e) => handleQuestionChange(q.id, 'options', e.target.value, i)} required />
                         ))}
                       </div>
                       <select className="form-input" value={q.answer} onChange={(e) => handleQuestionChange(q.id, 'answer', e.target.value)}>
@@ -249,58 +277,73 @@ const StaffDashboard = () => {
 
           {activeSection === 'manage-tests' && (
             <section className="content-section active">
-               <div className="stats-grid">
-                 <StatCard label="Total Tests" value={stats.totalTests} color="blue" />
-                 <StatCard label="Active" value={stats.activeTests} color="green" />
-                 <StatCard label="Participants" value={stats.participants} color="orange" />
-                 <StatCard label="Pass Rate" value={stats.passRate + '%'} color="purple" />
-               </div>
-               <div className="tests-table-container">
-                 <table className="data-table">
-                   <thead>
-                     <tr><th>Name</th><th>Company</th><th>Date</th><th>Participants</th><th>Status</th><th>Actions</th></tr>
-                   </thead>
-                   <tbody>
-                     {tests.map(test => (
-                       <tr key={test.id}>
-                         <td>{test.name}</td><td>{test.company}</td><td>{new Date(test.createdAt).toLocaleDateString()}</td><td>{test.participants || 0}</td>
-                         <td><span className={`status-badge ${test.status}`}>{test.status}</span></td>
-                         <td><button className="btn btn-sm btn-ghost" onClick={() => { setAnalyticsTestId(test.id); setActiveSection('analytics'); }}>View</button></td>
-                       </tr>
-                     ))}
-                   </tbody>
-                 </table>
-               </div>
+              <div className="stats-grid">
+                <StatCard label="Total Tests" value={stats.totalTests} color="blue" />
+                <StatCard label="Active" value={stats.activeTests} color="green" />
+                <StatCard label="Participants" value={stats.participants} color="orange" />
+                <StatCard label="Pass Rate" value={stats.passRate + '%'} color="purple" />
+              </div>
+              <div className="tests-table-container">
+                <table className="data-table">
+                  <thead>
+                    <tr><th>Name</th><th>Company</th><th>Date</th><th>Participants</th><th>Status</th><th>Actions</th></tr>
+                  </thead>
+                  <tbody>
+                    {tests.map(test => (
+                      <tr key={test.id}>
+                        <td>{test.name}</td><td>{test.company}</td><td>{new Date(test.createdAt).toLocaleDateString()}</td><td>{test.participants || 0}</td>
+                        <td><span className={`status-badge ${test.status}`}>{test.status}</span></td>
+                        <td><button className="btn btn-sm btn-ghost" onClick={() => { setAnalyticsTestId(test.id); setActiveSection('analytics'); }}>View</button></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </section>
           )}
 
           {activeSection === 'students' && (
             <section className="content-section active">
-               <div className="tests-table-container">
-                 <table className="data-table">
-                   <thead>
-                     <tr><th>Reg No</th><th>Name</th><th>Department</th><th>Email</th></tr>
-                   </thead>
-                   <tbody>
-                     {students.map(s => (
-                       <tr key={s.id}><td>{s.username}</td><td>{s.name}</td><td>{s.department || 'N/A'}</td><td>{s.email || 'N/A'}</td></tr>
-                     ))}
-                   </tbody>
-                 </table>
-               </div>
+              <div className="table-header">
+                <select
+                  className="form-input filter-select"
+                  onChange={(e) => {
+                    const dept = e.target.value;
+                    if (!dept) fetchData(user.username);
+                    else setStudents(prev => prev.filter(s => s.department === dept));
+                  }}
+                >
+                  <option value="">All Departments</option>
+                  {[
+                    "Arabic", "Business Administration", "Bio Technology", "Botany", "Chemistry", "Commerce", "Computer Science", "Economics", "English", "Fashion Technology", "French", "Hindi", "History", "Hotel Management", "Information Technology", "Mathematics", "Microbiology", "Nutrition & Dietetics", "Physics", "Social Work", "Tamil", "Urdu", "Zoology", "Physical Education", "Visual Communication"
+                  ].map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+              </div>
+              <div className="tests-table-container">
+                <table className="data-table">
+                  <thead>
+                    <tr><th>Reg No</th><th>Name</th><th>Department</th><th>Email</th></tr>
+                  </thead>
+                  <tbody>
+                    {students.map(s => (
+                      <tr key={s.id}><td>{s.username}</td><td>{s.name}</td><td>{s.department || 'N/A'}</td><td>{s.email || 'N/A'}</td></tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </section>
           )}
 
           {activeSection === 'analytics' && (
             <section className="content-section active">
-              <select className="form-input" value={analyticsTestId} onChange={(e) => setAnalyticsTestId(e.target.value)} style={{maxWidth: '300px'}}>
+              <select className="form-input" value={analyticsTestId} onChange={(e) => setAnalyticsTestId(e.target.value)} style={{ maxWidth: '300px' }}>
                 <option value="">Select Test</option>
                 {tests.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
               </select>
               {analyticsTestId && (
                 <div className="analytics-grid">
-                   <div className="chart-card"><h3>Distribution</h3><div className="chart-container"><canvas ref={chartRefs.dist}></canvas></div></div>
-                   <div className="chart-card"><h3>Pass/Fail</h3><div className="chart-container"><canvas ref={chartRefs.passFail}></canvas></div></div>
+                  <div className="chart-card"><h3>Distribution</h3><div className="chart-container"><canvas ref={chartRefs.dist}></canvas></div></div>
+                  <div className="chart-card"><h3>Pass/Fail</h3><div className="chart-container"><canvas ref={chartRefs.passFail}></canvas></div></div>
                 </div>
               )}
             </section>

@@ -12,7 +12,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
-  
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -48,12 +48,12 @@ const LoginPage = () => {
       const data = await authService.login({ username, password });
       if (data.success) {
         const { password: _, ...safeUser } = data.user;
-        
+
         // Normalize name if missing
         if (!safeUser.name && safeUser.fullName) safeUser.name = safeUser.fullName;
 
         setAlert({ show: true, message: 'Authentication successful. Redirecting...', type: 'success' });
-        
+
         if (rememberMe) {
           localStorage.setItem('user', JSON.stringify(safeUser));
         } else {
@@ -65,10 +65,10 @@ const LoginPage = () => {
         }, 800);
       }
     } catch (err) {
-      setAlert({ 
-        show: true, 
-        message: err.response?.data?.error || 'Invalid credentials. Please check your username and password.', 
-        type: 'error' 
+      setAlert({
+        show: true,
+        message: err.response?.data?.error || 'Invalid credentials. Please check your username and password.',
+        type: 'error'
       });
       setIsLoading(false);
     }
@@ -86,7 +86,7 @@ const LoginPage = () => {
         </div>
 
         <div className="auth-tabs">
-          <button 
+          <button
             className={`tab-btn ${userType === 'student' ? 'active' : ''}`}
             onClick={() => setUserType('student')}
           >
@@ -96,7 +96,7 @@ const LoginPage = () => {
             </svg>
             <span>Student</span>
           </button>
-          <button 
+          <button
             className={`tab-btn ${userType === 'staff' ? 'active' : ''}`}
             onClick={() => setUserType('staff')}
           >
@@ -146,18 +146,18 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <button 
-                type="button" 
-                className="toggle-password" 
+              <button
+                type="button"
+                className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <svg className="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
                     <line x1="1" y1="1" x2="23" y2="23" />
                   </svg>
                 ) : (
-                  <svg className="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg className="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                     <circle cx="12" cy="12" r="3" />
                   </svg>
@@ -166,16 +166,16 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <div className="form-footer">
             <label className="checkbox-wrapper">
-              <input 
-                type="checkbox" 
-                checked={rememberMe} 
-                onChange={(e) => setRememberMe(e.target.checked)} 
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
               />
               <span>Remember me</span>
             </label>
-            <a href="#" style={{ color: 'var(--primary-color)', textDecoration: 'none', fontSize: '0.9rem' }}>Forgot password?</a>
+            <a href="#" className="forgot-password">Forgot password?</a>
           </div>
 
           <button type="submit" className="btn-primary" disabled={isLoading}>

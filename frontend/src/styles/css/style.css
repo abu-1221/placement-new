@@ -15,12 +15,10 @@
   --error-500: #ef4444;
   --warning-500: #f59e0b;
   --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-dark: linear-gradient(
-    135deg,
-    #1a1a2e 0%,
-    #16213e 50%,
-    #0f0f23 100%
-  );
+  --gradient-dark: linear-gradient(135deg,
+      #1a1a2e 0%,
+      #16213e 50%,
+      #0f0f23 100%);
   --font-primary: "Inter", -apple-system, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --radius-lg: 0.75rem;
@@ -39,10 +37,12 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html {
   scroll-behavior: smooth;
   font-size: 80%;
 }
+
 body {
   font-family: var(--font-primary);
   background: var(--gradient-dark);
@@ -51,17 +51,29 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
 a {
   text-decoration: none;
   color: inherit;
   transition: var(--transition-fast);
 }
+
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
   background: none;
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -81,6 +93,7 @@ button {
   position: relative;
   overflow: hidden;
 }
+
 .btn-primary {
   background: var(--gradient-primary);
   color: white;
@@ -88,66 +101,80 @@ button {
     var(--shadow-lg),
     0 0 20px rgba(102, 126, 234, 0.3);
 }
+
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     var(--shadow-glow);
 }
+
 .btn-secondary {
   background: rgba(255, 255, 255, 0.1);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
 }
+
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
+
 .btn-ghost {
   background: transparent;
   color: var(--gray-100);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+
 .btn-glass {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
 .btn-glass:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
 }
+
 .btn-white {
   background: white;
   color: var(--primary-700);
 }
+
 .btn-white:hover {
   transform: translateY(-2px);
 }
+
 .btn-outline-white {
   background: transparent;
   color: white;
   border: 2px solid white;
 }
+
 .btn-outline-white:hover {
   background: white;
   color: var(--primary-700);
 }
+
 .btn-lg {
   padding: 1rem 2rem;
   font-size: 1rem;
 }
+
 .btn-arrow {
   width: 18px;
   height: 18px;
   transition: transform var(--transition-fast);
 }
+
 .btn:hover .btn-arrow {
   transform: translateX(4px);
 }
@@ -156,6 +183,7 @@ button {
 .form-group {
   margin-bottom: 1.5rem;
 }
+
 .form-label {
   display: block;
   font-weight: 500;
@@ -163,6 +191,7 @@ button {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
 }
+
 .form-input {
   width: 100%;
   padding: 0.875rem 1rem;
@@ -173,15 +202,18 @@ button {
   font-size: 1rem;
   transition: all var(--transition-fast);
 }
+
 .form-input::placeholder {
   color: var(--gray-500);
 }
+
 .form-input:focus {
   outline: none;
   border-color: var(--primary-500);
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
+
 select.form-input {
   appearance: none;
   -webkit-appearance: none;
@@ -193,17 +225,22 @@ select.form-input {
   padding-right: 2.5rem;
   cursor: pointer;
 }
+
 select.form-input option {
   background-color: #1a1a2e;
-  color: white;
-  padding: 10px;
+  /* Solid dark background */
+  color: #ffffff;
+  padding: 12px;
 }
+
 .form-input.error {
   border-color: var(--error-500);
 }
+
 .input-wrapper {
   position: relative;
 }
+
 .input-icon {
   position: absolute;
   left: 1rem;
@@ -213,9 +250,11 @@ select.form-input option {
   height: 20px;
   color: var(--gray-400);
 }
+
 .input-wrapper .form-input {
   padding-left: 2.75rem;
 }
+
 .input-action {
   position: absolute;
   right: 1rem;
@@ -224,6 +263,7 @@ select.form-input option {
   color: var(--gray-400);
   cursor: pointer;
 }
+
 .form-error {
   display: flex;
   align-items: center;
@@ -235,21 +275,21 @@ select.form-input option {
 
 /* Cards */
 .card {
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.02) 100%);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-xl);
   padding: 2rem;
   transition: all var(--transition-normal);
 }
+
 .card:hover {
   border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-4px);
 }
+
 .glass-card {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
@@ -261,24 +301,30 @@ select.form-input option {
 .text-center {
   text-align: center;
 }
+
 .text-gradient {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
 .flex {
   display: flex;
 }
+
 .items-center {
   align-items: center;
 }
+
 .justify-between {
   justify-content: space-between;
 }
+
 .gap-md {
   gap: 1rem;
 }
+
 .w-full {
   width: 100%;
 }
@@ -289,34 +335,43 @@ select.form-input option {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }
 }
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 .animate-fadeInUp {
   animation: fadeInUp 0.6s ease forwards;
 }
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
 .spinner {
   width: 20px;
   height: 20px;
@@ -329,9 +384,11 @@ select.form-input option {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
@@ -341,6 +398,7 @@ select.form-input option {
   .container {
     padding: 0 1rem;
   }
+
   .btn-lg {
     padding: 0.875rem 1.5rem;
   }

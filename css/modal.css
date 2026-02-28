@@ -15,12 +15,14 @@
 }
 
 .modal-content {
-    background: white;
-    border: 1px solid var(--gray-200);
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 1rem;
     padding: 2rem;
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(25px);
     animation: slideUp 0.3s ease;
+    color: white;
 }
 
 @keyframes fadeIn {
@@ -47,21 +49,21 @@
 
 /* Test Details Styling */
 .detail-item {
-    background: var(--gray-50);
+    background: rgba(255, 255, 255, 0.02);
     border-radius: 0.5rem;
     padding: 1rem;
     margin-bottom: 1rem;
-    border-left: 4px solid var(--gray-300);
+    border-left: 4px solid rgba(255, 255, 255, 0.1);
 }
 
 .detail-item.correct {
     border-left-color: #10b981;
-    background: #ecfdf5;
+    background: rgba(16, 185, 129, 0.05);
 }
 
 .detail-item.wrong {
     border-left-color: #ef4444;
-    background: #fef2f2;
+    background: rgba(239, 68, 68, 0.05);
 }
 
 .detail-q {

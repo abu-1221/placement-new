@@ -6,6 +6,17 @@
     inset: 0;
     z-index: -1;
     overflow: hidden;
+    background: #0f172a;
+    /* Dark base color */
+}
+
+/* Dark Overlay to Fix White Space Gaps */
+.bg-animation::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.85);
+    z-index: 1;
 }
 
 .floating-shapes {
@@ -14,7 +25,11 @@
 }
 
 .shape {
-    display: none;
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float 20s infinite alternate;
 }
 
 .shape-1 {
@@ -71,11 +86,8 @@
 }
 
 .grid-overlay {
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    background-color: var(--bg-main);
+    display: none !important;
+    /* Removed white grid pattern as requested */
 }
 
 .gradient-orbs {
@@ -85,7 +97,11 @@
 }
 
 .orb {
-    display: none;
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.5;
+    animation: pulse 15s infinite;
 }
 
 .orb-1 {
@@ -124,9 +140,10 @@
 }
 
 .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--gray-200);
+    background: #0f172a;
+    /* Dark background on scroll */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .nav-container {
@@ -166,13 +183,13 @@
 }
 
 .nav-links a {
-    color: var(--gray-700);
+    color: #ffffff;
     font-weight: 500;
     position: relative;
 }
 
 .nav-links a:hover {
-    color: var(--gray-900);
+    color: var(--primary-600);
 }
 
 .nav-links a::after {
@@ -328,11 +345,11 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: var(--gray-100);
-    color: var(--gray-700);
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
     padding: 0.5rem 1rem;
     border-radius: 50px;
-    border: 1px solid var(--gray-200);
+    border: 1px solid rgba(102, 126, 234, 0.2);
     margin-bottom: 1.5rem;
     font-size: 0.875rem;
     animation: fadeInUp 0.6s ease;
@@ -352,7 +369,7 @@
 
 .title-line {
     display: block;
-    color: var(--gray-900);
+    color: var(--gray-800);
     animation: fadeInUp 0.6s ease 0.1s backwards;
 }
 
@@ -371,6 +388,7 @@
     max-width: 500px;
     margin-bottom: 2rem;
     animation: fadeInUp 0.6s ease 0.3s backwards;
+    line-height: 1.7;
 }
 
 .hero-buttons {
@@ -468,7 +486,9 @@
 
 /* 3D Cube */
 .hero-3d-element {
-    display: none;
+    display: block;
+    width: 300px;
+    height: 300px;
 }
 
 .cube {
@@ -524,8 +544,10 @@
 
 /* Features Section */
 .features {
-    padding: 6rem 0;
+    padding: 8rem 0;
+    /* Increased padding */
     position: relative;
+    background: transparent;
 }
 
 .section-header {
@@ -560,13 +582,14 @@
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    /* Increased gap */
 }
 
 .feature-card {
-    background: var(--bg-card);
-    border: 1px solid var(--gray-200);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-2xl);
     padding: 2rem;
     box-shadow: var(--shadow-sm);
@@ -575,8 +598,8 @@
 
 .feature-card:hover {
     transform: translateY(-8px);
-    border-color: var(--gray-300);
-    box-shadow: var(--shadow-lg);
+    border-color: rgba(102, 126, 234, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(102, 126, 234, 0.2);
 }
 
 .feature-icon {
@@ -620,14 +643,17 @@
     position: relative;
     overflow: hidden;
     color: white;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    /* Stronger shadow for opaque look */
+    opacity: 1 !important;
 }
 
 .cta-content::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: none;
+    /* Removed white grid pattern */
 }
 
 .cta-text h2 {

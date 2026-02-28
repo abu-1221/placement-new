@@ -1,0 +1,42 @@
+# JMC Detailed Website Analysis
+
+## **Data Extraction Summary**
+
+**1. Academics & Departments**
+*   **Categories:** The college offers programs across three main streams:
+    *   Govt. Aided Programmes – Men (UG & PG)
+    *   Self Finance Programmes – Women (UG & PG)
+    *   Self Finance Programmes – Men (UG & PG)
+*   **Key Departments:** Arabic, Business Administration, Bio Technology, Botany, Chemistry, Commerce, Computer Science, Economics, English, Fashion Technology, French, Hindi, History, Hotel Management, Information Technology, Mathematics, Microbiology, Nutrition & Dietetics, Physics, Social Work, Tamil, Urdu, Zoology, Physical Education, and Visual Communication.
+
+**2. Administration & About Us**
+*   **Leadership:** Includes the Secretary’s Desk, Principal’s Desk, and Management Committee.
+*   **Structure:** Detailed through the Organogram and Academic Responsibilities sections.
+*   **Governance:** Governed by various Institutional Policies, Strategic Plans, and University Representatives.
+
+**3. Admission & Processes**
+*   **Components:** General Instructions, Programmes Offered (2025-2026), Online Admission portals, and Hostel Admission details.
+
+**4. Facilities & Student Support**
+*   **Infrastructure:** Extensive Library, Research labs, and Placement cells.
+*   **Student Support:** Career Development Centre (CDC), Grievance Cell, Anti-Ragging Cell, and various Extension Activities.
+
+
+
+## Database Architecture Setup Guide
+
+The following is a prompt you can feed into the AI assistant on your student dashboard to create a persistent storage structure for this data.
+
+---
+
+### Database Creation Prompt
+
+> "Act as a Database Architect. I have extracted structured data from the Jamal Mohamed College (JMC) website, including departments (25+), program categories (Aided/Self-Finance), administration desks, and facilities (CDC, Library, Placement).
+>
+> 1. **Schema Design:** Propose a relational database schema (SQL) with tables for `Departments`, `Programmes`, `Categories`, `Administration`, and `Facilities`.
+> 2. **Persistence:** Suggest a strategy for persistent storage (e.g., using a hosted PostgreSQL or a local SQLite database matching my current setup).
+> 3. **AI Integration:** Describe how to index this data so that an AI assistant can efficiently retrieve specific information (e.g., 'What are the Self Finance programmes for women?') using SQL queries or a vector-based search if needed.
+> 4. **Implementation:** Provide the `CREATE TABLE` scripts and sample `INSERT` statements for the key departments and facilities found in the extraction."
+
+---
+

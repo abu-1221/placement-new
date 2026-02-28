@@ -719,10 +719,10 @@ async function loadStudents() {
                 <td>${details.streamType || '-'}</td>
                 <td><span style="display: inline-flex; align-items: center; gap: 4px; font-weight: 500; color: ${studentResults.length > 0 ? '#10b981' : 'var(--gray-500)'};">${studentResults.length}</span></td>
                 <td class="actions-cell">
-                    <button class="action-btn view" onclick="lookupStudent('${student.username}')" title="View Details" style="color: var(--blue-400); background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); border-radius: 6px; padding: 6px; cursor: pointer;">
+                    <button class="action-btn view" onclick="lookupStudent('${student.username}')" title="View Details">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>View</span>
                     </button>
-                    <button class="action-btn delete" onclick="deleteStudent('${student.username}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
                 </td>
             </tr>
         `;
@@ -877,30 +877,32 @@ async function lookupStudent(usernameOrRegNo) {
                             <p>This student has not taken any tests yet.</p>
                         </div>
                     ` : `
-                        <table class="data-table" style="margin:0;">
-                            <thead>
-                                <tr>
-                                    <th>Test Name</th>
-                                    <th>Company</th>
-                                    <th>Score</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${studentResults.map(r => {
+                        <div class="table-scroll">
+                            <table class="data-table" style="margin:0;">
+                                <thead>
+                                    <tr>
+                                        <th>Test Name</th>
+                                        <th>Company</th>
+                                        <th>Score</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${studentResults.map(r => {
             const testInfo = tests.find(t => String(t.id) === String(r.testId));
             return `
-                                        <tr>
-                                            <td>${r.testName || (testInfo ? testInfo.name : '-')}</td>
-                                            <td>${r.company || (testInfo ? testInfo.company : '-')}</td>
-                                            <td style="font-weight:600;color:${r.score >= 50 ? '#10b981' : '#ef4444'};">${r.score}%</td>
-                                            <td><span class="status-badge ${r.status === 'passed' ? 'active' : 'inactive'}">${r.status ? r.status.toUpperCase() : '-'}</span></td>
-                                            <td>${r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}</td>
-                                        </tr>`;
+                                            <tr>
+                                                <td>${r.testName || (testInfo ? testInfo.name : '-')}</td>
+                                                <td>${r.company || (testInfo ? testInfo.company : '-')}</td>
+                                                <td style="font-weight:600;color:${r.score >= 50 ? '#10b981' : '#ef4444'};">${r.score}%</td>
+                                                <td><span class="status-badge ${r.status === 'passed' ? 'active' : 'inactive'}">${r.status ? r.status.toUpperCase() : '-'}</span></td>
+                                                <td>${r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}</td>
+                                            </tr>`;
         }).join('')}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     `}
                 </div>
             </div>`;
